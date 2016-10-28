@@ -237,7 +237,6 @@ int eth_unregister(struct eth_device *dev)
 
 int eth_initialize(void)
 {
-	printf("error-come-in\n");
 	int num_devices = 0;
 
 	eth_devices = NULL;
