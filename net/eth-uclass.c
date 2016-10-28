@@ -389,7 +389,6 @@ int eth_initialize(void)
 
 	eth_common_init();
 
-	printf("%s,%s",__FUNCTION__,__FILE__);
 	/*
 	 * Devices need to write the hwaddr even if not started so that Linux
 	 * will have access to the hwaddr that u-boot stored for the device.
@@ -398,7 +397,7 @@ int eth_initialize(void)
 	 */
 	uclass_first_device(UCLASS_ETH, &dev);
 	if (!dev) {
-		printf("liuqs-No ethernet found.\n");
+		printf("No ethernet found.\n");
 		bootstage_error(BOOTSTAGE_ID_NET_ETH_START);
 	} else {
 		char *ethprime = getenv("ethprime");
@@ -457,7 +456,7 @@ static int eth_pre_unbind(struct udevice *dev)
 
 static int eth_post_probe(struct udevice *dev)
 {
-	printf("%s,%s\n",__FUNCTION__,__FILE__);
+	//printf("%s,%s\n",__FUNCTION__,__FILE__);
 	struct eth_device_priv *priv = dev->uclass_priv;
 	struct eth_pdata *pdata = dev->platdata;
 	unsigned char env_enetaddr[6];
