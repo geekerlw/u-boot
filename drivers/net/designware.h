@@ -242,6 +242,10 @@ struct dw_eth_dev {
 
 	struct phy_device *phydev;
 	struct mii_dev *bus;
+
+#ifdef CONFIG_DM_ETH
+	int (*started)(struct udevice *dev);
+#endif
 };
 
 #ifdef CONFIG_DM_ETH
