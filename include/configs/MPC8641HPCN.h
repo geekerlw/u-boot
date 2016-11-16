@@ -42,7 +42,6 @@
 #define CONFIG_SYS_SRIO
 #define CONFIG_SRIO1			/* SRIO port 1 */
 
-#define CONFIG_PCI		1	/* Enable PCI/PCIE */
 #define CONFIG_PCIE1		1	/* PCIE controller 1 (ULI bridge) */
 #define CONFIG_PCIE2		1	/* PCIE controller 2 (slot) */
 #define CONFIG_FSL_PCI_INIT	1	/* Use common FSL init code */
@@ -350,8 +349,6 @@ extern unsigned long get_board_sys_clk(unsigned long dummy);
 #if defined(CONFIG_PCI)
 
 #define CONFIG_PCI_SCAN_SHOW		/* show pci devices on startup */
-
-#define CONFIG_PCI_PNP			/* do pci plug-and-play */
 
 #undef CONFIG_EEPRO100
 #undef CONFIG_TULIP

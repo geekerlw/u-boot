@@ -47,7 +47,6 @@
 #define CONFIG_SYS_MPC512X_CLKIN	66000000	/* in Hz */
 #else
 #define CONFIG_SYS_MPC512X_CLKIN	33333333	/* in Hz */
-#define CONFIG_PCI
 #endif
 
 #define CONFIG_BOARD_EARLY_INIT_F		/* call board_early_init_f() */
@@ -326,8 +325,6 @@
 #define CONFIG_SYS_PCI_IO_BASE		0x00000000
 #define CONFIG_SYS_PCI_IO_PHYS		0x84000000
 #define CONFIG_SYS_PCI_IO_SIZE		0x01000000	/* 16M */
-
-#define CONFIG_PCI_PNP			/* do pci plug-and-play */
 
 #define CONFIG_PCI_SCAN_SHOW		/* show pci devices on startup */
 

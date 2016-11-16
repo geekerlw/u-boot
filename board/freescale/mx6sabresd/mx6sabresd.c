@@ -57,6 +57,8 @@ DECLARE_GLOBAL_DATA_PTR;
 
 #define DISP0_PWR_EN	IMX_GPIO_NR(1, 21)
 
+#define KEY_VOL_UP	IMX_GPIO_NR(1, 4)
+
 int dram_init(void)
 {
 	gd->ram_size = imx_ddr_size();
@@ -359,6 +361,39 @@ int board_mmc_init(bd_t *bis)
 #endif
 }
 #endif
+
+static int ar8031_phy_fixup(struct phy_device *phydev)
+{
+	unsigned short val;
+
+	/* To enable AR8031 ouput a 125MHz clk from CLK_25M */
+	phy_write(phydev, MDIO_DEVAD_NONE, 0xd, 0x7);
+	phy_write(phydev, MDIO_DEVAD_NONE, 0xe, 0x8016);
+	phy_write(phydev, MDIO_DEVAD_NONE, 0xd, 0x4007);
+
+	val = phy_read(phydev, MDIO_DEVAD_NONE, 0xe);
+	val &= 0xffe3;
+	val |= 0x18;
+	phy_write(phydev, MDIO_DEVAD_NONE, 0xe, val);
+
+	/* introduce tx clock delay */
+	phy_write(phydev, MDIO_DEVAD_NONE, 0x1d, 0x5);
+	val = phy_read(phydev, MDIO_DEVAD_NONE, 0x1e);
+	val |= 0x0100;
+	phy_write(phydev, MDIO_DEVAD_NONE, 0x1e, val);
+
+	return 0;
+}
+
+int board_phy_config(struct phy_device *phydev)
+{
+	ar8031_phy_fixup(phydev);
+
+	if (phydev->drv->config)
+		phydev->drv->config(phydev);
+
+	return 0;
+}
 
 #if defined(CONFIG_VIDEO_IPUV3)
 static void disable_lvds(struct display_info_t const *dev)
@@ -681,6 +716,16 @@ int checkboard(void)
 #ifdef CONFIG_SPL_BUILD
 #include <spl.h>
 #include <libfdt.h>
+
+#ifdef CONFIG_SPL_OS_BOOT
+int spl_start_uboot(void)
+{
+	gpio_direction_input(KEY_VOL_UP);
+
+	/* Only enter in Falcon mode if KEY_VOL_UP is pressed */
+	return gpio_get_value(KEY_VOL_UP);
+}
+#endif
 
 static void ccgr_init(void)
 {

@@ -106,7 +106,6 @@
 #define CONFIG_R8A66597_ENDIAN		0x0000	/* little */
 
 /* PCI Controller */
-#define CONFIG_PCI
 #define CONFIG_SH4_PCI
 #define CONFIG_SH7780_PCI
 #if defined(CONFIG_SH_32BIT)
@@ -118,7 +117,6 @@
 #define CONFIG_SH7780_PCI_LAR	CONFIG_SYS_SDRAM_SIZE
 #define CONFIG_SH7780_PCI_BAR	CONFIG_SYS_SDRAM_SIZE
 #endif
-#define CONFIG_PCI_PNP
 #define CONFIG_PCI_SCAN_SHOW	1
 
 #define CONFIG_PCI_MEM_BUS	0xFD000000	/* Memory space base addr */

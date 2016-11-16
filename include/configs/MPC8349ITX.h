@@ -71,7 +71,6 @@
 #define CONFIG_SYS_USB_HOST	/* use the EHCI USB controller */
 #endif
 
-#define CONFIG_PCI
 #define CONFIG_RTC_DS1337
 #define CONFIG_SYS_I2C
 #define CONFIG_TSEC_ENET		/* TSEC Ethernet support */
@@ -399,8 +398,6 @@ boards, we say we have two, but don't display a message if we find only one. */
 			(CONFIG_SYS_PCI1_IO_PHYS + CONFIG_SYS_PCI1_IO_SIZE)
 #define CONFIG_SYS_PCI2_IO_SIZE		0x01000000	/* 16M */
 #endif
-
-#define CONFIG_PCI_PNP			/* do pci plug-and-play */
 
 #ifndef CONFIG_PCI_PNP
     #define PCI_ENET0_IOADDR	0x00000000

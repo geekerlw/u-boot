@@ -11,6 +11,7 @@
 
 #ifdef CONFIG_SPL
 #include "imx6_spl.h"
+#undef CONFIG_SPL_EXT_SUPPORT
 #endif
 
 #define CONFIG_MACH_TYPE	3980
@@ -22,6 +23,17 @@
 
 #include "mx6sabre_common.h"
 
+/* Falcon Mode */
+#define CONFIG_CMD_SPL
+#define CONFIG_SPL_OS_BOOT
+#define CONFIG_SYS_SPL_ARGS_ADDR       0x18000000
+#define CONFIG_CMD_SPL_WRITE_SIZE      (128 * SZ_1K)
+
+/* Falcon Mode - MMC support: args@1MB kernel@2MB */
+#define CONFIG_SYS_MMCSD_RAW_MODE_ARGS_SECTOR  0x800   /* 1MB */
+#define CONFIG_SYS_MMCSD_RAW_MODE_ARGS_SECTORS (CONFIG_CMD_SPL_WRITE_SIZE / 512)
+#define CONFIG_SYS_MMCSD_RAW_MODE_KERNEL_SECTOR        0x1000  /* 2MB */
+
 #define CONFIG_SYS_FSL_USDHC_NUM	3
 #if defined(CONFIG_ENV_IS_IN_MMC)
 #define CONFIG_SYS_MMC_ENV_DEV		1	/* SDHC3 */
@@ -29,8 +41,6 @@
 
 #define CONFIG_CMD_PCI
 #ifdef CONFIG_CMD_PCI
-#define CONFIG_PCI
-#define CONFIG_PCI_PNP
 #define CONFIG_PCI_SCAN_SHOW
 #define CONFIG_PCIE_IMX
 #define CONFIG_PCIE_IMX_PERST_GPIO	IMX_GPIO_NR(7, 12)

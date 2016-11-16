@@ -25,7 +25,6 @@
 
 #define	CONFIG_SYS_TEXT_BASE	0xfff80000
 
-#define CONFIG_PCI
 #define CONFIG_PCI_INDIRECT_BRIDGE
 
 #define CONFIG_TSEC_ENET		/* tsec ethernet support	*/
@@ -245,7 +244,6 @@
 #define CONFIG_SYS_PCI1_IO_SIZE	0x01000000	/* 16M			*/
 
 #if defined(CONFIG_PCI)
-#define CONFIG_PCI_PNP			/* do pci plug-and-play		*/
 #undef CONFIG_PCI_SCAN_SHOW		/* show pci devices on startup	*/
 #endif	/* CONFIG_PCI */
 
