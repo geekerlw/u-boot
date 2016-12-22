@@ -16,8 +16,6 @@
 
 #define CONFIG_VF610
 #define CONFIG_SYS_THUMB_BUILD
-#define CONFIG_USE_ARCH_MEMCPY
-#define CONFIG_USE_ARCH_MEMSET
 #define CONFIG_SYS_FSL_CLK
 
 #define CONFIG_ARCH_MISC_INIT
@@ -99,7 +97,7 @@
 	"${setupargs} ${vidargs}; echo Booting from MMC/SD card...; " \
 	"load mmc 0:2 ${kernel_addr_r} /boot/${kernel_file} && " \
 	"load mmc 0:2 ${fdt_addr_r} /boot/${soc}-colibri-${fdt_board}.dtb && " \
-	"bootz ${kernel_addr_r} - ${fdt_addr_r}\0" \
+	"run fdt_fixup && bootz ${kernel_addr_r} - ${fdt_addr_r}\0" \
 
 #define NFS_BOOTCMD \
 	"nfsargs=ip=:::::eth0: root=/dev/nfs\0"	\
@@ -108,7 +106,7 @@
 	"${setupargs} ${vidargs}; echo Booting from NFS...;" \
 	"dhcp ${kernel_addr_r} && "	\
 	"tftp ${fdt_addr_r} ${soc}-colibri-${fdt_board}.dtb && " \
-	"bootz ${kernel_addr_r} - ${fdt_addr_r}\0" \
+	"run fdt_fixup && bootz ${kernel_addr_r} - ${fdt_addr_r}\0" \
 
 #define UBI_BOOTCMD	\
 	"ubiargs=ubi.mtd=ubi root=ubi0:rootfs rootfstype=ubifs " \
@@ -119,7 +117,7 @@
 	"ubi part ubi && " \
 	"ubi read ${kernel_addr_r} kernel && " \
 	"ubi read ${fdt_addr_r} dtb && " \
-	"bootz ${kernel_addr_r} - ${fdt_addr_r}\0" \
+	"run fdt_fixup && bootz ${kernel_addr_r} - ${fdt_addr_r}\0" \
 
 #define CONFIG_BOOTCOMMAND "run ubiboot; run sdboot; run nfsboot"
 
@@ -131,6 +129,7 @@
 	"kernel_file=zImage\0" \
 	"fdt_file=${soc}-colibri-${fdt_board}.dtb\0" \
 	"fdt_board=eval-v3\0" \
+	"fdt_fixup=;\0" \
 	"defargs=\0" \
 	"console=ttyLP0\0" \
 	"setup=setenv setupargs " \
