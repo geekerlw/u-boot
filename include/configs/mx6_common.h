@@ -82,7 +82,6 @@
 #define CONFIG_MXC_GPIO
 
 /* MMC */
-#define CONFIG_MMC
 #define CONFIG_GENERIC_MMC
 #define CONFIG_BOUNCE_BUFFER
 #define CONFIG_FSL_ESDHC
@@ -99,6 +98,9 @@
 #define CONFIG_FSL_CAAM
 #define CONFIG_CMD_DEKBLOB
 #define CONFIG_SYS_FSL_SEC_LE
+#ifdef CONFIG_SPL_BUILD
+#define CONFIG_SPL_DRIVERS_MISC_SUPPORT
+#endif
 #endif
 
 #endif
