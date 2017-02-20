@@ -23,6 +23,7 @@
 #define PARTS_DEFAULT \
 	"uuid_disk=${uuid_gpt_disk};" \
 	"name=boot,start=16M,size=64M,bootable,uuid=${uuid_gpt_boot};" \
+	"name=rootfsbak,start=80M,size=4096M,uuid=${uuid_gpt_rootfsbak};" \
 	"name=rootfs,size=-,uuid=${uuid_gpt_rootfs};\0" \
 
 #endif
