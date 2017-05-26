@@ -61,7 +61,6 @@
 #else
 #define CONFIG_SYS_MALLOC_LEN		(CONFIG_ENV_SIZE + 2 * 1024 * 1024)
 #endif
-#define CONFIG_BOARD_EARLY_INIT_F
 
 #define CONFIG_DM_SERIAL
 #define CONFIG_FSL_LINFLEXUART
@@ -73,7 +72,6 @@
 /* Allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
 #define CONFIG_SYS_UART_PORT		(1)
-#define CONFIG_BAUDRATE				115200
 
 #undef CONFIG_CMD_IMLS
 
@@ -82,12 +80,8 @@
 #define CONFIG_SYS_FSL_ESDHC_ADDR	USDHC_BASE_ADDR
 #define CONFIG_SYS_FSL_ESDHC_NUM	1
 
-#define CONFIG_SYS_FSL_ERRATUM_ESDHC111
-
 #define CONFIG_CMD_MMC
-#define CONFIG_GENERIC_MMC
 /* #define CONFIG_CMD_EXT2 EXT2 Support */
-#define CONFIG_DOS_PARTITION
 
 #if 0
 
@@ -101,16 +95,6 @@
 #define CONFIG_FEC_MXC_PHYADDR  0
 #define CONFIG_PHYLIB
 #define CONFIG_PHY_MICREL
-#endif
-
-#if 0				/* Disable until the I2C driver will be updated */
-
-/* I2C Configs */
-#define CONFIG_CMD_I2C
-#define CONFIG_HARD_I2C
-#define CONFIG_I2C_MXC
-#define CONFIG_SYS_I2C_BASE		I2C0_BASE_ADDR
-#define CONFIG_SYS_I2C_SPEED		100000
 #endif
 
 #if 0				/* Disable until the FLASH will be implemented */
@@ -133,7 +117,6 @@
 #define CONFIG_LOADADDR			0xC307FFC0
 #define CONFIG_BOOTARGS			"console=ttyLF0 root=/dev/ram rw"
 
-#define CONFIG_CMD_ENV
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	"boot_scripts=boot.scr.uimg boot.scr\0" \
 	"scriptaddr=" __stringify(CONFIG_LOADADDR) "\0" \
@@ -205,12 +188,6 @@
 #define CONFIG_SYS_MALLOC_BASE		(DDR_BASE_ADDR)
 #endif
 
-/*
- * Stack sizes
- * The stack sizes are set up in start.S using the settings below
- */
-#define CONFIG_STACKSIZE		(128 * 1024)	/* regular stack */
-
 #if 0
 /* Configure PXE */
 #define CONFIG_BOOTP_PXE
@@ -232,9 +209,7 @@
 #define CONFIG_SYS_INIT_SP_ADDR \
 	(CONFIG_SYS_INIT_RAM_ADDR + CONFIG_SYS_INIT_SP_OFFSET)
 
-/* FLASH and environment organization */
-#define CONFIG_SYS_NO_FLASH
-
+/* environment organization */
 #define CONFIG_ENV_SIZE			(8 * 1024)
 #define CONFIG_ENV_IS_IN_MMC
 

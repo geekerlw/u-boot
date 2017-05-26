@@ -21,16 +21,12 @@
 #define CONFIG_KW88F6281	1	/* SOC Name */
 #define CONFIG_MACH_OPENRD_BASE	/* Machine type */
 #define CONFIG_SKIP_LOWLEVEL_INIT	/* disable board lowlevel_init */
-#define CONFIG_SYS_THUMB_BUILD
 
 /*
  * Commands configuration
  */
-#define CONFIG_SYS_NO_FLASH		/* Declare no flash (NOR/SPI) */
 #define CONFIG_SYS_MVFS
-#define CONFIG_CMD_ENV
 #define CONFIG_CMD_NAND
-#define CONFIG_CMD_IDE
 
 /*
  * mv-common.h should be defined after CMD configs since it used them
@@ -107,7 +103,6 @@
 #endif /*CONFIG_MVSATA_IDE*/
 
 #ifdef CONFIG_CMD_MMC
-#define CONFIG_GENERIC_MMC
 #define CONFIG_MVEBU_MMC
 #define CONFIG_SYS_MMC_BASE KW_SDIO_BASE
 #endif /* CONFIG_CMD_MMC */

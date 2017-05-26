@@ -46,7 +46,6 @@
 #define CONFIG_HOSTNAME		kilauea
 #include "amcc-common.h"
 
-#define CONFIG_BOARD_EARLY_INIT_F 1		/* Call board_early_init_f */
 #define CONFIG_MISC_INIT_R	1		/* Call misc_init_r	*/
 #define CONFIG_BOARD_TYPES
 #define CONFIG_BOARD_EMAC_COUNT
@@ -318,11 +317,6 @@
 #define CONFIG_4xx_CONFIG_I2C_EEPROM_OFFSET	0
 #define CONFIG_4xx_CONFIG_BLOCKSIZE		16
 
-/* Standard DTT sensor configuration */
-#define CONFIG_DTT_DS1775	1
-#define CONFIG_DTT_SENSORS	{ 0 }
-#define CONFIG_SYS_I2C_DTT_ADDR	0x48
-
 /* RTC configuration */
 #define CONFIG_RTC_DS1338	1
 #define CONFIG_SYS_I2C_RTC_ADDR	0x68
@@ -365,8 +359,6 @@
 /*
  * Commands additional to the ones defined in amcc-common.h
  */
-#define CONFIG_CMD_CHIP_CONFIG
-#define CONFIG_CMD_DATE
 #define CONFIG_CMD_NAND
 #define CONFIG_CMD_PCI
 

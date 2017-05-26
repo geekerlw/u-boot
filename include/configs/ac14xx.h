@@ -312,8 +312,6 @@
 #error CONFIG_PSC_CONSOLE must be 3
 #endif
 
-#define CONFIG_BAUDRATE			115200	/* ... at 115200 bps */
-
 #define CONSOLE_FIFO_TX_SIZE		FIFOC_PSC3_TX_SIZE
 #define CONSOLE_FIFO_TX_ADDR		FIFOC_PSC3_TX_ADDR
 #define CONSOLE_FIFO_RX_SIZE		FIFOC_PSC3_RX_SIZE
@@ -338,27 +336,10 @@
 
 #define CONFIG_CMDLINE_EDITING		1	/* command line history */
 
-/* I2C */
-#define CONFIG_HARD_I2C			/* I2C with hardware support */
-#define CONFIG_I2C_MULTI_BUS
-
-/* I2C speed and slave address */
-#define CONFIG_SYS_I2C_SPEED		100000
-#define CONFIG_SYS_I2C_SLAVE		0x7F
-
 /*
  * IIM - IC Identification Module
  */
 #undef CONFIG_FSL_IIM
-
-/*
- * EEPROM configuration for Atmel AT24C01:
- * 8-bit addresses, 30ms write delay, 32-Byte Page Write Mode
- */
-#define CONFIG_SYS_I2C_EEPROM_ADDR_LEN		1
-#define CONFIG_SYS_I2C_EEPROM_ADDR		0x52
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_DELAY_MS	30
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_BITS	5
 
 /*
  * Ethernet configuration
@@ -386,21 +367,11 @@
 #define CONFIG_LOADS_ECHO		1
 #define CONFIG_SYS_LOADS_BAUD_CHANGE	1
 
-#define CONFIG_CMD_EEPROM
-#undef CONFIG_CMD_FUSE
-#undef CONFIG_CMD_IDE
-#define CONFIG_CMD_JFFS2
 #define CONFIG_CMD_REGINFO
 
 #if defined(CONFIG_PCI)
 #define CONFIG_CMD_PCI
 #endif
-
-#if defined(CONFIG_CMD_IDE) || defined(CONFIG_CMD_EXT2)
-#define CONFIG_DOS_PARTITION
-#define CONFIG_MAC_PARTITION
-#define CONFIG_ISO_PARTITION
-#endif /* defined(CONFIG_CMD_IDE) */
 
 /*
  * Miscellaneous configurable options

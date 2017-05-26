@@ -10,9 +10,6 @@
 #ifndef __CONFIG_H
 #define __CONFIG_H
 
-/* No NOR flash, this definition should put before common header */
-#define CONFIG_SYS_NO_FLASH
-
 #include "at91-sama5_common.h"
 
 /* serial console */
@@ -69,8 +66,6 @@
 #define CONFIG_CMD_USB
 
 #ifdef CONFIG_CMD_USB
-#define CONFIG_USB_EHCI
-#define CONFIG_USB_EHCI_ATMEL
 #define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS	3
 #endif
 
@@ -84,7 +79,6 @@
 
 #if defined(CONFIG_CMD_USB)
 #define CONFIG_CMD_FAT
-#define CONFIG_DOS_PARTITION
 #endif
 
 /* Ethernet Hardware */
@@ -121,7 +115,6 @@
 #define CONFIG_SYS_SPL_MALLOC_START	0x20080000
 #define CONFIG_SYS_SPL_MALLOC_SIZE	0x80000
 
-#define CONFIG_SPL_BOARD_INIT
 #define CONFIG_SYS_MONITOR_LEN		(512 << 10)
 
 #ifdef CONFIG_SYS_USE_SERIALFLASH

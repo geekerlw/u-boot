@@ -28,7 +28,6 @@
 #define CONFIG_SYS_MPC5XXX_CLKIN	33000000 /* ... running at 33.000000MHz */
 
 #define CONFIG_BOARD_EARLY_INIT_R	1
-#define CONFIG_BOARD_EARLY_INIT_F	1
 
 #define CONFIG_HIGH_BATS	1	/* High BATs supported */
 
@@ -36,7 +35,6 @@
  * Serial console configuration
  */
 #define CONFIG_PSC_CONSOLE	1	/* console is on PSC1 */
-#define CONFIG_BAUDRATE		115200	/* ... at 115200 bps */
 #define CONFIG_SYS_BAUDRATE_TABLE	{ 9600, 19200, 38400, 57600, 115200, 230400 }
 
 /*
@@ -64,9 +62,6 @@
 #define CONFIG_SYS_RX_ETH_BUFFER	8  /* use 8 rx buffer on eepro100  */
 
 /* Partitions */
-#define CONFIG_MAC_PARTITION
-#define CONFIG_DOS_PARTITION
-#define CONFIG_ISO_PARTITION
 
 #define	CONFIG_TIMESTAMP		/* Print image info with timestamp */
 
@@ -130,25 +125,6 @@
 #define OF_SOC			"soc5200@f0000000"
 #define OF_TBCLK		(bd->bi_busfreq / 8)
 #define OF_STDOUT_PATH		"/soc5200@f0000000/serial@2000"
-#endif
-
-#if 0
-/*
- * I2C configuration
- */
-#define CONFIG_HARD_I2C		1	/* I2C with hardware support */
-#define CONFIG_SYS_I2C_MODULE		2	/* Select I2C module #1 or #2 */
-
-#define CONFIG_SYS_I2C_SPEED		100000 /* 100 kHz */
-#define CONFIG_SYS_I2C_SLAVE		0x7F
-
-/*
- * EEPROM configuration
- */
-#define CONFIG_SYS_I2C_EEPROM_ADDR		0x50	/* 1010000x */
-#define CONFIG_SYS_I2C_EEPROM_ADDR_LEN		1
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_BITS	3
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_DELAY_MS	70
 #endif
 
 /*

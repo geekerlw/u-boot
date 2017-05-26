@@ -15,6 +15,7 @@
  * PIRQ routing table, Multi-Processor table and ACPI table.
  */
 #define ROM_TABLE_ADDR	0xf0000
+#define ROM_TABLE_END	0xfffff
 
 #define ROM_TABLE_ALIGN	1024
 
@@ -65,6 +66,6 @@ void write_tables(void);
  * @start:	start address to write PIRQ routing table
  * @return:	end address of PIRQ routing table
  */
-u32 write_pirq_routing_table(u32 start);
+ulong write_pirq_routing_table(ulong start);
 
 #endif /* _X86_TABLES_H_ */

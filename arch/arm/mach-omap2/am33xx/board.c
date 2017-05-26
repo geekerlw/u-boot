@@ -10,6 +10,7 @@
 
 #include <common.h>
 #include <dm.h>
+#include <debug_uart.h>
 #include <errno.h>
 #include <ns16550.h>
 #include <spl.h>
@@ -40,14 +41,20 @@ DECLARE_GLOBAL_DATA_PTR;
 
 #if !CONFIG_IS_ENABLED(OF_CONTROL)
 static const struct ns16550_platdata am33xx_serial[] = {
-	{ .base = CONFIG_SYS_NS16550_COM1, .reg_shift = 2, .clock = CONFIG_SYS_NS16550_CLK },
+	{ .base = CONFIG_SYS_NS16550_COM1, .reg_shift = 2,
+	  .clock = CONFIG_SYS_NS16550_CLK, .fcr = UART_FCR_DEFVAL, },
 # ifdef CONFIG_SYS_NS16550_COM2
-	{ .base = CONFIG_SYS_NS16550_COM2, .reg_shift = 2, .clock = CONFIG_SYS_NS16550_CLK },
+	{ .base = CONFIG_SYS_NS16550_COM2, .reg_shift = 2,
+	  .clock = CONFIG_SYS_NS16550_CLK, .fcr = UART_FCR_DEFVAL, },
 #  ifdef CONFIG_SYS_NS16550_COM3
-	{ .base = CONFIG_SYS_NS16550_COM3, .reg_shift = 2, .clock = CONFIG_SYS_NS16550_CLK },
-	{ .base = CONFIG_SYS_NS16550_COM4, .reg_shift = 2, .clock = CONFIG_SYS_NS16550_CLK },
-	{ .base = CONFIG_SYS_NS16550_COM5, .reg_shift = 2, .clock = CONFIG_SYS_NS16550_CLK },
-	{ .base = CONFIG_SYS_NS16550_COM6, .reg_shift = 2, .clock = CONFIG_SYS_NS16550_CLK },
+	{ .base = CONFIG_SYS_NS16550_COM3, .reg_shift = 2,
+	  .clock = CONFIG_SYS_NS16550_CLK, .fcr = UART_FCR_DEFVAL, },
+	{ .base = CONFIG_SYS_NS16550_COM4, .reg_shift = 2,
+	  .clock = CONFIG_SYS_NS16550_CLK, .fcr = UART_FCR_DEFVAL, },
+	{ .base = CONFIG_SYS_NS16550_COM5, .reg_shift = 2,
+	  .clock = CONFIG_SYS_NS16550_CLK, .fcr = UART_FCR_DEFVAL, },
+	{ .base = CONFIG_SYS_NS16550_COM6, .reg_shift = 2,
+	  .clock = CONFIG_SYS_NS16550_CLK, .fcr = UART_FCR_DEFVAL, },
 #  endif
 # endif
 };
@@ -105,7 +112,7 @@ static const struct gpio_bank gpio_bank_am33xx[] = {
 const struct gpio_bank *const omap_gpio_bank = gpio_bank_am33xx;
 #endif
 
-#if defined(CONFIG_OMAP_HSMMC) && !defined(CONFIG_SPL_BUILD)
+#if defined(CONFIG_MMC_OMAP_HS)
 int cpu_mmc_init(bd_t *bis)
 {
 	int ret;
@@ -204,6 +211,14 @@ int arch_misc_init(void)
 	ret = uclass_first_device(UCLASS_MISC, &dev);
 	if (ret || !dev)
 		return ret;
+
+#if defined(CONFIG_DM_ETH) && defined(CONFIG_USB_ETHER)
+	ret = usb_ether_init();
+	if (ret) {
+		error("USB ether init failed\n");
+		return ret;
+	}
+#endif
 #endif
 	return 0;
 }
@@ -228,8 +243,6 @@ int board_early_init_f(void)
  */
 __weak void am33xx_spl_board_init(void)
 {
-	do_setup_dpll(&dpll_core_regs, &dpll_core_opp100);
-	do_setup_dpll(&dpll_mpu_regs, &dpll_mpu_opp100);
 }
 
 #if defined(CONFIG_SPL_AM33XX_ENABLE_RTC32K_OSC)
@@ -298,6 +311,9 @@ void early_system_init(void)
 	set_uart_mux_conf();
 	setup_early_clocks();
 	uart_soft_reset();
+#ifdef CONFIG_DEBUG_UART_OMAP
+	debug_uart_init();
+#endif
 #ifdef CONFIG_TI_I2C_BOARD_DETECT
 	do_board_detect();
 #endif
@@ -313,6 +329,10 @@ void board_init_f(ulong dummy)
 	early_system_init();
 	board_early_init_f();
 	sdram_init();
+	/* dram_init must store complete ramsize in gd->ram_size */
+	gd->ram_size = get_ram_size(
+			(void *)CONFIG_SYS_SDRAM_BASE,
+			CONFIG_MAX_RAM_BANK_SIZE);
 }
 #endif
 

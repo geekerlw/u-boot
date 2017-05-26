@@ -10,8 +10,6 @@
 #ifndef __CONFIG_TOPIC_MIAMI_H
 #define __CONFIG_TOPIC_MIAMI_H
 
-#define CONFIG_ZYNQ_PS_CLK_FREQ		33333333UL
-
 #define CONFIG_ZYNQ_I2C0
 #define CONFIG_ZYNQ_I2C1
 
@@ -46,10 +44,6 @@
 #undef CONFIG_SPL_FPGA_SUPPORT
 
 /* FPGA commands that we don't use */
-#undef CONFIG_CMD_FPGA_LOADMK
-#undef CONFIG_CMD_FPGA_LOADP
-#undef CONFIG_CMD_FPGA_LOADBP
-#undef CONFIG_CMD_FPGA_LOADFS
 
 /* Extras */
 #define CONFIG_CMD_MEMTEST
@@ -110,7 +104,7 @@
 	"bootscript=autorun.scr\0" \
 	"loadbit_addr=0x100000\0"	\
 	"loadbootenv_addr=0x2000000\0" \
-	"kernel_size=0x400000\0"	\
+	"kernel_size=0x440000\0"	\
 	"devicetree_size=0x10000\0"	\
 	"boot_size=0xF00000\0"	\
 	"fdt_high=0x20000000\0"	\
@@ -144,6 +138,5 @@
 /* Further tweaks to reduce image size */
 #undef CONFIG_CMD_BOOTZ
 #undef CONFIG_CMD_NET
-#undef CONFIG_CMD_AES
 
 #endif /* __CONFIG_TOPIC_MIAMI_H */

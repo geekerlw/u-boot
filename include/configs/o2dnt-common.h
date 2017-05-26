@@ -40,7 +40,6 @@
  * Serial console configuration
  */
 #define CONFIG_PSC_CONSOLE	5	/* console is on PSC5 */
-#define CONFIG_BAUDRATE		115200	/* ... at 115200 bps */
 #define CONFIG_SYS_BAUDRATE_TABLE \
 	{ 9600, 19200, 38400, 57600, 115200, 230400 }
 
@@ -61,9 +60,6 @@
 #define CONFIG_SYS_XLB_PIPELINING	1
 
 /* Partitions */
-#define CONFIG_MAC_PARTITION
-#define CONFIG_DOS_PARTITION
-#define CONFIG_ISO_PARTITION
 
 #define CONFIG_TIMESTAMP	/* Print image info with timestamp */
 
@@ -72,12 +68,8 @@
 /*
  * Supported commands
  */
-#define CONFIG_CMD_EEPROM
 #ifdef CONFIG_PCI
 #define CONFIG_CMD_PCI
-#endif
-#ifdef CONFIG_POST
-#define CONFIG_CMD_DIAG
 #endif
 
 #if (CONFIG_SYS_TEXT_BASE == 0xFC000000) || (CONFIG_SYS_TEXT_BASE == 0xFF000000)
@@ -179,27 +171,6 @@
 #define CONFIG_SYS_PCICLK_EQUALS_IPBCLK_DIV2	/* define for 66MHz speed */
 #endif
 
-/*
- * I2C configuration
- */
-#define CONFIG_HARD_I2C			1	/* I2C with hardware support */
-#define CONFIG_SYS_I2C_MODULE		1	/* Select I2C module #1 or #2 */
-#define CONFIG_SYS_I2C_SPEED		100000	/* 100 kHz */
-#define CONFIG_SYS_I2C_SLAVE		0x7F
-
-/*
- * EEPROM configuration:
- *
- * O2DNT board is equiped with Ramtron FRAM device FM24CL16
- * 16 Kib Ferroelectric Nonvolatile serial RAM memory
- * organized as 2048 x 8 bits and addressable as eight I2C devices
- * 0x50 ... 0x57 each 256 bytes in size
- *
- */
-#define CONFIG_SYS_I2C_FRAM
-#define CONFIG_SYS_I2C_EEPROM_ADDR		0x50	/* 1010000x */
-#define CONFIG_SYS_I2C_EEPROM_ADDR_LEN		1
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_BITS	3
 /*
  * There is no write delay with FRAM, write operations are performed at bus
  * speed. Thus, no status polling or write delay is needed.

@@ -18,17 +18,7 @@ DECLARE_GLOBAL_DATA_PTR;
 
 int eeprom_write_enable(unsigned dev_addr, int state)
 {
-	volatile immap_t *im = (immap_t *)CONFIG_SYS_IMMR;
-
-	if (dev_addr != CONFIG_SYS_I2C_EEPROM_ADDR)
-		return -1;
-
-	if (state == 0)
-		setbits_be32(&im->gpio.gpdat, 0x00100000);
-	else
-		clrbits_be32(&im->gpio.gpdat, 0x00100000);
-
-	return 0;
+	return -ENOSYS;
 }
 
 int board_early_init_f(void)
@@ -62,9 +52,11 @@ int board_early_init_f(void)
 	return 0;
 }
 
-phys_size_t initdram(int board_type)
+int dram_init(void)
 {
-	return get_ram_size(0, fixed_sdram(NULL, NULL, 0));
+	gd->ram_size = get_ram_size(0, fixed_sdram(NULL, NULL, 0));
+
+	return 0;
 }
 
 int misc_init_r(void)

@@ -15,6 +15,8 @@
 #include <i2c.h>
 #include "../common/common.h"
 
+DECLARE_GLOBAL_DATA_PTR;
+
 static uchar ivm_content[CONFIG_SYS_IVM_EEPROM_MAX_LEN];
 
 /*
@@ -151,13 +153,8 @@ const iop_conf_t iop_conf_tab[4][32] = {
 		{ 0,		 0,   0,   0,	0,   0 }, /* PD18	     */
 		{ 0,		 0,   0,   0,	0,   0 }, /* PD17	     */
 		{ 0,		 0,   0,   0,	0,   0 }, /* PD16	     */
-#if defined(CONFIG_HARD_I2C)
-		{ 1,		 1,   1,   0,	1,   0 }, /* PD15 I2C SDA    */
-		{ 1,		 1,   1,   0,	1,   0 }, /* PD14 I2C SCL    */
-#else
 		{ 1,		 0,   0,   0,	1,   1 }, /* PD15	     */
 		{ 1,		 0,   0,   1,	1,   1 }, /* PD14	     */
-#endif
 		{ 0,		 0,   0,   0,	0,   0 }, /* PD13	     */
 		{ 0,		 0,   0,   0,	0,   0 }, /* PD12	     */
 		{ 0,		 0,   0,   0,	0,   0 }, /* PD11	     */
@@ -289,7 +286,7 @@ static long probe_sdram(memctl8260_t *memctl)
 #endif /* CONFIG_SYS_SDRAM_LIST */
 
 
-phys_size_t initdram(int board_type)
+int dram_init(void)
 {
 	immap_t *immap = (immap_t *) CONFIG_SYS_IMMR;
 	memctl8260_t *memctl = &immap->im_memctl;
@@ -305,7 +302,9 @@ phys_size_t initdram(int board_type)
 
 	icache_enable();
 
-	return psize;
+	gd->ram_size = psize;
+
+	return 0;
 }
 
 int checkboard(void)

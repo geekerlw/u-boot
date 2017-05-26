@@ -37,7 +37,6 @@
 #define CONFIG_HOSTNAME		katmai
 #include "amcc-common.h"
 
-#define CONFIG_BOARD_EARLY_INIT_F 1	/* Call board_pre_init		*/
 #undef  CONFIG_SHOW_BOOT_PROGRESS
 
 /*-----------------------------------------------------------------------
@@ -124,31 +123,6 @@
 #define CONFIG_SYS_I2C_RTC_ADDR	0x68
 #define CONFIG_SYS_M41T11_BASE_YEAR	1900	/* play along with linux	*/
 
-/* I2C DTT */
-#define CONFIG_DTT_ADM1021	1	/* ADM1021 temp sensor support	*/
-#define CONFIG_SYS_DTT_BUS_NUM		1	/* The I2C bus for DTT		*/
-/*
- * standard dtt sensor configuration - bottom bit will determine local or
- * remote sensor of the ADM1021, the rest determines index into
- * CONFIG_SYS_DTT_ADM1021 array below.
- */
-#define CONFIG_DTT_SENSORS	{ 0, 1 }
-
-/*
- * ADM1021 temp sensor configuration (see dtt/adm1021.c for details).
- * there will be one entry in this array for each two (dummy) sensors in
- * CONFIG_DTT_SENSORS.
- *
- * For Katmai board:
- * - only one ADM1021
- * - i2c addr 0x18
- * - conversion rate 0x02 = 0.25 conversions/second
- * - ALERT ouput disabled
- * - local temp sensor enabled, min set to 0 deg, max set to 85 deg
- * - remote temp sensor enabled, min set to 0 deg, max set to 85 deg
- */
-#define CONFIG_SYS_DTT_ADM1021		{ { 0x18, 0x02, 0, 1, 0, 85, 1, 0, 58} }
-
 /*-----------------------------------------------------------------------
  * Environment
  *----------------------------------------------------------------------*/
@@ -171,9 +145,6 @@
 /*
  * Commands additional to the ones defined in amcc-common.h
  */
-#define CONFIG_CMD_CHIP_CONFIG
-#define CONFIG_CMD_DATE
-#define CONFIG_CMD_ECCTEST
 #define CONFIG_CMD_PCI
 #define CONFIG_CMD_SDRAM
 
@@ -238,7 +209,6 @@
 #define CONFIG_SYSTEMACE	1	/* Enable SystemACE support	*/
 #define CONFIG_SYS_SYSTEMACE_WIDTH	16	/* Data bus width is 16		*/
 #define CONFIG_SYS_SYSTEMACE_BASE	CONFIG_SYS_ACE_BASE
-#define CONFIG_DOS_PARTITION	1
 
 /*-----------------------------------------------------------------------
  * External Bus Controller (EBC) Setup

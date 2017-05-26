@@ -35,7 +35,6 @@
 
 #define CONFIG_SYS_MPC512X_CLKIN	33333333	/* in Hz */
 
-#define CONFIG_BOARD_EARLY_INIT_F		/* call board_early_init_f() */
 #define CONFIG_MISC_INIT_R
 
 #define CONFIG_SYS_IMMR		        0x80000000
@@ -216,7 +215,6 @@
 #if CONFIG_PSC_CONSOLE != 3
 #error CONFIG_PSC_CONSOLE must be 3
 #endif
-#define CONFIG_BAUDRATE		9600	/* ... at 9600 bps */
 #define CONFIG_SYS_BAUDRATE_TABLE  \
 	{300, 600, 1200, 2400, 4800, 9600, 19200, 38400, 115200}
 
@@ -243,25 +241,10 @@
 
 #define CONFIG_CMDLINE_EDITING	1	/* add command line history	*/
 
-/* I2C */
-#define CONFIG_HARD_I2C			/* I2C with hardware support */
-#define CONFIG_I2C_MULTI_BUS
-#define CONFIG_SYS_I2C_SPEED		400000	/* I2C speed */
-#define CONFIG_SYS_I2C_SLAVE		0x7F	/* slave address */
-
 /*
  * IIM - IC Identification Module
  */
 #undef CONFIG_FSL_IIM
-
-/*
- * EEPROM configuration
- */
-#define CONFIG_SYS_I2C_EEPROM_ADDR_LEN	2	/* 16-bit EEPROM address */
-#define CONFIG_SYS_I2C_EEPROM_ADDR	0x50	/* Atmel: AT24C32A-10TQ-2.7 */
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_DELAY_MS 10	/* 10ms of delay */
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_BITS 5	/* 32-Byte Page Write Mode */
-#define CONFIG_SYS_EEPROM_WREN			/* Use EEPROM write protect */
 
 /*
  * Ethernet configuration
@@ -282,7 +265,7 @@
 /*
  * Environment
  */
-#define CONFIG_ENV_IS_IN_EEPROM		/* Store env in I2C EEPROM	*/
+#define CONFIG_ENV_IS_NOWHERE		/* Store env in I2C EEPROM	*/
 #define CONFIG_ENV_SIZE		0x1000
 #define CONFIG_ENV_OFFSET       0x0000	/* environment starts here	*/
 
@@ -290,12 +273,6 @@
 #define CONFIG_SYS_LOADS_BAUD_CHANGE	/* allow baudrate change	*/
 
 #define CONFIG_CMD_REGINFO
-#define CONFIG_CMD_EEPROM
-#define CONFIG_CMD_DATE
-#undef CONFIG_CMD_FUSE
-#undef CONFIG_CMD_IDE
-#define CONFIG_CMD_JFFS2
-#define CONFIG_DOS_PARTITION
 
 /*
  * Watchdog timeout = CONFIG_SYS_WATCHDOG_VALUE * 65536 / IPS clock.

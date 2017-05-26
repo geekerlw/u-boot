@@ -40,7 +40,6 @@
 
 #define CONFIG_SYS_CLK_FREQ	66666667	/* external freq to pll	*/
 
-#define CONFIG_BOARD_EARLY_INIT_F	1	/* Call board_early_init_f */
 #define CONFIG_BOARD_EARLY_INIT_R	1	/* Call board_early_init_r */
 #define CONFIG_MISC_INIT_R		1	/* Call misc_init_r */
 #define CONFIG_BOARD_TYPES		1	/* support board types */
@@ -219,13 +218,6 @@
 #define CONFIG_4xx_CONFIG_I2C_EEPROM_OFFSET	0
 #define CONFIG_4xx_CONFIG_BLOCKSIZE		16
 
-/* I2C SYSMON */
-#define CONFIG_DTT_LM63         1       /* National LM63        */
-#define CONFIG_DTT_SENSORS      { 0 }   /* Sensor addresses     */
-#define CONFIG_DTT_PWM_LOOKUPTABLE      \
-	{ { 40, 10 }, { 50, 20 }, { 60, 40 } }
-#define CONFIG_DTT_TACH_LIMIT   0xa10
-
 /* RTC configuration */
 #define CONFIG_RTC_DS1337	1
 #define CONFIG_SYS_I2C_RTC_ADDR	0x68
@@ -273,16 +265,10 @@
 /*
  * Commands additional to the ones defined in amcc-common.h
  */
-#define CONFIG_CMD_CHIP_CONFIG
-#define CONFIG_CMD_DATE
-#define CONFIG_CMD_DTT
 #define CONFIG_CMD_PCI
 #define CONFIG_CMD_SDRAM
 
 /* Partitions */
-#define CONFIG_MAC_PARTITION
-#define CONFIG_DOS_PARTITION
-#define CONFIG_ISO_PARTITION
 
 /*
  * PCI stuff

@@ -77,7 +77,6 @@
 #define CONFIG_SYS_SICRH		0x00000000
 #define CONFIG_SYS_SICRL		0x00000000 /* 3.3V, no delay */
 
-#define CONFIG_BOARD_EARLY_INIT_F /* call board_pre_init */
 #define CONFIG_HWCONFIG
 
 /*
@@ -367,7 +366,6 @@
 #define CONFIG_HAS_FSL_DR_USB
 #define CONFIG_SYS_SCCR_USBDRCM		3
 
-#define CONFIG_USB_EHCI
 #define CONFIG_USB_EHCI_FSL
 #define CONFIG_USB_PHY_TYPE	"utmi"
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
@@ -418,7 +416,6 @@
 #ifdef CONFIG_FSL_SATA
 #define CONFIG_LBA48
 #define CONFIG_CMD_SATA
-#define CONFIG_DOS_PARTITION
 #endif
 
 /*
@@ -431,7 +428,6 @@
 	#define CONFIG_ENV_SECT_SIZE	0x10000 /* 64K(one sector) for env */
 	#define CONFIG_ENV_SIZE		0x2000
 #else
-	#define CONFIG_SYS_NO_FLASH	1	/* Flash is not usable now */
 	#define CONFIG_ENV_IS_NOWHERE	1	/* Store ENV in memory only */
 	#define CONFIG_ENV_ADDR		(CONFIG_SYS_MONITOR_BASE - 0x1000)
 	#define CONFIG_ENV_SIZE		0x2000
@@ -451,7 +447,6 @@
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_DATE
 #define CONFIG_CMD_PCI
 
 #define CONFIG_CMDLINE_EDITING	1	/* add command line history */
@@ -592,8 +587,6 @@
 #define CONFIG_HAS_ETH0
 #define CONFIG_HAS_ETH1
 #endif
-
-#define CONFIG_BAUDRATE 115200
 
 #define CONFIG_LOADADDR 800000	/* default location for tftp and bootm */
 

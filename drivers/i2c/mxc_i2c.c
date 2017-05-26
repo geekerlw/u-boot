@@ -69,10 +69,6 @@ DECLARE_GLOBAL_DATA_PTR;
 #define I2SR_IIF_CLEAR	(0 << 1)
 #endif
 
-#if defined(CONFIG_HARD_I2C) && !defined(CONFIG_SYS_I2C_BASE)
-#error "define CONFIG_SYS_I2C_BASE to use the mxc_i2c driver"
-#endif
-
 #ifdef I2C_QUIRK_REG
 static u16 i2c_clk_div[60][2] = {
 	{ 20,	0x00 }, { 22,	0x01 }, { 24,	0x02 }, { 26,	0x03 },
@@ -589,7 +585,7 @@ static int bus_i2c_write(struct mxc_i2c_bus *i2c_bus, u8 chip, u32 addr,
 #endif
 
 static struct mxc_i2c_bus mxc_i2c_buses[] = {
-#if defined(CONFIG_LS102XA) || defined(CONFIG_VF610) || \
+#if defined(CONFIG_ARCH_LS1021A) || defined(CONFIG_VF610) || \
 	defined(CONFIG_FSL_LAYERSCAPE)
 	{ 0, I2C1_BASE_ADDR, I2C_QUIRK_FLAG },
 	{ 1, I2C2_BASE_ADDR, I2C_QUIRK_FLAG },
@@ -750,7 +746,7 @@ static int mxc_i2c_probe(struct udevice *bus)
 {
 	struct mxc_i2c_bus *i2c_bus = dev_get_priv(bus);
 	const void *fdt = gd->fdt_blob;
-	int node = bus->of_offset;
+	int node = dev_of_offset(bus);
 	fdt_addr_t addr;
 	int ret, ret2;
 

@@ -10,8 +10,6 @@
 #define __CONFIG_H
 
 /* System configurations */
-#define CONFIG_BOARD_EARLY_INIT_F
-#define CONFIG_BOARD_LATE_INIT
 #define CONFIG_MISC_INIT_R
 #define CONFIG_KEYBOARD
 
@@ -19,8 +17,6 @@
 #include "mx6_common.h"
 
 /* U-Boot Commands */
-#define CONFIG_CMD_BMODE
-#define CONFIG_CMD_EEPROM
 #define CONFIG_FAT_WRITE
 #define CONFIG_CMD_PCI
 #define CONFIG_CMD_SATA
@@ -138,8 +134,6 @@
 
 /* USB Configs */
 #ifdef CONFIG_CMD_USB
-#define CONFIG_USB_EHCI
-#define CONFIG_USB_EHCI_MX6
 #define CONFIG_SYS_USB_EVENT_POLL_VIA_CONTROL_EP
 #define CONFIG_USB_HOST_ETHER
 #define CONFIG_USB_ETHER_ASIX
@@ -162,7 +156,6 @@
 #define CONFIG_BMP_16BPP
 #define CONFIG_VIDEO_LOGO
 #define CONFIG_IPUV3_CLK		260000000
-#define CONFIG_CMD_HDMIDETECT
 #define CONFIG_IMX_HDMI
 #define CONFIG_IMX_VIDEO_SKIP
 #endif

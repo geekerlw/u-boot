@@ -8,6 +8,7 @@
 #include <dm.h>
 #include <fdtdec.h>
 #include <libfdt.h>
+#include <pci.h>
 #include <asm/io.h>
 #include <asm/system.h>
 #include <asm/arch/cpu.h>
@@ -82,7 +83,7 @@ int dram_init(void)
 	return 0;
 }
 
-void dram_init_banksize(void)
+int dram_init_banksize(void)
 {
 	const void *fdt = gd->fdt_blob;
 	const fdt32_t *val;
@@ -90,13 +91,13 @@ void dram_init_banksize(void)
 
 	val = get_memory_reg_prop(fdt, &len);
 	if (len < 0)
-		return;
+		return -ENXIO;
 
 	ac = fdt_address_cells(fdt, 0);
 	sc = fdt_size_cells(fdt, 0);
-	if (ac < 1 || sc > 2 || sc < 1 || sc > 2) {
+	if (ac < 1 || ac > 2 || sc < 1 || sc > 2) {
 		printf("invalid address/size cells\n");
-		return;
+		return -ENXIO;
 	}
 
 	cells = ac + sc;
@@ -114,6 +115,8 @@ void dram_init_banksize(void)
 		      i, (unsigned long)gd->bd->bi_dram[i].start,
 		      (unsigned long)gd->bd->bi_dram[i].size);
 	}
+
+	return 0;
 }
 
 int arch_cpu_init(void)
@@ -144,6 +147,11 @@ int arch_early_init_r(void)
 
 	/* Cause the SATA device to do its early init */
 	uclass_first_device(UCLASS_AHCI, &dev);
+
+#ifdef CONFIG_DM_PCI
+	/* Trigger PCIe devices detection */
+	pci_init();
+#endif
 
 	return 0;
 }

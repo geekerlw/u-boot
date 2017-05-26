@@ -10,12 +10,6 @@
 #ifndef __CONFIG_H
 #define __CONFIG_H
 
-/* High Level Configuration Options */
-#define CONFIG_BOOKE		1	/* BOOKE */
-#define CONFIG_E500		1	/* BOOKE e500 family */
-
-#define CONFIG_FSL_ELBC		1	/* Has Enhance localbus controller */
-
 #define CONFIG_SYS_SRIO
 #define CONFIG_SRIO1			/* SRIO port 1 */
 
@@ -58,7 +52,6 @@ extern unsigned long get_clock_freq(void);
  */
 #define CONFIG_ENABLE_36BIT_PHYS	1
 
-#define CONFIG_BOARD_EARLY_INIT_F	1	/* Call board_pre_init */
 #define CONFIG_BOARD_EARLY_INIT_R	1
 #define CONFIG_HWCONFIG
 
@@ -81,7 +74,6 @@ extern unsigned long get_clock_freq(void);
 #endif
 
 /* DDR Setup */
-#define CONFIG_SYS_FSL_DDR3
 #undef CONFIG_FSL_DDR_INTERACTIVE
 #define CONFIG_SPD_EEPROM		/* Use SPD EEPROM for DDR setup*/
 #define CONFIG_DDR_SPD
@@ -93,7 +85,6 @@ extern unsigned long get_clock_freq(void);
 					/* DDR is system memory*/
 #define CONFIG_SYS_SDRAM_BASE		CONFIG_SYS_DDR_SDRAM_BASE
 
-#define CONFIG_NUM_DDR_CONTROLLERS	1
 #define CONFIG_DIMM_SLOTS_PER_CTLR	1
 #define CONFIG_CHIP_SELECTS_PER_CTRL	(2 * CONFIG_DIMM_SLOTS_PER_CTLR)
 
@@ -457,7 +448,6 @@ extern unsigned long get_clock_freq(void);
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_IRQ
 #define CONFIG_CMD_REGINFO
 
 #if defined(CONFIG_PCI)
@@ -470,8 +460,6 @@ extern unsigned long get_clock_freq(void);
 #define CONFIG_FSL_ESDHC
 #define CONFIG_FSL_ESDHC_PIN_MUX
 #define CONFIG_SYS_FSL_ESDHC_ADDR	CONFIG_SYS_MPC85xx_ESDHC_ADDR
-#define CONFIG_GENERIC_MMC
-#define CONFIG_DOS_PARTITION
 #endif
 
 /*
@@ -518,8 +506,6 @@ extern unsigned long get_clock_freq(void);
 #define CONFIG_LOADADDR  200000   /*default location for tftp and bootm*/
 
 #undef  CONFIG_BOOTARGS           /* the boot command will set bootargs*/
-
-#define CONFIG_BAUDRATE	115200
 
 #define	CONFIG_EXTRA_ENV_SETTINGS					\
 	"netdev=eth0\0"							\

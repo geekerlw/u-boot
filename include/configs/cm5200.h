@@ -21,17 +21,12 @@
 /*
  * Supported commands
  */
-#define CONFIG_CMD_BSP
-#define CONFIG_CMD_DATE
-#define CONFIG_CMD_DIAG
-#define CONFIG_CMD_JFFS2
 #define CONFIG_CMD_REGINFO
 
 /*
  * Serial console configuration
  */
 #define CONFIG_PSC_CONSOLE	1	/* console is on PSC1 */
-#define CONFIG_BAUDRATE		57600	/* ... at 57600 bps */
 #define CONFIG_SYS_BAUDRATE_TABLE	{ 9600, 19200, 38400, 57600, 115200, 230400 }
 
 /*
@@ -48,7 +43,7 @@
 /*
  * POST support
  */
-#define CONFIG_POST		(CONFIG_SYS_POST_MEMORY | CONFIG_SYS_POST_CPU | CONFIG_SYS_POST_I2C)
+#define CONFIG_POST		(CONFIG_SYS_POST_MEMORY | CONFIG_SYS_POST_CPU)
 #define MPC5XXX_SRAM_POST_SIZE	(MPC5XXX_SRAM_SIZE - 4)
 /* List of I2C addresses to be verified by POST */
 #define CONFIG_SYS_POST_I2C_ADDRS	{CONFIG_SYS_I2C_SLAVE,	\
@@ -204,16 +199,6 @@
 					"-(config)"
 
 /*
- * I2C configuration
- */
-#define CONFIG_HARD_I2C		1	/* I2C with hardware support */
-#define CONFIG_SYS_I2C_MODULE		2	/* Select I2C module #2 */
-#define CONFIG_SYS_I2C_SPEED		40000	/* 40 kHz */
-#define CONFIG_SYS_I2C_SLAVE		0x0
-#define CONFIG_SYS_I2C_IO		0x38	/* PCA9554AD I2C I/O port address */
-#define CONFIG_SYS_I2C_EEPROM		0x53	/* I2C EEPROM device address */
-
-/*
  * RTC configuration
  */
 #define CONFIG_RTC_MPC5200	1	/* use internal MPC5200 RTC */
@@ -225,9 +210,6 @@
 #define CONFIG_USB_CLOCK	0x0001BBBB
 #define CONFIG_USB_CONFIG	0x00001000
 /* Partitions (for USB) */
-#define CONFIG_MAC_PARTITION	1
-#define CONFIG_DOS_PARTITION	1
-#define CONFIG_ISO_PARTITION	1
 
 /*
  * Invoke our last_stage_init function - needed by fwupdate

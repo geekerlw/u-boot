@@ -38,8 +38,6 @@
 
 #if !defined(CONFIG_VCT_NAND) && !defined(CONFIG_VCT_ONENAND)
 #define CONFIG_VCT_NOR
-#else
-#define CONFIG_SYS_NO_FLASH
 #endif
 
 /*
@@ -56,7 +54,6 @@
 #define CONFIG_SYS_NS16550_COM1		UART_1_BASE
 #define CONFIG_CONS_INDEX		1
 #define CONFIG_SYS_NS16550_CLK		921600
-#define CONFIG_BAUDRATE			115200
 
 /*
  * SDRAM
@@ -80,7 +77,6 @@
 /*
  * Commands
  */
-#define CONFIG_CMD_EEPROM
 
 /*
  * Only Premium/Platinum have ethernet support right now
@@ -97,15 +93,11 @@
 #endif
 
 #if defined(CONFIG_CMD_USB)
-#define CONFIG_DOS_PARTITION
-#define CONFIG_ISO_PARTITION
-
 #define CONFIG_SUPPORT_VFAT
 
 /*
  * USB/EHCI
  */
-#define CONFIG_USB_EHCI			/* Enable EHCI USB support	*/
 #define CONFIG_USB_EHCI_VCT		/* on VCT platform		*/
 #define CONFIG_EHCI_MMIO_BIG_ENDIAN
 #define CONFIG_EHCI_DESC_BIG_ENDIAN
@@ -242,7 +234,6 @@ int vct_gpio_get(int pin);
  */
 #if defined(CONFIG_VCT_ONENAND)
 #define CONFIG_SYS_USE_UBI
-#define	CONFIG_CMD_JFFS2
 #define	CONFIG_RBTREE
 #define CONFIG_MTD_DEVICE		/* needed for mtdparts commands */
 #define CONFIG_MTD_PARTITIONS
@@ -261,11 +252,6 @@ int vct_gpio_get(int pin);
  * (NOR/OneNAND) usage and Linux kernel booting.
  */
 #if defined(CONFIG_VCT_SMALL_IMAGE)
-#undef CONFIG_CMD_BEDBUG
-#undef CONFIG_CMD_EEPROM
-#undef CONFIG_CMD_EEPROM
-#undef CONFIG_CMD_IRQ
-#undef CONFIG_CMD_LOADY
 #undef CONFIG_CMD_REGINFO
 #undef CONFIG_CMD_STRINGS
 #undef CONFIG_CMD_TERMINAL

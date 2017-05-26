@@ -13,17 +13,8 @@
 		"stderr=serial,vidconsole\0"
 
 #include <configs/rk3288_common.h>
-#define CONFIG_LIB_RAND
-#define CONFIG_NET_RANDOM_ETHADDR
 
 #define CONFIG_ENV_IS_IN_MMC
 #define CONFIG_SYS_MMC_ENV_DEV 1   /*emmc define 1, sdcard define 0*/
-/* SPL @ 32k for ~36k
- * ENV @ 96k
- * u-boot @ 128K
- */
-#define CONFIG_ENV_OFFSET (96 * 1024)
-
-#define CONFIG_SYS_WHITE_ON_BLACK
 
 #endif

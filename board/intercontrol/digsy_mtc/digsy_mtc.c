@@ -74,12 +74,12 @@ static void sdram_start(int hi_addr)
 #endif
 
 /*
- * ATTENTION: Although partially referenced initdram does NOT make real use
+ * ATTENTION: Although partially referenced dram_init does NOT make real use
  *            use of CONFIG_SYS_SDRAM_BASE. The code does not work if
  *            CONFIG_SYS_SDRAM_BASE is something other than 0x00000000.
  */
 
-phys_size_t initdram(int board_type)
+int dram_init(void)
 {
 	ulong dramsize = 0;
 	ulong dramsize2 = 0;
@@ -172,7 +172,9 @@ phys_size_t initdram(int board_type)
 	    (PVR_MAJ(pvr) == 1) && (PVR_MIN(pvr) == 4))
 		out_be32((void *)MPC5XXX_SDRAM_SDELAY, 0x04);
 
-	return dramsize + dramsize2;
+	gd->ram_size = dramsize + dramsize2;
+
+	return 0;
 }
 
 int checkboard(void)
@@ -323,7 +325,7 @@ void pci_init_board(void)
 }
 #endif
 
-#ifdef CONFIG_CMD_IDE
+#ifdef CONFIG_IDE
 
 #ifdef CONFIG_IDE_RESET
 
@@ -367,7 +369,7 @@ void ide_set_reset(int idereset)
 	setbits_be32((void *)MPC5XXX_WU_GPIO_ENABLE, (1 << 25));
 }
 #endif /* CONFIG_IDE_RESET */
-#endif /* CONFIG_CMD_IDE */
+#endif /* CONFIG_IDE */
 
 #ifdef CONFIG_OF_BOARD_SETUP
 static void ft_delete_node(void *fdt, const char *compat)

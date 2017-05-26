@@ -13,13 +13,10 @@
 
 #define	CONFIG_SYS_TEXT_BASE	0xFFFC0000
 
-#define CONFIG_BOARD_EARLY_INIT_F 1	/* call board_early_init_f()	*/
 #define CONFIG_MISC_INIT_R	1	/* call misc_init_r()		*/
 #define CONFIG_BOARD_TYPES	1	/* support board types		*/
 
 #define CONFIG_SYS_CLK_FREQ	33330000 /* external frequency to pll	*/
-
-#define CONFIG_BAUDRATE		115200
 
 #undef  CONFIG_BOOTARGS
 #undef  CONFIG_BOOTCOMMAND
@@ -51,11 +48,6 @@
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_BSP
-#define CONFIG_CMD_CHIP_CONFIG
-#define CONFIG_CMD_DATE
-#define CONFIG_CMD_EEPROM
-#define CONFIG_CMD_IRQ
 #define CONFIG_CMD_PCI
 
 #undef  CONFIG_WATCHDOG			/* watchdog disabled */

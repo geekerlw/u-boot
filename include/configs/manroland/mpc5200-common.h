@@ -14,9 +14,10 @@
  */
 #define CONFIG_MPC5200		1	/* MPC5200 CPU */
 
-#define CONFIG_SYS_MPC5XXX_CLKIN	33000000 /* ... running at 33.000000MHz	*/
+/* ... running at 33.000000MHz	*/
+#define CONFIG_SYS_MPC5XXX_CLKIN	33000000
 
-#define CONFIG_HIGH_BATS	1	/* High BATs supported 			*/
+#define CONFIG_HIGH_BATS	1	/* High BATs supported		*/
 
 /*
  * Serial console configuration
@@ -35,43 +36,13 @@
 #define CONFIG_SYS_IPBCLK_EQUALS_XLBCLK		/* define for 133MHz speed */
 
 /*
- * I2C configuration
- */
-#define CONFIG_HARD_I2C		1	/* I2C with hardware support */
-#define CONFIG_SYS_I2C_MODULE		2	/* Select I2C module #1 or #2 */
-
-#define CONFIG_SYS_I2C_SPEED		100000 /* 100 kHz */
-#define CONFIG_SYS_I2C_SLAVE		0x7F
-
-/*
- * EEPROM configuration
- */
-#define CONFIG_SYS_I2C_EEPROM_ADDR		0x58
-#define CONFIG_SYS_I2C_EEPROM_ADDR_LEN		1
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_BITS	4
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_DELAY_MS	10
-
-/*
- * RTC configuration
- */
-#define CONFIG_RTC_PCF8563
-#define CONFIG_SYS_I2C_RTC_ADDR		0x51
-
-/* I2C SYSMON (LM75) */
-#define CONFIG_DTT_LM81			1	/* ON Semi's LM75	*/
-#define CONFIG_DTT_SENSORS		{0}	/* Sensor addresses	*/
-#define CONFIG_SYS_DTT_MAX_TEMP		70
-#define CONFIG_SYS_DTT_LOW_TEMP		-30
-#define CONFIG_SYS_DTT_HYSTERESIS		3
-
-/*
  * Flash configuration
  */
 #define CONFIG_SYS_FLASH_BASE		0xFF800000
 
 #define CONFIG_SYS_FLASH_SIZE		0x00800000 /* 8 MByte */
 
-#define CONFIG_ENV_ADDR		(CONFIG_SYS_TEXT_BASE+0x40000) /* second sector */
+#define CONFIG_ENV_ADDR	(CONFIG_SYS_TEXT_BASE+0x40000) /* second sector */
 #define CONFIG_SYS_MAX_FLASH_BANKS	1	/* max num of flash banks
 					   (= chip selects) */
 #define CONFIG_SYS_FLASH_ERASE_TOUT	240000	/* Flash Erase Timeout [ms]*/
@@ -142,9 +113,9 @@
 /*use  Hardware WDT */
 #define CONFIG_HW_WATCHDOG
 
-#define CONFIG_SYS_CACHELINE_SIZE	32	/* For MPC5xxx CPUs		*/
+#define CONFIG_SYS_CACHELINE_SIZE	32	/* For MPC5xxx CPUs	*/
 #if defined(CONFIG_CMD_KGDB)
-#  define CONFIG_SYS_CACHELINE_SHIFT	5	/* log base 2 of the above value*/
+#  define CONFIG_SYS_CACHELINE_SHIFT	5 /* log base 2 of the above value */
 #endif
 
 /*

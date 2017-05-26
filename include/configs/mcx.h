@@ -12,17 +12,8 @@
 /*
  * High Level Configuration Options
  */
-#define CONFIG_OMAP			/* in a TI OMAP core */
-#define CONFIG_OMAP3_MCX		/* working with mcx */
-#define CONFIG_OMAP_GPIO
-/* Common ARM Erratas */
-#define CONFIG_ARM_ERRATA_454179
-#define CONFIG_ARM_ERRATA_430973
-#define CONFIG_ARM_ERRATA_621766
 
-#define MACH_TYPE_MCX			3656
 #define CONFIG_MACH_TYPE	MACH_TYPE_MCX
-#define CONFIG_BOARD_LATE_INIT
 
 #define CONFIG_EMIF4	/* The chip has EMIF4 controller */
 
@@ -78,18 +69,10 @@
 
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
-#define CONFIG_BAUDRATE			115200
 #define CONFIG_SYS_BAUDRATE_TABLE	{4800, 9600, 19200, 38400, 57600,\
 					115200}
-#define CONFIG_OMAP_HSMMC
-#define CONFIG_GENERIC_MMC
-#define CONFIG_DOS_PARTITION
 
 /* EHCI */
-#define CONFIG_OMAP3_GPIO_2
-#define CONFIG_OMAP3_GPIO_5
-#define CONFIG_USB_EHCI
-#define CONFIG_USB_EHCI_OMAP
 #define CONFIG_OMAP_EHCI_PHY1_RESET_GPIO	57
 #define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS 3
 #define	CONFIG_USB_HOST_ETHER
@@ -97,9 +80,7 @@
 #define CONFIG_USB_ETHER_MCS7830
 
 /* commands to include */
-#define CONFIG_CMD_JFFS2	/* JFFS2 Support		*/
 
-#define CONFIG_CMD_DATE
 #define CONFIG_CMD_NAND		/* NAND support			*/
 #define CONFIG_CMD_UBIFS
 #define CONFIG_RBTREE
@@ -108,7 +89,6 @@
 #define CONFIG_MTD_DEVICE
 #define CONFIG_CMD_MTDPARTS
 
-#define CONFIG_SYS_NO_FLASH
 #define CONFIG_SYS_I2C
 #define CONFIG_SYS_OMAP24_I2C_SPEED	100000
 #define CONFIG_SYS_OMAP24_I2C_SLAVE	1
@@ -308,7 +288,6 @@
 
 /* Defines for SPL */
 #define CONFIG_SPL_FRAMEWORK
-#define CONFIG_SPL_BOARD_INIT
 #define CONFIG_SPL_NAND_SIMPLE
 
 #define CONFIG_SPL_NAND_BASE
@@ -364,7 +343,6 @@
 
 #define CONFIG_SPLASH_SCREEN
 #define CONFIG_VIDEO_BMP_RLE8
-#define CONFIG_CMD_BMP
 #define CONFIG_VIDEO_OMAP3
 
 #endif /* __CONFIG_H */

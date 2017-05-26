@@ -16,15 +16,6 @@
 /*
  * High Level Configuration Options
  */
-#define CONFIG_OMAP			/* in a TI OMAP core */
-
-#define CONFIG_OMAP_GPIO
-/* Common ARM Erratas */
-#define CONFIG_ARM_ERRATA_454179
-#define CONFIG_ARM_ERRATA_430973
-#define CONFIG_ARM_ERRATA_621766
-
-#define MACH_TYPE_OMAP3_TAO3530		2836
 
 #define CONFIG_SDRC			/* Has an SDRC controller */
 
@@ -69,17 +60,6 @@
 
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
-#define CONFIG_BAUDRATE			115200
-#define CONFIG_GENERIC_MMC
-#define CONFIG_OMAP_HSMMC
-#define CONFIG_DOS_PARTITION
-
-/* GPIO banks */
-#define CONFIG_OMAP3_GPIO_2		/* GPIO32 ..63  is in GPIO bank 2 */
-#define CONFIG_OMAP3_GPIO_3		/* GPIO64 ..95  is in GPIO bank 3 */
-#define CONFIG_OMAP3_GPIO_4		/* GPIO96 ..127 is in GPIO bank 4 */
-#define CONFIG_OMAP3_GPIO_5		/* GPIO128..159 is in GPIO bank 5 */
-#define CONFIG_OMAP3_GPIO_6		/* GPIO160..191 is in GPIO bank 6 */
 
 /* commands to include */
 #define CONFIG_CMD_MTDPARTS	/* Enable MTD parts commands */
@@ -91,7 +71,6 @@
 
 #define CONFIG_CMD_NAND		/* NAND support			*/
 
-#define CONFIG_SYS_NO_FLASH
 #define CONFIG_SYS_I2C
 #define CONFIG_SYS_I2C_OMAP34XX
 #define CONFIG_SYS_OMAP24_I2C_SPEED	100000
@@ -101,7 +80,6 @@
 /*
  * TWL4030
  */
-#define CONFIG_TWL4030_POWER
 #define CONFIG_TWL4030_LED
 
 /*
@@ -178,7 +156,6 @@
 
 /* turn on command-line edit/hist/auto */
 #define CONFIG_CMDLINE_EDITING
-#define CONFIG_COMMAND_HISTORY
 #define CONFIG_AUTO_COMPLETE
 
 /* Print Buffer Size */
@@ -205,13 +182,6 @@
  */
 #define CONFIG_SYS_TIMERBASE		(OMAP34XX_GPT2)
 #define CONFIG_SYS_PTV			2       /* Divisor: 2^(PTV+1) => 8 */
-
-/*
- * Stack sizes
- *
- * The stack sizes are set up in start.S using the settings below
- */
-#define CONFIG_STACKSIZE	(128 << 10)	/* regular stack 128 KiB */
 
 /*
  * Physical Memory Map
@@ -258,8 +228,6 @@
  */
 
 /* USB EHCI */
-#define CONFIG_USB_EHCI
-#define CONFIG_USB_EHCI_OMAP
 #define CONFIG_OMAP_EHCI_PHY1_RESET_GPIO	162
 
 #define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS 3
@@ -268,7 +236,6 @@
 
 #define CONFIG_USB_ETHER
 #define CONFIG_USB_ETHER_RNDIS
-#define CONGIG_CMD_STORAGE
 
 /* Defines for SPL */
 #define CONFIG_SPL_FRAMEWORK
@@ -277,7 +244,6 @@
 #define CONFIG_SYS_MMCSD_FS_BOOT_PARTITION	1
 #define CONFIG_SPL_FS_LOAD_PAYLOAD_NAME	"u-boot.img"
 
-#define CONFIG_SPL_BOARD_INIT
 #define CONFIG_SPL_NAND_BASE
 #define CONFIG_SPL_NAND_DRIVERS
 #define CONFIG_SPL_NAND_ECC

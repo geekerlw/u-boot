@@ -12,11 +12,8 @@
 #include "mx6_common.h"
 
 /* General configuration */
-#define CONFIG_SYS_THUMB_BUILD
 
 #define CONFIG_MACH_TYPE		3980
-
-#define CONFIG_BOARD_EARLY_INIT_F
 
 #define CONFIG_SYS_HZ			1000
 
@@ -44,17 +41,10 @@
 /* Serial console */
 #define CONFIG_MXC_UART
 #define CONFIG_MXC_UART_BASE		UART1_BASE /* select UART1/UART2 */
-#define CONFIG_BAUDRATE			115200
 
 #define CONFIG_CONS_INDEX		1
 
-/* *** Command definition *** */
-#define CONFIG_CMD_BMODE
-#define CONFIG_CMD_PART
-
 /* Filesystems / image support */
-#define CONFIG_EFI_PARTITION
-#define CONFIG_PARTITION_UUIDS
 
 /* MMC */
 #define CONFIG_SYS_FSL_USDHC_NUM	3
@@ -79,7 +69,6 @@
 #define CONFIG_VIDEO_BMP_RLE8
 #define CONFIG_IMX_HDMI
 #define CONFIG_IMX_VIDEO_SKIP
-#define CONFIG_CMD_HDMIDETECT
 #endif
 
 /* PCI */
@@ -103,8 +92,6 @@
 
 /* USB */
 #ifdef CONFIG_CMD_USB
-#define CONFIG_USB_EHCI
-#define CONFIG_USB_EHCI_MX6
 #define CONFIG_USB_MAX_CONTROLLER_COUNT 2
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
 #define CONFIG_MXC_USB_PORTSC		(PORT_PTS_UTMI | PORT_PTS_PTW)
@@ -125,7 +112,6 @@
 #endif /* CONFIG_CMD_USB      */
 
 /* RTC */
-#define CONFIG_CMD_DATE
 #ifdef CONFIG_CMD_DATE
 #define CONFIG_RTC_DS1307
 #define CONFIG_SYS_RTC_BUS_NUM		2

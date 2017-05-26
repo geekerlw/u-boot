@@ -10,7 +10,7 @@ ifndef CONFIG_SPL_BUILD
 obj-y += init/
 obj-y += main.o
 obj-y += exports.o
-obj-y += hash.o
+obj-$(CONFIG_HASH) += hash.o
 obj-$(CONFIG_HUSH_PARSER) += cli_hush.o
 obj-$(CONFIG_AUTOBOOT) += autoboot.o
 
@@ -67,7 +67,7 @@ endif
 # others
 obj-$(CONFIG_BOOTSTAGE) += bootstage.o
 obj-$(CONFIG_CONSOLE_MUX) += iomux.o
-obj-y += flash.o
+obj-$(CONFIG_MTD_NOR_FLASH) += flash.o
 obj-$(CONFIG_CMD_KGDB) += kgdb.o kgdb_stubs.o
 obj-$(CONFIG_I2C_EDID) += edid.o
 obj-$(CONFIG_KALLSYMS) += kallsyms.o
@@ -85,6 +85,7 @@ obj-$(CONFIG_SCSI) += scsi.o
 obj-$(CONFIG_UPDATE_TFTP) += update.o
 obj-$(CONFIG_DFU_TFTP) += update.o
 obj-$(CONFIG_USB_KEYBOARD) += usb_kbd.o
+obj-$(CONFIG_CMDLINE) += cli_readline.o cli_simple.o
 
 endif # !CONFIG_SPL_BUILD
 
@@ -95,7 +96,7 @@ obj-$(CONFIG_SPL_HASH_SUPPORT) += hash.o
 obj-$(CONFIG_ENV_IS_IN_FLASH) += env_flash.o
 obj-$(CONFIG_SPL_YMODEM_SUPPORT) += xyzModem.o
 obj-$(CONFIG_SPL_NET_SUPPORT) += miiphyutil.o
-obj-$(CONFIG_SPL_OF_TRANSLATE) += fdt_support.o
+obj-$(CONFIG_SPL_OF_LIBFDT) += fdt_support.o
 ifdef CONFIG_SPL_USB_HOST_SUPPORT
 obj-$(CONFIG_SPL_USB_SUPPORT) += usb.o usb_hub.o
 obj-$(CONFIG_USB_STORAGE) += usb_storage.o
@@ -144,7 +145,6 @@ obj-y += dlmalloc.o
 ifdef CONFIG_SYS_MALLOC_F_LEN
 obj-y += malloc_simple.o
 endif
-obj-$(CONFIG_CMD_IDE) += ide.o
 obj-y += image.o
 obj-$(CONFIG_ANDROID_BOOT_IMAGE) += image-android.o
 obj-$(CONFIG_$(SPL_)OF_LIBFDT) += image-fdt.o
@@ -168,11 +168,9 @@ endif
 ifdef CONFIG_CMD_EEPROM_LAYOUT
 obj-y += eeprom/eeprom_field.o eeprom/eeprom_layout.o
 endif
-# We always have this since drivers/ddr/fs/interactive.c needs it
-obj-$(CONFIG_CMDLINE) += cli_simple.o
 
 obj-y += cli.o
-obj-$(CONFIG_CMDLINE) += cli_readline.o
+obj-$(CONFIG_FSL_DDR_INTERACTIVE) += cli_simple.o cli_readline.o
 obj-$(CONFIG_CMD_DFU) += dfu.o
 obj-y += command.o
 obj-y += s_record.o

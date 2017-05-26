@@ -11,14 +11,11 @@
 #ifndef __CONFIG_CL_SOM_AM57X_H
 #define __CONFIG_CL_SOM_AM57X_H
 
-#define CONFIG_DRA7XX
-
 #define CONFIG_NR_DRAM_BANKS		2
 
 #define CONSOLEDEV			"ttyO2"
 #define CONFIG_SYS_NS16550_COM3		UART3_BASE	/* UART3 */
 #define CONFIG_CONS_INDEX		3
-#define CONFIG_BAUDRATE			115200
 
 #define CONFIG_SYS_OMAP_ABE_SYSCK
 
@@ -27,17 +24,6 @@
 /* misc */
 #define CONFIG_MISC_INIT_R
 #define CONFIG_REVISION_TAG
-
-/* Status LED */
-#define CONFIG_STATUS_LED		/* Status LED enabled */
-#define CONFIG_GPIO_LED
-#define CONFIG_BOARD_SPECIFIC_LED
-#define GREEN_LED_DEV			0
-					/* cl_som_am57x Green LED is GPIO2_5 */
-#define GREEN_LED_GPIO			37
-#define STATUS_LED_BIT			GREEN_LED_GPIO
-#define STATUS_LED_STATE		STATUS_LED_ON
-#define STATUS_LED_PERIOD		(CONFIG_SYS_HZ / 2)
 
 /* PMIC I2C bus number */
 #define CONFIG_SYS_SPD_BUS_NUM 3
@@ -74,8 +60,6 @@
 #define CONFIG_SYS_I2C_EEPROM_ADDR_LEN  1
 #define CONFIG_SYS_I2C_EEPROM_BUS       3
 
-#define CONFIG_CMD_EEPROM
-#define CONFIG_CMD_EEPROM_LAYOUT
 #define CONFIG_ENV_EEPROM_IS_ON_I2C
 #define CONFIG_SYS_EEPROM_SIZE		256
 
@@ -96,9 +80,7 @@
 #define CONFIG_SYS_I2C_PCA953X_ADDR     0x20
 #define CONFIG_SYS_I2C_PCA953X_WIDTH    { {0x20, 16} }
 
-/* GPT */
-#define CONFIG_CMD_GPT
-#define CONFIG_EFI_PARTITION
+#endif /* !CONFIG_SPL_BUILD */
 
 /* USB xHCI HOST */
 #define CONFIG_USB_XHCI_OMAP
@@ -130,8 +112,6 @@
 #define CONFIG_BOOTP_DNS2
 #define CONFIG_BOOTP_SUBNETMASK
 #define CONFIG_NET_RETRY_COUNT		10
-
-#endif /* !CONFIG_SPL_BUILD */
 
 /* Default environment */
 #undef CONFIG_EXTRA_ENV_SETTINGS

@@ -20,10 +20,12 @@ endif
 obj-$(CONFIG_SPL_UBI) += spl_ubi.o
 obj-$(CONFIG_SPL_NET_SUPPORT) += spl_net.o
 obj-$(CONFIG_SPL_MMC_SUPPORT) += spl_mmc.o
+obj-$(CONFIG_SPL_ATF_SUPPORT) += spl_atf.o
 obj-$(CONFIG_SPL_USB_SUPPORT) += spl_usb.o
 obj-$(CONFIG_SPL_FAT_SUPPORT) += spl_fat.o
 obj-$(CONFIG_SPL_EXT_SUPPORT) += spl_ext.o
 obj-$(CONFIG_SPL_SATA_SUPPORT) += spl_sata.o
 obj-$(CONFIG_SPL_DFU_SUPPORT) += spl_dfu.o
 obj-$(CONFIG_SPL_SPI_LOAD) += spl_spi.o
+obj-$(CONFIG_SPL_RAM_SUPPORT) += spl_ram.o
 endif

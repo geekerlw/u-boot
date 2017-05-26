@@ -19,8 +19,6 @@
 #define __CONFIG_H
 
 /* High Level Configuration Options */
-#define CONFIG_BOOKE		1	/* BOOKE */
-#define CONFIG_E500		1	/* BOOKE e500 family */
 #define CONFIG_CPM2		1	/* has CPM2 */
 
 /*
@@ -69,7 +67,6 @@
 #define CONFIG_SYS_CCSRBAR_PHYS_LOW	CONFIG_SYS_CCSRBAR
 
 /* DDR Setup */
-#define CONFIG_SYS_FSL_DDR1
 #define CONFIG_SPD_EEPROM		/* Use SPD EEPROM for DDR setup*/
 #define CONFIG_DDR_SPD
 #undef CONFIG_FSL_DDR_INTERACTIVE
@@ -79,7 +76,6 @@
 #define CONFIG_SYS_DDR_SDRAM_BASE	0x00000000	/* DDR is system memory*/
 #define CONFIG_SYS_SDRAM_BASE		CONFIG_SYS_DDR_SDRAM_BASE
 
-#define CONFIG_NUM_DDR_CONTROLLERS	1
 #define CONFIG_DIMM_SLOTS_PER_CTLR	1
 #define CONFIG_CHIP_SELECTS_PER_CTRL	(2 * CONFIG_DIMM_SLOTS_PER_CTLR)
 
@@ -212,8 +208,6 @@
 #undef  CONFIG_CONS_NONE	/* define if console on something else */
 #define CONFIG_CONS_INDEX       1  /* which serial channel for console */
 
-#define CONFIG_BAUDRATE		115200
-
 #define CONFIG_SYS_BAUDRATE_TABLE  \
 	{300, 600, 1200, 2400, 4800, 9600, 19200, 38400,115200}
 
@@ -341,7 +335,6 @@
   #define CONFIG_ENV_SECT_SIZE	0x40000	/* 256K(one sector) for env */
   #define CONFIG_ENV_SIZE		0x2000
 #else
-  #define CONFIG_SYS_NO_FLASH		1	/* Flash is not usable now */
   #define CONFIG_ENV_IS_NOWHERE	1	/* Store ENV in memory only */
   #define CONFIG_ENV_ADDR		(CONFIG_SYS_MONITOR_BASE - 0x1000)
   #define CONFIG_ENV_SIZE		0x2000
@@ -361,7 +354,6 @@
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_IRQ
 #define CONFIG_CMD_REGINFO
 
 #if defined(CONFIG_PCI)
@@ -426,8 +418,6 @@
 #define CONFIG_LOADADDR  200000	/* default location for tftp and bootm */
 
 #undef  CONFIG_BOOTARGS		/* the boot command will set bootargs */
-
-#define CONFIG_BAUDRATE	115200
 
 #define	CONFIG_EXTRA_ENV_SETTINGS				        \
 	"netdev=eth0\0"							\

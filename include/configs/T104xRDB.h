@@ -10,7 +10,6 @@
 /*
  * T104x RDB board configuration file
  */
-#define CONFIG_E500			/* BOOKE e500 family */
 #include <asm/config_mpc85xx.h>
 
 #ifdef CONFIG_RAMBOOT_PBL
@@ -32,7 +31,6 @@
 #define CONFIG_SPL_SKIP_RELOCATE
 #define CONFIG_SPL_COMMON_INIT_DDR
 #define CONFIG_SYS_CCSR_DO_NOT_RELOCATE
-#define CONFIG_SYS_NO_FLASH
 #endif
 #define RESET_VECTOR_OFFSET		0x27FFC
 #define BOOT_PAGE_OFFSET		0x27000
@@ -147,16 +145,11 @@ $(SRCTREE)/board/freescale/t104xrdb/t1042d4_sd_rcw.cfg
 #endif
 
 /* High Level Configuration Options */
-#define CONFIG_BOOKE
-#define CONFIG_E500MC			/* BOOKE e500mc family */
 #define CONFIG_SYS_BOOK3E_HV		/* Category E.HV supported */
 #define CONFIG_MP			/* support multiple processors */
 
 /* support deep sleep */
 #define CONFIG_DEEP_SLEEP
-#if defined(CONFIG_DEEP_SLEEP)
-#define CONFIG_BOARD_EARLY_INIT_F
-#endif
 
 #ifndef CONFIG_SYS_TEXT_BASE
 #define CONFIG_SYS_TEXT_BASE	0xeff40000
@@ -167,9 +160,7 @@ $(SRCTREE)/board/freescale/t104xrdb/t1042d4_sd_rcw.cfg
 #endif
 
 #define CONFIG_SYS_FSL_CPC		/* Corenet Platform Cache */
-#define CONFIG_SYS_NUM_CPC		CONFIG_NUM_DDR_CONTROLLERS
-#define CONFIG_FSL_IFC			/* Enable IFC Support */
-#define CONFIG_FSL_CAAM			/* Enable SEC/CAAM */
+#define CONFIG_SYS_NUM_CPC		CONFIG_SYS_NUM_DDR_CTLRS
 #define CONFIG_PCI_INDIRECT_BRIDGE
 #define CONFIG_PCIE1			/* PCIE controller 1 */
 #define CONFIG_PCIE2			/* PCIE controller 2 */
@@ -181,7 +172,7 @@ $(SRCTREE)/board/freescale/t104xrdb/t1042d4_sd_rcw.cfg
 
 #define CONFIG_ENV_OVERWRITE
 
-#ifndef CONFIG_SYS_NO_FLASH
+#ifdef CONFIG_MTD_NOR_FLASH
 #define CONFIG_FLASH_CFI_DRIVER
 #define CONFIG_SYS_FLASH_CFI
 #define CONFIG_SYS_FLASH_USE_BUFFER_WRITE
@@ -271,14 +262,10 @@ $(SRCTREE)/board/freescale/t104xrdb/t1042d4_sd_rcw.cfg
 #define CONFIG_SYS_DDR_SDRAM_BASE	0x00000000
 #define CONFIG_SYS_SDRAM_BASE		CONFIG_SYS_DDR_SDRAM_BASE
 
-/* CONFIG_NUM_DDR_CONTROLLERS is defined in include/asm/config_mpc85xx.h */
 #define CONFIG_DIMM_SLOTS_PER_CTLR	1
 #define CONFIG_CHIP_SELECTS_PER_CTRL	(2 * CONFIG_DIMM_SLOTS_PER_CTLR)
 
 #define CONFIG_DDR_SPD
-#ifndef CONFIG_SYS_FSL_DDR4
-#define CONFIG_SYS_FSL_DDR3
-#endif
 
 #define CONFIG_SYS_SPD_BUS_NUM	0
 #define SPD_EEPROM_ADDRESS	0x51
@@ -518,7 +505,6 @@ $(SRCTREE)/board/freescale/t104xrdb/t1042d4_sd_rcw.cfg
 #ifdef CONFIG_FSL_DIU_FB
 #define CONFIG_FSL_DIU_CH7301
 #define CONFIG_SYS_DIU_ADDR	(CONFIG_SYS_CCSRBAR + 0x180000)
-#define CONFIG_CMD_BMP
 #define CONFIG_VIDEO_LOGO
 #define CONFIG_VIDEO_BMP_LOGO
 #endif
@@ -628,7 +614,6 @@ $(SRCTREE)/board/freescale/t104xrdb/t1042d4_sd_rcw.cfg
 #endif
 
 #define CONFIG_PCI_SCAN_SHOW		/* show pci devices on startup */
-#define CONFIG_DOS_PARTITION
 #endif	/* CONFIG_PCI */
 
 /* SATA */
@@ -644,7 +629,6 @@ $(SRCTREE)/board/freescale/t104xrdb/t1042d4_sd_rcw.cfg
 
 #define CONFIG_LBA48
 #define CONFIG_CMD_SATA
-#define CONFIG_DOS_PARTITION
 #endif
 
 /*
@@ -653,9 +637,7 @@ $(SRCTREE)/board/freescale/t104xrdb/t1042d4_sd_rcw.cfg
 #define CONFIG_HAS_FSL_DR_USB
 
 #ifdef CONFIG_HAS_FSL_DR_USB
-#define CONFIG_USB_EHCI
-
-#ifdef CONFIG_USB_EHCI
+#ifdef CONFIG_USB_EHCI_HCD
 #define CONFIG_USB_EHCI_FSL
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
 #endif
@@ -664,8 +646,6 @@ $(SRCTREE)/board/freescale/t104xrdb/t1042d4_sd_rcw.cfg
 #ifdef CONFIG_MMC
 #define CONFIG_FSL_ESDHC
 #define CONFIG_SYS_FSL_ESDHC_ADDR       CONFIG_SYS_MPC85xx_ESDHC_ADDR
-#define CONFIG_GENERIC_MMC
-#define CONFIG_DOS_PARTITION
 #endif
 
 /* Qman/Bman */
@@ -768,7 +748,6 @@ $(SRCTREE)/board/freescale/t104xrdb/t1042d4_sd_rcw.cfg
 /* Enable VSC9953 L2 Switch driver on T1040 SoC */
 #if defined(CONFIG_TARGET_T1040RDB) || defined(CONFIG_TARGET_T1040D4RDB)
 #define CONFIG_VSC9953
-#define CONFIG_CMD_ETHSW
 #ifdef CONFIG_TARGET_T1040RDB
 #define CONFIG_SYS_FM1_QSGMII11_PHY_ADDR	0x04
 #define CONFIG_SYS_FM1_QSGMII21_PHY_ADDR	0x08
@@ -792,21 +771,10 @@ $(SRCTREE)/board/freescale/t104xrdb/t1042d4_sd_rcw.cfg
 /*
  * Command line configuration.
  */
-#ifdef CONFIG_TARGET_T1042RDB_PI
-#define CONFIG_CMD_DATE
-#endif
-#define CONFIG_CMD_ERRATA
-#define CONFIG_CMD_IRQ
 #define CONFIG_CMD_REGINFO
 
 #ifdef CONFIG_PCI
 #define CONFIG_CMD_PCI
-#endif
-
-/* Hash command with SHA acceleration supported in hardware */
-#ifdef CONFIG_FSL_CAAM
-#define CONFIG_CMD_HASH
-#define CONFIG_SHA_HW_ACCEL
 #endif
 
 /*
@@ -840,7 +808,7 @@ $(SRCTREE)/board/freescale/t104xrdb/t1042d4_sd_rcw.cfg
 /*
  * Dynamic MTD Partition support with mtdparts
  */
-#ifndef CONFIG_SYS_NO_FLASH
+#ifdef CONFIG_MTD_NOR_FLASH
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
 #define CONFIG_CMD_MTDPARTS
@@ -863,9 +831,6 @@ $(SRCTREE)/board/freescale/t104xrdb/t1042d4_sd_rcw.cfg
 
 /* default location for tftp and bootm */
 #define CONFIG_LOADADDR		1000000
-
-
-#define CONFIG_BAUDRATE	115200
 
 #define __USB_PHY_TYPE	utmi
 #define RAMDISKFILE	"t104xrdb/ramdisk.uboot"

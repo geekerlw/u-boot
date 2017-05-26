@@ -10,11 +10,18 @@
 #include <dm/device.h>
 #include <dm/lists.h>
 #include <dm/root.h>
+#include <dm/util.h>
 #include "pmc.h"
 
 DECLARE_GLOBAL_DATA_PTR;
 
 static const struct udevice_id at91_pmc_match[] = {
+	{ .compatible = "atmel,at91rm9200-pmc" },
+	{ .compatible = "atmel,at91sam9260-pmc" },
+	{ .compatible = "atmel,at91sam9g45-pmc" },
+	{ .compatible = "atmel,at91sam9n12-pmc" },
+	{ .compatible = "atmel,at91sam9x5-pmc" },
+	{ .compatible = "atmel,sama5d3-pmc" },
 	{ .compatible = "atmel,sama5d2-pmc" },
 	{}
 };
@@ -47,7 +54,7 @@ int at91_pmc_core_probe(struct udevice *dev)
 int at91_clk_sub_device_bind(struct udevice *dev, const char *drv_name)
 {
 	const void *fdt = gd->fdt_blob;
-	int offset = dev->of_offset;
+	int offset = dev_of_offset(dev);
 	bool pre_reloc_only = !(gd->flags & GD_FLG_RELOC);
 	const char *name;
 	int ret;
@@ -56,7 +63,7 @@ int at91_clk_sub_device_bind(struct udevice *dev, const char *drv_name)
 	     offset > 0;
 	     offset = fdt_next_subnode(fdt, offset)) {
 		if (pre_reloc_only &&
-		    !fdt_getprop(fdt, offset, "u-boot,dm-pre-reloc", NULL))
+		    !dm_fdt_pre_reloc(fdt, offset))
 			continue;
 		/*
 		 * If this node has "compatible" property, this is not
@@ -90,7 +97,8 @@ int at91_clk_of_xlate(struct clk *clk, struct fdtdec_phandle_args *args)
 		return -EINVAL;
 	}
 
-	periph = fdtdec_get_uint(gd->fdt_blob, clk->dev->of_offset, "reg", -1);
+	periph = fdtdec_get_uint(gd->fdt_blob, dev_of_offset(clk->dev), "reg",
+				 -1);
 	if (periph < 0)
 		return -EINVAL;
 

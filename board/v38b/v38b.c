@@ -13,6 +13,7 @@
 #include <net.h>
 #include <asm/processor.h>
 
+DECLARE_GLOBAL_DATA_PTR;
 
 #ifndef CONFIG_SYS_RAMBOOT
 static void sdram_start(int hi_addr)
@@ -56,7 +57,7 @@ static void sdram_start(int hi_addr)
 #endif /* !CONFIG_SYS_RAMBOOT */
 
 
-phys_size_t initdram(int board_type)
+int dram_init(void)
 {
 	ulong dramsize = 0;
 	ulong dramsize2 = 0;
@@ -166,7 +167,9 @@ phys_size_t initdram(int board_type)
 		__asm__ volatile ("sync");
 	}
 
-	return dramsize + dramsize2;
+	gd->ram_size = dramsize + dramsize2;
+
+	return 0;
 }
 
 
@@ -221,7 +224,7 @@ int misc_init_r(void)
 	return 0;
 }
 
-#if defined(CONFIG_CMD_IDE) && defined(CONFIG_IDE_RESET)
+#if defined(CONFIG_IDE) && defined(CONFIG_IDE_RESET)
 void init_ide_reset(void)
 {
 	debug("init_ide_reset\n");

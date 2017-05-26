@@ -17,9 +17,6 @@
 /* Size of malloc() pool */
 #define CONFIG_SYS_MALLOC_LEN		(16 << 20)
 
-#define CONFIG_BOARD_EARLY_INIT_F
-#define CONFIG_BOARD_LATE_INIT
-
 #define CONFIG_MXC_UART
 #define CONFIG_MXC_UART_BASE		UART1_BASE
 
@@ -58,9 +55,6 @@
 #define CONFIG_SYS_INIT_SP_ADDR \
 	(CONFIG_SYS_INIT_RAM_ADDR + CONFIG_SYS_INIT_SP_OFFSET)
 
-/* FLASH and environment organization */
-#define CONFIG_SYS_NO_FLASH
-
 /* Environment is in stored in the eMMC boot partition */
 #define CONFIG_ENV_SIZE			(16 << 10)
 #define CONFIG_ENV_IS_IN_MMC
@@ -69,11 +63,7 @@
 #define CONFIG_SYS_MMC_ENV_PART		1	/* boot parition */
 #define CONFIG_MMCROOT			"/dev/mmcblk0p2"  /* USDHC2 */
 
-#define CONFIG_CMD_BMODE
-
 /* USB Configs */
-#define CONFIG_USB_EHCI
-#define CONFIG_USB_EHCI_MX6
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
 #define CONFIG_MXC_USB_PORTSC		(PORT_PTS_UTMI | PORT_PTS_PTW)
 #define CONFIG_MXC_USB_FLAGS		0

@@ -31,7 +31,6 @@
 
 #define CONFIG_CONS_INDEX		3
 #define CONFIG_SYS_NS16550_COM3		UART3_BASE
-#define CONFIG_BAUDRATE			115200
 
 #define CONFIG_MISC_INIT_R
 /* MMC ENV related defines */
@@ -43,8 +42,6 @@
 #define CONFIG_SYS_REDUNDAND_ENVIRONMENT
 
 /* Enhance our eMMC support / experience. */
-#define CONFIG_CMD_GPT
-#define CONFIG_EFI_PARTITION
 #define CONFIG_HSMMC2_8BIT
 #define CONFIG_SUPPORT_EMMC_BOOT
 
@@ -55,8 +52,6 @@
 #define CONFIG_SYS_I2C_TCA642X_ADDR 0x22
 
 /* USB UHH support options */
-#define CONFIG_USB_EHCI
-#define CONFIG_USB_EHCI_OMAP
 #define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS 3
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
 
@@ -70,9 +65,6 @@
 #define CONFIG_USB_ETHER_SMSC95XX
 
 #define CONSOLEDEV		"ttyO2"
-
-/* Max time to hold reset on this board, see doc/README.omap-reset-time */
-#define CONFIG_OMAP_PLATFORM_RESET_TIME_MAX_USEC	16296
 
 #define CONFIG_SCSI
 #define CONFIG_LIBATA

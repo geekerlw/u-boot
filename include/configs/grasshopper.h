@@ -62,18 +62,12 @@
 #define CONFIG_USART_BASE		ATMEL_BASE_USART1
 #define CONFIG_USART_ID			1
 
-#define CONFIG_BOARD_EARLY_INIT_F
 #define CONFIG_BOARD_EARLY_INIT_R
 
 /* User serviceable stuff */
 #define CONFIG_CMDLINE_TAG
 #define CONFIG_SETUP_MEMORY_TAGS
 #define CONFIG_INITRD_TAG
-
-#define CONFIG_STACKSIZE		(2048)
-
-#define CONFIG_BAUDRATE			115200
-
 
 /*
  * After booting the board for the first time, new ethernet addresses
@@ -92,7 +86,6 @@
  * Command line configuration.
  */
 /* add useful commands */
-#define CONFIG_CMD_JFFS2
 #define CONFIG_CMD_REGINFO
 
 #define CONFIG_AUTO_COMPLETE

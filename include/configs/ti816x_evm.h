@@ -12,8 +12,6 @@
 
 #define CONFIG_TI81XX
 #define CONFIG_TI816X
-#define CONFIG_SYS_NO_FLASH
-#define CONFIG_OMAP
 
 #define CONFIG_ARCH_CPU_INIT
 
@@ -50,11 +48,7 @@
 
 #define CONFIG_SYS_LOAD_ADDR		0x81000000 /* Default load address */
 
-#define CONFIG_CMD_ASKEN
-#define CONFIG_OMAP_GPIO
-#define CONFIG_GENERIC_MMC
-#define CONFIG_OMAP_HSMMC
-#define CONFIG_DOS_PARTITION
+#define CONFIG_CMD_ASKENV
 
 #define CONFIG_FS_FAT
 
@@ -101,8 +95,6 @@
 #define CONFIG_SYS_NS16550_CLK      (48000000)
 #define CONFIG_SYS_NS16550_COM1     0x48024000  /* Base EVM has UART2 */
 
-#define CONFIG_BAUDRATE     115200
-
 /* allow overwriting serial config and ethaddr */
 #define CONFIG_ENV_OVERWRITE
 
@@ -130,8 +122,6 @@
 #define CONFIG_SYS_SPI_U_BOOT_SIZE  0x40000
 #define CONFIG_SPL_LDSCRIPT     "arch/arm/mach-omap2/u-boot-spl.lds"
 
-#define CONFIG_SPL_BOARD_INIT
-
 #define CONFIG_SYS_TEXT_BASE        0x80800000
 #define CONFIG_SYS_SPL_MALLOC_START 0x80208000
 #define CONFIG_SYS_SPL_MALLOC_SIZE  0x100000
@@ -142,8 +132,5 @@
 #ifndef CONFIG_SPL_BUILD
 #define CONFIG_SKIP_LOWLEVEL_INIT
 #endif
-
-/* Unsupported features */
-#undef CONFIG_USE_IRQ
 
 #endif

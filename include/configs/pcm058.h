@@ -29,8 +29,6 @@
 #define PHYS_SDRAM_SIZE		(1u * 1024 * 1024 * 1024)
 
 /* Early setup */
-#define CONFIG_BOARD_EARLY_INIT_F
-#define CONFIG_BOARD_LATE_INIT
 #define CONFIG_DISPLAY_BOARDINFO_LATE
 
 
@@ -88,10 +86,6 @@
 #define MTDPARTS_DEFAULT  "mtdparts=nand:16m(uboot),1m(env),-(rootfs)"
 
 /* Various command support */
-#define CONFIG_CMD_BMODE         /* set eFUSE shadow for a boot dev and reset */
-#define CONFIG_CMD_HDMIDETECT    /* detect HDMI output device */
-#define CONFIG_CMD_GSC
-#define CONFIG_CMD_EECONFIG      /* Gateworks EEPROM config cmd */
 #define CONFIG_RBTREE
 
 /* Physical Memory Map */

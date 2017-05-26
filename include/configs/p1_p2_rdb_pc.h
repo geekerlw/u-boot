@@ -258,13 +258,8 @@
 #endif
 #endif
 
-/* High Level Configuration Options */
-#define CONFIG_BOOKE
-#define CONFIG_E500
-
 #define CONFIG_MP
 
-#define CONFIG_FSL_ELBC
 #define CONFIG_PCIE1	/* PCIE controller 1 (slot 1) */
 #define CONFIG_PCIE2	/* PCIE controller 2 (slot 2) */
 #define CONFIG_FSL_PCI_INIT	/* Use common FSL init code */
@@ -295,8 +290,6 @@
 #define CONFIG_L2_CACHE
 #define CONFIG_BTB
 
-#define CONFIG_BOARD_EARLY_INIT_F	/* Call board_pre_init */
-
 #define CONFIG_ENABLE_36BIT_PHYS
 
 #ifdef CONFIG_PHYS_64BIT
@@ -318,7 +311,6 @@
 #endif
 
 /* DDR Setup */
-#define CONFIG_SYS_FSL_DDR3
 #define CONFIG_SYS_DDR_RAW_TIMING
 #define CONFIG_DDR_SPD
 #define CONFIG_SYS_SPD_BUS_NUM 1
@@ -336,7 +328,6 @@
 #define CONFIG_SYS_DDR_SDRAM_BASE	0x00000000
 #define CONFIG_SYS_SDRAM_BASE		CONFIG_SYS_DDR_SDRAM_BASE
 
-#define CONFIG_NUM_DDR_CONTROLLERS	1
 #define CONFIG_DIMM_SLOTS_PER_CTLR	1
 
 /* Default settings for DDR3 */
@@ -640,7 +631,6 @@
 #define CONFIG_SYS_I2C_PCA9557_ADDR	0x18
 
 /* enable read and write access to EEPROM */
-#define CONFIG_CMD_EEPROM
 #define CONFIG_SYS_I2C_EEPROM_ADDR_LEN 1
 #define CONFIG_SYS_EEPROM_PAGE_WRITE_BITS 3
 #define CONFIG_SYS_EEPROM_PAGE_WRITE_DELAY_MS 5
@@ -704,7 +694,6 @@
 #define CONFIG_CMD_PCI
 
 #define CONFIG_PCI_SCAN_SHOW	/* show pci devices on startup */
-#define CONFIG_DOS_PARTITION
 #endif /* CONFIG_PCI */
 
 #if defined(CONFIG_TSEC_ENET)
@@ -824,8 +813,6 @@
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_IRQ
-#define CONFIG_CMD_DATE
 #define CONFIG_CMD_REGINFO
 
 /*
@@ -834,9 +821,7 @@
 #define CONFIG_HAS_FSL_DR_USB
 
 #if defined(CONFIG_HAS_FSL_DR_USB)
-#define CONFIG_USB_EHCI
-
-#ifdef CONFIG_USB_EHCI
+#ifdef CONFIG_USB_EHCI_HCD
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
 #define CONFIG_USB_EHCI_FSL
 #endif
@@ -849,12 +834,6 @@
 #ifdef CONFIG_MMC
 #define CONFIG_FSL_ESDHC
 #define CONFIG_SYS_FSL_ESDHC_ADDR	CONFIG_SYS_MPC85xx_ESDHC_ADDR
-#define CONFIG_GENERIC_MMC
-#endif
-
-#if defined(CONFIG_MMC) || defined(CONFIG_USB_EHCI) \
-		 || defined(CONFIG_FSL_SATA)
-#define CONFIG_DOS_PARTITION
 #endif
 
 #undef CONFIG_WATCHDOG	/* watchdog disabled */
@@ -899,8 +878,6 @@
 #define CONFIG_LOADADDR	1000000
 
 #define CONFIG_BOOTARGS	/* the boot command will set bootargs */
-
-#define CONFIG_BAUDRATE	115200
 
 #ifdef __SW_BOOT_NOR
 #define __NOR_RST_CMD	\

@@ -24,13 +24,8 @@
 #define CONFIG_SYS_MALLOC_LEN		(CONFIG_ENV_SIZE + 128 * 1024)
 
 /*Cmd*/
-#define CONFIG_CMD_DIAG
-#define CONFIG_CMD_IRQ
 #define CONFIG_CMD_REGINFO
-#undef CONFIG_CMD_JFFS2
 #undef CONFIG_CMD_MTDPARTS
-#undef CONFIG_CMD_DTT
-#undef CONFIG_CMD_EEPROM
 
 /*Misc*/
 #define CONFIG_SYS_LONGHELP		/* undef to save memory         */
@@ -79,16 +74,13 @@
 #define	CONFIG_SYS_FLASH_EMPTY_INFO	1
 #define	CONFIG_SYS_MAX_FLASH_BANKS	1
 #define	CONFIG_SYS_FLASH_PROTECTION
-#define CONFIG_CMD_JFFS2
 #define CONFIG_CMD_MTDPARTS
 #define CONFIG_MTD_DEVICE		/* needed for mtdparts commands */
 #define CONFIG_FLASH_CFI_MTD
 #else
 #define CONFIG_ENV_IS_NOWHERE
-#define CONFIG_SYS_NO_FLASH
 #endif
 
-#define CONFIG_BAUDRATE			115200
 /* The following table includes the supported baudrates */
 # define CONFIG_SYS_BAUDRATE_TABLE \
 	{300, 600, 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200, 230400}

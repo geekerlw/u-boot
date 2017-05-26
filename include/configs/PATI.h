@@ -25,8 +25,6 @@
 #define	CONFIG_5xx_CONS_SCI1
 #undef	CONFIG_5xx_CONS_SCI2
 
-#define CONFIG_BAUDRATE		9600
-
 /*
  * BOOTP options
  */
@@ -40,17 +38,12 @@
  */
 #define CONFIG_CMD_REGINFO
 #define CONFIG_CMD_REGINFO
-#define CONFIG_CMD_BSP
-#define CONFIG_CMD_EEPROM
-#define CONFIG_CMD_IRQ
 
 #define CONFIG_BOOTCOMMAND	""	/* autoboot command			*/
 
 #define CONFIG_BOOTARGS		""		/* */
 
 #define CONFIG_WATCHDOG				/* turn on platform specific watchdog	*/
-
-/*#define CONFIG_STATUS_LED	1		*/ /* Enable status led */
 
 #define CONFIG_LOADS_ECHO	1		/* Echo on for serial download */
 
@@ -75,8 +68,6 @@
 #define	CONFIG_SYS_LOAD_ADDR		0x100000	/* default load address		*/
 
 #define CONFIG_SYS_BAUDRATE_TABLE	{ 9600, 19200, 38400, 57600, 115200, 1250000 }
-
-#define CONFIG_BOARD_EARLY_INIT_F
 
 /***********************************************************************
  * Last Stage Init

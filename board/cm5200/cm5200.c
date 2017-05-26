@@ -97,14 +97,14 @@ static mem_conf_t* get_mem_config(int board_type)
 /*
  * Initalize SDRAM - configure SDRAM controller, detect memory size.
  */
-phys_size_t initdram(int board_type)
+int dram_init(void)
 {
 	ulong dramsize = 0;
 #ifndef CONFIG_SYS_RAMBOOT
 	ulong test1, test2;
 	mem_conf_t *mem_conf;
 
-	mem_conf = get_mem_config(board_type);
+	mem_conf = get_mem_config(gd->board_type);
 
 	/* configure SDRAM start/end for detection */
 	*(vu_long *)MPC5XXX_SDRAM_CS0CFG = 0x0000001e; /* 2G at 0x0 */
@@ -150,7 +150,9 @@ phys_size_t initdram(int board_type)
 	*(vu_long *)MPC5XXX_SDRAM_SDELAY = 0x04;
 	__asm__ volatile ("sync");
 
-	return dramsize;
+	gd->ram_size = dramsize;
+
+	return 0;
 }
 
 
@@ -159,14 +161,7 @@ phys_size_t initdram(int board_type)
  */
 static void read_hw_id(hw_id_t hw_id)
 {
-	int i;
-	for (i = 0; i < HW_ID_ELEM_COUNT; ++i)
-		if (i2c_read(CONFIG_SYS_I2C_EEPROM,
-				hw_id_format[i].offset,
-				2,
-				(uchar *)&hw_id[i][0],
-				hw_id_format[i].length) != 0)
-			printf("ERROR: can't read HW ID from EEPROM\n");
+	printf("ERROR: can't read HW ID from EEPROM\n");
 }
 
 
@@ -219,7 +214,7 @@ static void compose_module_name(hw_id_t hw_id, char *buf)
 	strcat(buf, tmp);
 }
 
-
+#if defined(CONFIG_SYS_I2C_SOFT)
 /*
  * Compose string with hostname.
  * buf is assumed to have enough space, and be null-terminated.
@@ -235,7 +230,7 @@ static void compose_hostname(hw_id_t hw_id, char *buf)
 		*p = tolower(*p);
 
 }
-
+#endif
 
 #ifdef CONFIG_OF_BOARD_SETUP
 /*
@@ -267,15 +262,6 @@ int checkboard(void)
 {
 	hw_id_t hw_id_tmp;
 	char module_name_tmp[MODULE_NAME_MAXLEN] = "";
-
-	/*
-	 * We need I2C to access HW ID data from EEPROM, so we call i2c_init()
-	 * here despite the fact that it will be called again later on. We
-	 * also use a little trick to silence I2C-related output.
-	 */
-	gd->flags |= GD_FLG_SILENT;
-	i2c_init (CONFIG_SYS_I2C_SPEED, CONFIG_SYS_I2C_SLAVE);
-	gd->flags &= ~GD_FLG_SILENT;
 
 	read_hw_id(hw_id_tmp);
 	identify_module(hw_id_tmp);	/* this sets gd->board_type */
@@ -309,7 +295,7 @@ int board_early_init_r(void)
 #ifdef CONFIG_MISC_INIT_R
 int misc_init_r(void)
 {
-#if defined(CONFIG_HARD_I2C) || defined(CONFIG_SYS_I2C_SOFT)
+#if defined(CONFIG_SYS_I2C_SOFT)
 	uchar buf[6];
 	char str[18];
 	char hostname[MODULE_NAME_MAXLEN];
@@ -332,15 +318,15 @@ int misc_init_r(void)
 			" device at address %02X:%04X\n", CONFIG_SYS_I2C_EEPROM,
 			CONFIG_MAC_OFFSET);
 	}
-#endif /* defined(CONFIG_HARD_I2C) || defined(CONFIG_SYS_I2C_SOFT) */
+	hostname[0] = 0x00;
+	/* set the hostname appropriate to the module we're running on */
+	compose_hostname(hw_id, hostname);
+	setenv("hostname", hostname);
+
+#endif /* defined(CONFIG_SYS_I2C_SOFT) */
 	if (!getenv("ethaddr"))
 		printf(LOG_PREFIX "MAC address not set, networking is not "
 					"operational\n");
-
-	/* set the hostname appropriate to the module we're running on */
-	hostname[0] = 0x00;
-	compose_hostname(hw_id, hostname);
-	setenv("hostname", hostname);
 
 	return 0;
 }

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier:	GPL-2.0+
  */
 #include <common.h>
+#include <clk.h>
 #include <dm.h>
 
 /*
@@ -110,8 +111,14 @@ struct macb_device {
 #endif
 	unsigned short		phy_addr;
 	struct mii_dev		*bus;
+#ifdef CONFIG_PHYLIB
+	struct phy_device	*phydev;
+#endif
 
 #ifdef CONFIG_DM_ETH
+#ifdef CONFIG_CLK
+	unsigned long		pclk_rate;
+#endif
 	phy_interface_t		phy_interface;
 #endif
 };
@@ -475,9 +482,6 @@ static int macb_phy_init(struct macb_device *macb, const char *name)
 #ifdef CONFIG_DM_ETH
 	struct macb_device *macb = dev_get_priv(dev);
 #endif
-#ifdef CONFIG_PHYLIB
-	struct phy_device *phydev;
-#endif
 	u32 ncfgr;
 	u16 phy_id, status, adv, lpa;
 	int media, speed, duplex;
@@ -499,19 +503,19 @@ static int macb_phy_init(struct macb_device *macb, const char *name)
 
 #ifdef CONFIG_PHYLIB
 #ifdef CONFIG_DM_ETH
-	phydev = phy_connect(macb->bus, macb->phy_addr, dev,
+	macb->phydev = phy_connect(macb->bus, macb->phy_addr, dev,
 			     macb->phy_interface);
 #else
 	/* need to consider other phy interface mode */
-	phydev = phy_connect(macb->bus, macb->phy_addr, &macb->netdev,
+	macb->phydev = phy_connect(macb->bus, macb->phy_addr, &macb->netdev,
 			     PHY_INTERFACE_MODE_RGMII);
 #endif
-	if (!phydev) {
+	if (!macb->phydev) {
 		printf("phy_connect failed\n");
 		return -ENODEV;
 	}
 
-	phy_config(phydev);
+	phy_config(macb->phydev);
 #endif
 
 	status = macb_mdio_read(macb, MII_BMSR);
@@ -754,7 +758,11 @@ static int _macb_write_hwaddr(struct macb_device *macb, unsigned char *enetaddr)
 static u32 macb_mdc_clk_div(int id, struct macb_device *macb)
 {
 	u32 config;
+#if defined(CONFIG_DM_ETH) && defined(CONFIG_CLK)
+	unsigned long macb_hz = macb->pclk_rate;
+#else
 	unsigned long macb_hz = get_macb_pclk_rate(id);
+#endif
 
 	if (macb_hz < 20000000)
 		config = MACB_BF(CLK, MACB_CLK_DIV8);
@@ -771,7 +779,12 @@ static u32 macb_mdc_clk_div(int id, struct macb_device *macb)
 static u32 gem_mdc_clk_div(int id, struct macb_device *macb)
 {
 	u32 config;
+
+#if defined(CONFIG_DM_ETH) && defined(CONFIG_CLK)
+	unsigned long macb_hz = macb->pclk_rate;
+#else
 	unsigned long macb_hz = get_macb_pclk_rate(id);
+#endif
 
 	if (macb_hz < 20000000)
 		config = GEM_BF(CLK, GEM_CLK_DIV8);
@@ -991,40 +1004,84 @@ static const struct eth_ops macb_eth_ops = {
 	.write_hwaddr	= macb_write_hwaddr,
 };
 
+#ifdef CONFIG_CLK
+static int macb_enable_clk(struct udevice *dev)
+{
+	struct macb_device *macb = dev_get_priv(dev);
+	struct clk clk;
+	ulong clk_rate;
+	int ret;
+
+	ret = clk_get_by_index(dev, 0, &clk);
+	if (ret)
+		return -EINVAL;
+
+	ret = clk_enable(&clk);
+	if (ret)
+		return ret;
+
+	clk_rate = clk_get_rate(&clk);
+	if (!clk_rate)
+		return -EINVAL;
+
+	macb->pclk_rate = clk_rate;
+
+	return 0;
+}
+#endif
+
 static int macb_eth_probe(struct udevice *dev)
 {
 	struct eth_pdata *pdata = dev_get_platdata(dev);
 	struct macb_device *macb = dev_get_priv(dev);
-
-#ifdef CONFIG_DM_ETH
 	const char *phy_mode;
+	__maybe_unused int ret;
 
-	phy_mode = fdt_getprop(gd->fdt_blob, dev->of_offset, "phy-mode", NULL);
+	phy_mode = fdt_getprop(gd->fdt_blob, dev_of_offset(dev), "phy-mode",
+			       NULL);
 	if (phy_mode)
 		macb->phy_interface = phy_get_interface_by_name(phy_mode);
 	if (macb->phy_interface == -1) {
 		debug("%s: Invalid PHY interface '%s'\n", __func__, phy_mode);
 		return -EINVAL;
 	}
-#endif
 
 	macb->regs = (void *)pdata->iobase;
 
-	_macb_eth_initialize(macb);
-#if defined(CONFIG_CMD_MII) || defined(CONFIG_PHYLIB)
-	int retval;
-	struct mii_dev *mdiodev = mdio_alloc();
-	if (!mdiodev)
-		return -ENOMEM;
-	strncpy(mdiodev->name, dev->name, MDIO_NAME_LEN);
-	mdiodev->read = macb_miiphy_read;
-	mdiodev->write = macb_miiphy_write;
+#ifdef CONFIG_CLK
+	ret = macb_enable_clk(dev);
+	if (ret)
+		return ret;
+#endif
 
-	retval = mdio_register(mdiodev);
-	if (retval < 0)
-		return retval;
+	_macb_eth_initialize(macb);
+
+#if defined(CONFIG_CMD_MII) || defined(CONFIG_PHYLIB)
+	macb->bus = mdio_alloc();
+	if (!macb->bus)
+		return -ENOMEM;
+	strncpy(macb->bus->name, dev->name, MDIO_NAME_LEN);
+	macb->bus->read = macb_miiphy_read;
+	macb->bus->write = macb_miiphy_write;
+
+	ret = mdio_register(macb->bus);
+	if (ret < 0)
+		return ret;
 	macb->bus = miiphy_get_dev_by_name(dev->name);
 #endif
+
+	return 0;
+}
+
+static int macb_eth_remove(struct udevice *dev)
+{
+	struct macb_device *macb = dev_get_priv(dev);
+
+#ifdef CONFIG_PHYLIB
+	free(macb->phydev);
+#endif
+	mdio_unregister(macb->bus);
+	mdio_free(macb->bus);
 
 	return 0;
 }
@@ -1039,6 +1096,10 @@ static int macb_eth_ofdata_to_platdata(struct udevice *dev)
 
 static const struct udevice_id macb_eth_ids[] = {
 	{ .compatible = "cdns,macb" },
+	{ .compatible = "cdns,at91sam9260-macb" },
+	{ .compatible = "atmel,sama5d2-gem" },
+	{ .compatible = "atmel,sama5d3-gem" },
+	{ .compatible = "atmel,sama5d4-gem" },
 	{ }
 };
 
@@ -1048,6 +1109,7 @@ U_BOOT_DRIVER(eth_macb) = {
 	.of_match = macb_eth_ids,
 	.ofdata_to_platdata = macb_eth_ofdata_to_platdata,
 	.probe	= macb_eth_probe,
+	.remove	= macb_eth_remove,
 	.ops	= &macb_eth_ops,
 	.priv_auto_alloc_size = sizeof(struct macb_device),
 	.platdata_auto_alloc_size = sizeof(struct eth_pdata),

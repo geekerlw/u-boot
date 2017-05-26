@@ -26,8 +26,6 @@
 /* Size of malloc() pool */
 #define CONFIG_SYS_MALLOC_LEN		(10 * 1024 * 1024)
 
-#define CONFIG_BOARD_EARLY_INIT_F
-#define CONFIG_BOARD_LATE_INIT
 #define CONFIG_MISC_INIT_R
 
 #define CONFIG_MXC_UART
@@ -44,9 +42,6 @@
 #define CONFIG_SF_DEFAULT_BUS		0
 #define CONFIG_SF_DEFAULT_SPEED		20000000
 #define CONFIG_SF_DEFAULT_MODE		(SPI_MODE_0)
-
-/* Miscellaneous commands */
-#define CONFIG_CMD_BMODE
 
 /* Thermal support */
 #define CONFIG_IMX_THERMAL
@@ -66,8 +61,6 @@
 #define CONFIG_POWER_PFUZE100_I2C_ADDR	0x08
 
 /* USB Configs */
-#define CONFIG_USB_EHCI
-#define CONFIG_USB_EHCI_MX6
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
 #define CONFIG_USB_HOST_ETHER
 #define CONFIG_USB_ETHER_ASIX

@@ -36,7 +36,6 @@
 /* video */
 #ifdef CONFIG_FSL_DIU_FB
 #define CONFIG_SYS_DIU_ADDR	(CONFIG_SYS_IMMR + 0x2100)
-#define CONFIG_CMD_BMP
 #define CONFIG_VIDEO_LOGO
 #define CONFIG_VIDEO_BMP_LOGO
 #endif
@@ -49,7 +48,6 @@
 #define CONFIG_SYS_MPC512X_CLKIN	33333333	/* in Hz */
 #endif
 
-#define CONFIG_BOARD_EARLY_INIT_F		/* call board_early_init_f() */
 #define CONFIG_MISC_INIT_R
 
 #define CONFIG_SYS_IMMR		0x80000000
@@ -275,7 +273,6 @@
 #if CONFIG_PSC_CONSOLE != 3
 #error CONFIG_PSC_CONSOLE must be 3
 #endif
-#define CONFIG_BAUDRATE		115200	/* ... at 115200 bps */
 #define CONFIG_SYS_BAUDRATE_TABLE  \
 	{300, 600, 1200, 2400, 4800, 9600, 19200, 38400,115200}
 
@@ -330,27 +327,10 @@
 
 #endif
 
-/* I2C */
-#define CONFIG_HARD_I2C			/* I2C with hardware support */
-#define CONFIG_I2C_MULTI_BUS
-#define CONFIG_SYS_I2C_SPEED		100000	/* I2C speed and slave address */
-#define CONFIG_SYS_I2C_SLAVE		0x7F
-#if 0
-#define CONFIG_SYS_I2C_NOPROBES	{{0,0x69}}	/* Don't probe these addrs */
-#endif
-
 /*
  * IIM - IC Identification Module
  */
 #undef CONFIG_FSL_IIM
-
-/*
- * EEPROM configuration
- */
-#define CONFIG_SYS_I2C_EEPROM_ADDR_LEN		2	/* 16-bit EEPROM address */
-#define CONFIG_SYS_I2C_EEPROM_ADDR		0x50	/* Atmel: AT24C32A-10TQ-2.7 */
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_DELAY_MS	10	/* 10ms of delay */
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_BITS	5	/* 32-Byte Page Write Mode */
 
 /*
  * Ethernet configuration
@@ -372,7 +352,6 @@
  */
 
 #if defined(CONFIG_CMD_USB)
-#define CONFIG_USB_EHCI				/* Enable EHCI Support	*/
 #define CONFIG_USB_EHCI_FSL			/* On a FSL platform	*/
 #define CONFIG_EHCI_MMIO_BIG_ENDIAN		/* With big-endian regs	*/
 #define CONFIG_EHCI_DESC_BIG_ENDIAN
@@ -399,13 +378,7 @@
 #define CONFIG_LOADS_ECHO	1	/* echo on for serial download */
 #define CONFIG_SYS_LOADS_BAUD_CHANGE	1	/* allow baudrate change */
 
-#define CONFIG_CMD_DATE
-#define CONFIG_CMD_EEPROM
-#define CONFIG_CMD_IDE
-#define CONFIG_CMD_JFFS2
 #define CONFIG_CMD_REGINFO
-
-#undef CONFIG_CMD_FUSE
 
 #if defined(CONFIG_PCI)
 #define CONFIG_CMD_PCI
@@ -437,15 +410,10 @@
 						"1m(u-boot);"		\
 					"mpc5121.nand:-(data)"
 
-#if defined(CONFIG_CMD_IDE) || defined(CONFIG_CMD_EXT2) || defined(CONFIG_CMD_USB)
-
-#define CONFIG_DOS_PARTITION
-#define CONFIG_MAC_PARTITION
-#define CONFIG_ISO_PARTITION
-
+#if defined(CONFIG_IDE) || defined(CONFIG_CMD_EXT2) || defined(CONFIG_CMD_USB)
 #define CONFIG_SUPPORT_VFAT
 
-#endif /* defined(CONFIG_CMD_IDE) */
+#endif /* defined(CONFIG_IDE) */
 
 /*
  * Watchdog timeout = CONFIG_SYS_WATCHDOG_VALUE * 65536 / IPS clock.
@@ -508,8 +476,6 @@
 #define CONFIG_LOADADDR		400000	/* default location for tftp and bootm */
 
 #undef  CONFIG_BOOTARGS			/* the boot command will set bootargs */
-
-#define CONFIG_BAUDRATE		115200
 
 #define CONFIG_PREBOOT	"echo;"	\
 	"echo Type \\\"run flash_nfs\\\" to mount root filesystem over NFS;" \

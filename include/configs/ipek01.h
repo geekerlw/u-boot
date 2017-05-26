@@ -35,7 +35,6 @@
  * Serial console configuration
  */
 #define CONFIG_PSC_CONSOLE	1	/* console is on PSC1 */
-#define CONFIG_BAUDRATE		115200	/* ... at 9600 bps */
 #define CONFIG_SYS_BAUDRATE_TABLE { 9600, 19200, 38400, 57600, 115200, 230400 }
 
 #define CONFIG_CMDLINE_EDITING	1	/* add command line history */
@@ -77,9 +76,6 @@
 #define CONFIG_EEPRO100		1
 #define CONFIG_SYS_RX_ETH_BUFFER	8  /* use 8 rx buffer on eepro100  */
 
-/* Partitions */
-#define CONFIG_DOS_PARTITION
-
 /* USB */
 #define CONFIG_USB_OHCI_NEW
 #define CONFIG_SYS_OHCI_BE_CONTROLLER
@@ -92,12 +88,6 @@
 /*
  * Command line configuration.
  */
-#ifdef CONFIG_VIDEO
-#define CONFIG_CMD_BMP		/* BMP support */
-#endif
-#define CONFIG_CMD_DATE		/* support for RTC, date/time...*/
-#define CONFIG_CMD_IDE		/* IDE harddisk support */
-#define CONFIG_CMD_IRQ		/* irqinfo */
 #define CONFIG_CMD_PCI		/* pciinfo */
 
 #define CONFIG_SYS_LOWBOOT	1
@@ -157,29 +147,6 @@
 #define OF_CPU			"PowerPC,5200@0"
 #define OF_SOC			"soc5200@f0000000"
 #define OF_TBCLK		(bd->bi_busfreq / 4)
-
-/*
- * I2C configuration
- */
-#define CONFIG_HARD_I2C		1	/* I2C with hardware support */
-#define CONFIG_SYS_I2C_MODULE	2	/* Select I2C module #1 or #2 */
-
-#define CONFIG_SYS_I2C_SPEED	100000	/* 100 kHz */
-#define CONFIG_SYS_I2C_SLAVE	0x7F
-
-/*
- * EEPROM configuration
- */
-#define CONFIG_SYS_I2C_EEPROM_ADDR		0x53
-#define CONFIG_SYS_I2C_EEPROM_ADDR_LEN		2
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_BITS	6
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_DELAY_MS	10
-
-/*
- * RTC configuration
- */
-#define CONFIG_RTC_PCF8563
-#define CONFIG_SYS_I2C_RTC_ADDR		0x51
 
 #define CONFIG_SYS_FLASH_BASE		0xFC000000
 #define CONFIG_SYS_FLASH_SIZE		0x01000000

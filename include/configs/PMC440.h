@@ -35,7 +35,6 @@
 #define CONFIG_4xx_DCACHE		/* enable dcache        */
 #endif
 
-#define CONFIG_BOARD_EARLY_INIT_F 1	/* Call board_early_init_f */
 #define CONFIG_MISC_INIT_F	1
 #define CONFIG_MISC_INIT_R	1	/* Call misc_init_r     */
 #define CONFIG_BOARD_TYPES	1	/* support board types  */
@@ -86,7 +85,6 @@
 #define CONFIG_SYS_NS16550_REG_SIZE	1
 #define CONFIG_SYS_NS16550_CLK		get_serial_clock()
 #undef CONFIG_SYS_EXT_SERIAL_CLOCK
-#define CONFIG_BAUDRATE		115200
 
 #define CONFIG_SYS_BAUDRATE_TABLE						\
 	{300, 600, 1200, 2400, 4800, 9600, 19200, 38400, 57600, 115200}
@@ -165,26 +163,6 @@
 #define CONFIG_SYS_EEPROM_WREN			1
 #define CONFIG_SYS_I2C_BOOT_EEPROM_ADDR	0x52
 
-/*
- * standard dtt sensor configuration - bottom bit will determine local or
- * remote sensor of the TMP401
- */
-#define CONFIG_DTT_SENSORS		{ 0, 1 }
-
-/*
- * The PMC440 uses a TI TMP401 temperature sensor. This part
- * is basically compatible to the ADM1021 that is supported
- * by U-Boot.
- *
- * - i2c addr 0x4c
- * - conversion rate 0x02 = 0.25 conversions/second
- * - ALERT ouput disabled
- * - local temp sensor enabled, min set to 0 deg, max set to 70 deg
- * - remote temp sensor enabled, min set to 0 deg, max set to 70 deg
- */
-#define CONFIG_DTT_ADM1021
-#define CONFIG_SYS_DTT_ADM1021		{ { 0x4c, 0x02, 0, 1, 70, 0, 1, 70, 0} }
-
 #define CONFIG_PREBOOT		"echo Add \\\"run fpga\\\" and "	\
 				"\\\"painit\\\" to preboot command"
 
@@ -259,14 +237,7 @@
 #define USB_2_0_DEVICE
 
 /* Partitions */
-#define CONFIG_MAC_PARTITION
-#define CONFIG_DOS_PARTITION
-#define CONFIG_ISO_PARTITION
 
-#define CONFIG_CMD_BSP
-#define CONFIG_CMD_DATE
-#define CONFIG_CMD_DTT
-#define CONFIG_CMD_EEPROM
 #define CONFIG_CMD_NAND
 #define CONFIG_CMD_PCI
 #define CONFIG_CMD_REGINFO
@@ -388,7 +359,5 @@
 #if defined(CONFIG_CMD_KGDB)
 #define CONFIG_KGDB_BAUDRATE	230400	/* speed to run kgdb serial port */
 #endif
-
-#define CONFIG_API		1
 
 #endif /* __CONFIG_H */

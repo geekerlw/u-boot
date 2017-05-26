@@ -23,7 +23,6 @@
 /*
  * Commands configuration
  */
-#define CONFIG_CMD_ENV
 #define CONFIG_CMD_SATA
 
 /*
@@ -46,8 +45,6 @@
 /* USB/EHCI configuration */
 #define CONFIG_EHCI_IS_TDI
 #define CONFIG_USB_MAX_CONTROLLER_COUNT 3
-
-#define CONFIG_SYS_NO_FLASH		/* Declare no flash (NOR/SPI) */
 
 /* SPI NOR flash default params, used by sf commands */
 #define CONFIG_SF_DEFAULT_SPEED		27777777 /* for fast SPL booting */
@@ -76,8 +73,6 @@
 #define CONFIG_SATA_MV
 #define CONFIG_LIBATA
 #define CONFIG_LBA48
-#define CONFIG_EFI_PARTITION
-#define CONFIG_DOS_PARTITION
 
 /* Additional FS support/configuration */
 #define CONFIG_SUPPORT_VFAT
@@ -86,14 +81,11 @@
 #ifdef CONFIG_CMD_PCI
 #ifndef CONFIG_SPL_BUILD
 #define CONFIG_PCI_MVEBU
-#define CONFIG_BOARD_LATE_INIT		/* for PEX switch test */
 #endif
 #endif
 
 /* Enable LCD and reserve 512KB from top of memory*/
 #define CONFIG_SYS_MEM_TOP_HIDE		0x80000
-
-#define CONFIG_CMD_BMP
 
 /* FPGA programming support */
 #define CONFIG_FPGA

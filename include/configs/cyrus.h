@@ -38,9 +38,6 @@
 #endif
 
 /* High Level Configuration Options */
-#define CONFIG_BOOKE
-#define CONFIG_E500			/* BOOKE e500 family */
-#define CONFIG_E500MC			/* BOOKE e500mc family */
 #define CONFIG_SYS_BOOK3E_HV		/* Category E.HV supported */
 #define CONFIG_MP			/* support multiple processors */
 
@@ -51,16 +48,13 @@
 #endif
 
 #define CONFIG_SYS_FSL_CPC		/* Corenet Platform Cache */
-#define CONFIG_SYS_NUM_CPC		CONFIG_NUM_DDR_CONTROLLERS
-#define CONFIG_FSL_ELBC			/* Has Enhanced localbus controller */
+#define CONFIG_SYS_NUM_CPC		CONFIG_SYS_NUM_DDR_CTLRS
 #define CONFIG_PCIE1			/* PCIE controller 1 */
 #define CONFIG_PCIE2			/* PCIE controller 2 */
 #define CONFIG_FSL_PCI_INIT		/* Use common FSL init code */
 #define CONFIG_SYS_PCI_64BIT		/* enable 64-bit PCI resources */
 
 #define CONFIG_ENV_OVERWRITE
-
-#define CONFIG_SYS_NO_FLASH
 
 #if defined(CONFIG_SDCARD)
 #define CONFIG_SYS_EXTRA_ENV_RELOC
@@ -126,7 +120,6 @@
 #define CONFIG_CHIP_SELECTS_PER_CTRL	(4 * CONFIG_DIMM_SLOTS_PER_CTLR)
 
 #define CONFIG_DDR_SPD
-#define CONFIG_SYS_FSL_DDR3
 
 #define CONFIG_SYS_SPD_BUS_NUM	1
 #define SPD_EEPROM_ADDRESS1	0x51
@@ -168,7 +161,6 @@
 #define CONFIG_SYS_RAMBOOT
 #endif
 
-#define CONFIG_BOARD_EARLY_INIT_F
 #define CONFIG_BOARD_EARLY_INIT_R	/* call board_early_init_r function */
 #define CONFIG_MISC_INIT_R
 
@@ -247,7 +239,6 @@
 #define CONFIG_SYS_I2C_MAC2_CHIP_ADDR 0x50
 #define CONFIG_SYS_I2C_MAC2_DATA_ADDR 0xfa
 
-#define CONFIG_CMD_DATE			1
 #define CONFIG_RTC_MCP79411		1
 #define CONFIG_SYS_RTC_BUS_NUM		3
 #define CONFIG_SYS_I2C_RTC_ADDR		0x6f
@@ -385,7 +376,6 @@
 #define CONFIG_NET_MULTI
 
 #define CONFIG_PCI_SCAN_SHOW		/* show pci devices on startup */
-#define CONFIG_DOS_PARTITION
 #endif	/* CONFIG_PCI */
 
 /* SATA */
@@ -403,7 +393,6 @@
 
 #define CONFIG_LBA48
 #define CONFIG_CMD_SATA
-#define CONFIG_DOS_PARTITION
 #endif
 
 #ifdef CONFIG_FMAN_ENET
@@ -422,8 +411,6 @@
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_ERRATA
-#define CONFIG_CMD_IRQ
 #define CONFIG_CMD_REGINFO
 
 #ifdef CONFIG_PCI
@@ -437,7 +424,6 @@
 #define CONFIG_HAS_FSL_MPH_USB
 
 #if defined(CONFIG_HAS_FSL_DR_USB) || defined(CONFIG_HAS_FSL_MPH_USB)
-#define CONFIG_USB_EHCI
 #define CONFIG_USB_EHCI_FSL
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
 #define CONFIG_EHCI_IS_TDI
@@ -449,8 +435,6 @@
 #define CONFIG_FSL_ESDHC
 #define CONFIG_SYS_FSL_ESDHC_ADDR       CONFIG_SYS_MPC85xx_ESDHC_ADDR
 #define CONFIG_SYS_FSL_ESDHC_BROKEN_TIMEOUT
-#define CONFIG_GENERIC_MMC
-#define CONFIG_DOS_PARTITION
 #endif
 
 /*
@@ -490,9 +474,6 @@
 
 /* default location for tftp and bootm */
 #define CONFIG_LOADADDR		1000000
-
-
-#define CONFIG_BAUDRATE	115200
 
 #define __USB_PHY_TYPE	utmi
 

@@ -44,13 +44,9 @@
 #define CONFIG_REVISION_TAG
 #define CONFIG_SYS_MALLOC_LEN		(10 * SZ_1M)
 
-#define CONFIG_BOARD_EARLY_INIT_F
-#define CONFIG_BOARD_LATE_INIT
-
 #define CONFIG_MXC_GPIO
 #define CONFIG_MXC_UART
 
-#define CONFIG_CMD_FUSE
 #define CONFIG_MXC_OCOTP
 
 /* SATA Configs */
@@ -67,14 +63,10 @@
 #define CONFIG_FSL_ESDHC
 #define CONFIG_FSL_USDHC
 #define CONFIG_SYS_FSL_ESDHC_ADDR      0
-#define CONFIG_GENERIC_MMC
 #define CONFIG_BOUNCE_BUFFER
-#define CONFIG_DOS_PARTITION
 
 /* USB Configs */
 #ifdef CONFIG_USB
-#define CONFIG_USB_EHCI
-#define CONFIG_USB_EHCI_MX6
 #define CONFIG_USB_MAX_CONTROLLER_COUNT 2
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
 #define CONFIG_MXC_USB_PORTSC	(PORT_PTS_UTMI | PORT_PTS_PTW)
@@ -118,10 +110,6 @@
 /* allow to overwrite serial and ethaddr */
 #define CONFIG_ENV_OVERWRITE
 #define CONFIG_CONS_INDEX	1
-#define CONFIG_BAUDRATE	115200
-
-/* Command definition */
-#define CONFIG_CMD_BMODE
 
 #define CONFIG_LOADADDR	0x12000000
 #define CONFIG_SYS_TEXT_BASE	0x17800000
@@ -266,7 +254,6 @@
 #define CONFIG_SYS_LOAD_ADDR           CONFIG_LOADADDR
 
 #define CONFIG_CMDLINE_EDITING
-#define CONFIG_STACKSIZE               (128 * 1024)
 
 /* Physical Memory Map */
 #define CONFIG_NR_DRAM_BANKS           1
@@ -281,9 +268,7 @@
 #define CONFIG_SYS_INIT_SP_ADDR \
 	(CONFIG_SYS_INIT_RAM_ADDR + CONFIG_SYS_INIT_SP_OFFSET)
 
-/* FLASH and environment organization */
-#define CONFIG_SYS_NO_FLASH
-
+/* environment organization */
 #define CONFIG_ENV_IS_IN_SPI_FLASH
 #define CONFIG_ENV_SIZE		(8 * 1024)
 #define CONFIG_ENV_OFFSET		(768 * 1024)

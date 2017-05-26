@@ -25,7 +25,6 @@
 #define CONFIG_SYS_SPL_MALLOC_START	0x00040000
 #define CONFIG_SYS_SPL_MALLOC_SIZE	0x0001ffff
 #define CONFIG_SPL_LDSCRIPT            "$(CPUDIR)/orion5x/u-boot-spl.lds"
-#define CONFIG_SPL_BOARD_INIT
 #define CONFIG_SYS_UBOOT_BASE		0xfff90000
 #define CONFIG_SYS_UBOOT_START		0x00800000
 #define CONFIG_SYS_TEXT_BASE 		0x00800000
@@ -90,7 +89,6 @@
  */
 
 #define CONFIG_CONS_INDEX	1	/*Console on UART0 */
-#define CONFIG_BAUDRATE			115200
 #define CONFIG_SYS_BAUDRATE_TABLE \
 	{ 9600, 19200, 38400, 57600, 115200, 230400, 460800, 921600 }
 
@@ -121,7 +119,6 @@
 /*
  * Commands configuration
  */
-#define CONFIG_CMD_IDE
 
 /*
  * Network
@@ -142,10 +139,9 @@
 /*
  * IDE
  */
-#ifdef CONFIG_CMD_IDE
+#ifdef CONFIG_IDE
 #define __io
 #define CONFIG_IDE_PREINIT
-#define CONFIG_DOS_PARTITION
 /* ED Mini V has an IDE-compatible SATA connector for port 1 */
 #define CONFIG_MVSATA_IDE
 #define CONFIG_MVSATA_IDE_USE_PORT1
@@ -173,11 +169,7 @@
  * Common USB/EHCI configuration
  */
 #ifdef CONFIG_CMD_USB
-#define CONFIG_USB_EHCI		/* Enable EHCI USB support */
-#define CONFIG_USB_EHCI_MARVELL
 #define ORION5X_USB20_HOST_PORT_BASE ORION5X_USB20_PORT0_BASE
-#define CONFIG_DOS_PARTITION
-#define CONFIG_ISO_PARTITION
 #define CONFIG_SUPPORT_VFAT
 #endif /* CONFIG_CMD_USB */
 
@@ -209,7 +201,6 @@
  * Other required minimal configurations
  */
 #define CONFIG_ARCH_CPU_INIT		/* call arch_cpu_init() */
-#define CONFIG_ARCH_MISC_INIT		/* call arch_misc_init() */
 #define CONFIG_NR_DRAM_BANKS		1
 
 #define CONFIG_SYS_LOAD_ADDR		0x00800000

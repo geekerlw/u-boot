@@ -27,17 +27,9 @@
 #define CONFIG_SETUP_MEMORY_TAGS
 #define CONFIG_INITRD_TAG
 #define CONFIG_SKIP_LOWLEVEL_INIT
-#define CONFIG_BOARD_EARLY_INIT_F
 
 /* general purpose I/O */
 #define CONFIG_ATMEL_LEGACY		/* required until (g)pio is fixed */
-#define CONFIG_AT91_GPIO
-#define CONFIG_AT91_GPIO_PULLUP	1	/* keep pullups on peripheral pins */
-
-/* serial console */
-#define CONFIG_ATMEL_USART
-#define CONFIG_USART_BASE		ATMEL_BASE_DBGU
-#define	CONFIG_USART_ID			ATMEL_ID_SYS
 
 /* LCD */
 #define LCD_BPP				LCD_COLOR8
@@ -45,17 +37,10 @@
 #undef LCD_TEST_PATTERN
 #define CONFIG_LCD_INFO
 #define CONFIG_LCD_INFO_BELOW_LOGO
-#define CONFIG_SYS_WHITE_ON_BLACK
 #define CONFIG_ATMEL_LCD
 #define CONFIG_ATMEL_LCD_RGB565
 /* board specific(not enough SRAM) */
 #define CONFIG_AT91SAM9G45_LCD_BASE		0x73E00000
-
-/* LED */
-#define CONFIG_AT91_LED
-#define	CONFIG_RED_LED		AT91_PIN_PD31	/* this is the user1 led */
-#define	CONFIG_GREEN_LED	AT91_PIN_PD0	/* this is the user2 led */
-
 
 /*
  * BOOTP options
@@ -69,8 +54,6 @@
  * Command line configuration.
  */
 
-/* No NOR flash */
-#define CONFIG_SYS_NO_FLASH
 #define CONFIG_CMD_NAND
 
 /* SDRAM */
@@ -79,7 +62,7 @@
 #define CONFIG_SYS_SDRAM_SIZE		0x08000000
 
 #define CONFIG_SYS_INIT_SP_ADDR \
-	(CONFIG_SYS_SDRAM_BASE + 4 * 1024 - GENERATED_GBL_DATA_SIZE)
+	(CONFIG_SYS_SDRAM_BASE + 16 * 1024 - GENERATED_GBL_DATA_SIZE)
 
 /* NAND flash */
 #ifdef CONFIG_CMD_NAND
@@ -96,28 +79,9 @@
 
 #endif
 
-/* MMC */
-
-#ifdef CONFIG_CMD_MMC
-#define CONFIG_GENERIC_MMC
-#define CONFIG_GENERIC_ATMEL_MCI
-#endif
-
-#if defined(CONFIG_CMD_USB) || defined(CONFIG_CMD_MMC)
-#define CONFIG_DOS_PARTITION
-#endif
-
 /* Ethernet */
-#define CONFIG_MACB
-#define CONFIG_RMII
-#define CONFIG_NET_RETRY_COUNT		20
 #define CONFIG_RESET_PHY_R
 #define CONFIG_AT91_WANTS_COMMON_PHY
-
-/* USB */
-#define CONFIG_USB_EHCI
-#define CONFIG_USB_EHCI_ATMEL
-#define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS	2
 
 #define CONFIG_SYS_LOAD_ADDR		0x22000000	/* load address */
 
@@ -127,7 +91,7 @@
 #ifdef CONFIG_SYS_USE_NANDFLASH
 /* bootstrap + u-boot + env in nandflash */
 #define CONFIG_ENV_IS_IN_NAND
-#define CONFIG_ENV_OFFSET		0xc0000
+#define CONFIG_ENV_OFFSET		0x120000
 #define CONFIG_ENV_OFFSET_REDUND	0x100000
 #define CONFIG_ENV_SIZE			0x20000
 
@@ -162,8 +126,6 @@
 				"fatload mmc 0:1 0x72000000 zImage; " \
 				"bootz 0x72000000 - 0x71000000"
 #endif
-
-#define CONFIG_BAUDRATE			115200
 
 #define CONFIG_SYS_CBSIZE		256
 #define CONFIG_SYS_MAXARGS		16

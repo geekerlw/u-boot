@@ -26,7 +26,6 @@
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_IMMAP
 #define CONFIG_CMD_REGINFO
 
 #if defined(CONFIG_CMD_KGDB)
@@ -37,7 +36,6 @@
  * Serial console configuration
  */
 #define CONFIG_PSC_CONSOLE	1	/* console is on PSC1 */
-#define CONFIG_BAUDRATE		115200	/* ... at 115200 bps */
 #define CONFIG_SYS_BAUDRATE_TABLE	{ 9600, 19200, 38400, 57600, 115200, 230400 }
 
 #define	CONFIG_TIMESTAMP	1	/* Print image info with timestamp */

@@ -44,15 +44,11 @@ Serial console configuration
 					/*define gps port conf. */
 					/* register later on to */
 					/*enable UART function! */
-#define CONFIG_BAUDRATE		115200	/* ... at 115200 bps */
 #define CONFIG_SYS_BAUDRATE_TABLE { 9600, 19200, 38400, 57600, 115200, 230400 }
 
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_DATE
-#define CONFIG_CMD_EEPROM
-#define CONFIG_CMD_JFFS2
 #define CONFIG_CMD_PCI
 
 #define	CONFIG_TIMESTAMP	1	/* Print image info with timestamp */
@@ -123,31 +119,6 @@ IPB Bus clocking configuration.
 #define CONFIG_SYS_XLB_PIPELINING	1
 
 /*---------------------------------------------------------------------------
- I2C configuration
----------------------------------------------------------------------------*/
-#define CONFIG_HARD_I2C 1 /* I2C with hardware support */
-#define CONFIG_SYS_I2C_MODULE 2 /* Select I2C module #1 or #2 */
-#define CONFIG_SYS_I2C_SPEED 100000 /* 100 kHz */
-#define CONFIG_SYS_I2C_SLAVE 0x7F
-
-/*---------------------------------------------------------------------------
- EEPROM CAT24WC32 configuration
----------------------------------------------------------------------------*/
-#define CONFIG_SYS_I2C_EEPROM_ADDR	0x52	/* 1010100x */
-#define CONFIG_SYS_I2C_FACT_ADDR	0x52	/* EEPROM CAT24WC32 */
-#define CONFIG_SYS_I2C_EEPROM_ADDR_LEN	2	/* Bytes of address */
-#define CONFIG_SYS_EEPROM_SIZE		2048
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_BITS 3
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_DELAY_MS 15
-
-/*---------------------------------------------------------------------------
-RTC configuration
----------------------------------------------------------------------------*/
-#define RTC
-#define CONFIG_RTC_PCF8563		1
-#define CONFIG_SYS_I2C_RTC_ADDR		0x51
-
-/*---------------------------------------------------------------------------
  Flash configuration
 ---------------------------------------------------------------------------*/
 
@@ -174,11 +145,10 @@ RTC configuration
  Environment settings
 ---------------------------------------------------------------------------*/
 
-/* pcm030 ships with environment is EEPROM by default */
-#define CONFIG_ENV_IS_IN_EEPROM	1
+#define CONFIG_ENV_IS_NOWHERE
 #define CONFIG_ENV_OFFSET	0x00	/* environment starts at the */
 					/*beginning of the EEPROM */
-#define CONFIG_ENV_SIZE		CONFIG_SYS_EEPROM_SIZE
+#define CONFIG_ENV_SIZE		2048
 
 #define CONFIG_ENV_OVERWRITE	1
 
@@ -395,9 +365,6 @@ RTC configuration
 /* Interval between registers */
 #define CONFIG_SYS_ATA_STRIDE		4
 #define CONFIG_ATAPI			1
-
-/* we enable IDE and FAT support, so we also need partition support */
-#define CONFIG_DOS_PARTITION 1
 
 /* USB */
 #define CONFIG_USB_OHCI

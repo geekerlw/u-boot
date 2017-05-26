@@ -30,7 +30,6 @@
 #define CONFIG_HOSTNAME		icon
 #include "amcc-common.h"
 
-#define CONFIG_BOARD_EARLY_INIT_F	/* Call board_pre_init	*/
 #define CONFIG_BOARD_EARLY_INIT_R	/* Call board_early_init_r */
 
 /*
@@ -160,13 +159,8 @@
 /*
  * Commands additional to the ones defined in amcc-common.h
  */
-#define CONFIG_CMD_CHIP_CONFIG
-#define CONFIG_CMD_DATE
 #define CONFIG_CMD_PCI
 #define CONFIG_CMD_SDRAM
-#ifdef CONFIG_VIDEO
-#define CONFIG_CMD_BMP
-#endif
 
 #define	CONFIG_IBM_EMAC4_V4		/* 440SPe has this EMAC version	*/
 #define CONFIG_PHY_ADDR		1	/* PHY address, See schematics	*/
@@ -224,7 +218,6 @@
 #define CONFIG_SYSTEMACE		/* Enable SystemACE support	*/
 #define CONFIG_SYS_SYSTEMACE_WIDTH	16	/* Data bus width is 16	*/
 #define CONFIG_SYS_SYSTEMACE_BASE	CONFIG_SYS_ACE_BASE
-#define CONFIG_DOS_PARTITION
 
 /*
  * External Bus Controller (EBC) Setup

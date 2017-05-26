@@ -43,7 +43,7 @@
 #endif
 
 /* Rather than repeat this expression each time, add a define for it */
-#if defined(CONFIG_CMD_IDE) || \
+#if defined(CONFIG_IDE) || \
 	defined(CONFIG_CMD_SATA) || \
 	defined(CONFIG_SCSI) || \
 	defined(CONFIG_CMD_USB) || \
@@ -55,8 +55,8 @@
 #define HAVE_BLOCK_DEVICE
 #endif
 
-#if (defined(CONFIG_PARTITION_UUIDS) || \
-	defined(CONFIG_EFI_PARTITION) || \
+#if (CONFIG_IS_ENABLED(PARTITION_UUIDS) || \
+	CONFIG_IS_ENABLED(EFI_PARTITION) || \
 	defined(CONFIG_RANDOM_UUID) || \
 	defined(CONFIG_CMD_UUID) || \
 	defined(CONFIG_BOOTP_PXE)) && \
@@ -69,10 +69,6 @@
 	(!defined(CONFIG_LIB_RAND) && \
 	!defined(CONFIG_LIB_HW_RAND))
 #define CONFIG_LIB_RAND
-#endif
-
-#if defined(CONFIG_API) && defined(CONFIG_LCD)
-#define CONFIG_CMD_BMP
 #endif
 
 #ifndef CONFIG_SYS_PBSIZE

@@ -17,14 +17,11 @@
 /* ------------------------------------------------------------------------- */
 #define CONFIG_AM335X_LCD
 #define CONFIG_LCD_NOSTDOUT
-#define CONFIG_SYS_WHITE_ON_BLACK
 #define LCD_BPP				LCD_COLOR32
 
 #define CONFIG_VIDEO_BMP_GZIP
 #define CONFIG_SYS_VIDEO_LOGO_MAX_SIZE	(1366*767*4)
-#define CONFIG_CMD_UNZIP
-#define CONFIG_CMD_BMP
-#define CONFIG_BMP_24BMP
+#define CONFIG_BMP_24BPP
 #define CONFIG_BMP_32BPP
 
 /* memory */
@@ -43,8 +40,6 @@
 /* GPIO */
 
 /* MMC/SD IP block */
-#define CONFIG_GENERIC_MMC
-#define CONFIG_OMAP_HSMMC
 #define CONFIG_SUPPORT_EMMC_BOOT
 
 /* Always 64 KiB env size */
@@ -109,7 +104,6 @@ BUR_COMMON_ENV \
 
 /* USB configuration */
 #define CONFIG_USB_MUSB_DSPS
-#define CONFIG_ARCH_MISC_INIT
 #define CONFIG_USB_MUSB_PIO_ONLY
 #define CONFIG_USB_MUSB_DISABLE_BULK_COMBINE_SPLIT
 #define CONFIG_AM335X_USB0
@@ -129,7 +123,6 @@ BUR_COMMON_ENV \
  * enabled a number of useful commands and support.
  */
 #if defined(CONFIG_MMC) || defined(CONFIG_USB_STORAGE)
-#define CONFIG_DOS_PARTITION
 #define CONFIG_FAT_WRITE
 #endif /* CONFIG_MMC, ... */
 

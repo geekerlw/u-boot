@@ -3,9 +3,9 @@
 #
 
 VERSION = 2017
-PATCHLEVEL = 01
+PATCHLEVEL = 05
 SUBLEVEL =
-EXTRAVERSION = -rc3
+EXTRAVERSION =
 NAME =
 
 # *DOCUMENTATION*
@@ -348,7 +348,7 @@ OBJCOPY		= $(CROSS_COMPILE)objcopy
 OBJDUMP		= $(CROSS_COMPILE)objdump
 AWK		= awk
 PERL		= perl
-PYTHON		= python
+PYTHON		?= python
 DTC		= dtc
 CHECK		= sparse
 
@@ -371,7 +371,7 @@ export ARCH CPU BOARD VENDOR SOC CPUDIR BOARDDIR
 export CONFIG_SHELL HOSTCC HOSTCFLAGS HOSTLDFLAGS CROSS_COMPILE AS LD CC
 export CPP AR NM LDR STRIP OBJCOPY OBJDUMP
 export MAKE AWK PERL PYTHON
-export HOSTCXX HOSTCXXFLAGS DTC CHECK CHECKFLAGS
+export HOSTCXX HOSTCXXFLAGS CHECK CHECKFLAGS DTC DTC_FLAGS
 
 export KBUILD_CPPFLAGS NOSTDINC_FLAGS UBOOTINCLUDE OBJCOPYFLAGS LDFLAGS
 export KBUILD_CFLAGS KBUILD_AFLAGS
@@ -481,6 +481,13 @@ else
 # ===========================================================================
 # Build targets only - this includes vmlinux, arch specific targets, clean
 # targets and others. In general all targets except *config targets.
+
+# Additional helpers built in scripts/
+# Carefully list dependencies so we do not try to build scripts twice
+# in parallel
+PHONY += scripts
+scripts: scripts_basic include/config/auto.conf
+	$(Q)$(MAKE) $(build)=$(@)
 
 ifeq ($(dot-config),1)
 # Read in config
@@ -617,8 +624,9 @@ KBUILD_CFLAGS += $(KCFLAGS)
 UBOOTINCLUDE    := \
 		-Iinclude \
 		$(if $(KBUILD_SRC), -I$(srctree)/include) \
-		$(if $(CONFIG_SYS_THUMB_BUILD), $(if $(CONFIG_HAS_THUMB2),, \
-			-I$(srctree)/arch/$(ARCH)/thumb1/include),) \
+		$(if $(CONFIG_$(SPL_)SYS_THUMB_BUILD), \
+			$(if $(CONFIG_HAS_THUMB2),, \
+				-I$(srctree)/arch/$(ARCH)/thumb1/include),) \
 		-I$(srctree)/arch/$(ARCH)/include \
 		-include $(srctree)/include/linux/kconfig.h
 
@@ -645,7 +653,6 @@ libs-y += drivers/
 libs-y += drivers/dma/
 libs-y += drivers/gpio/
 libs-y += drivers/i2c/
-libs-y += drivers/mmc/
 libs-y += drivers/mtd/
 libs-$(CONFIG_CMD_NAND) += drivers/mtd/nand/
 libs-y += drivers/mtd/onenand/
@@ -739,6 +746,9 @@ BOARD_SIZE_CHECK =
 endif
 
 # Statically apply RELA-style relocations (currently arm64 only)
+# This is useful for arm64 where static relocation needs to be performed on
+# the raw binary, but certain simulators only accept an ELF file (but don't
+# do the relocation).
 ifneq ($(CONFIG_STATIC_RELA),)
 # $(1) is u-boot ELF, $(2) is u-boot bin, $(3) is text base
 DO_STATIC_RELA = \
@@ -797,6 +807,10 @@ ALL-y += $(CONFIG_BUILD_TARGET:"%"=%)
 endif
 
 LDFLAGS_u-boot += $(LDFLAGS_FINAL)
+
+# Avoid 'Not enough room for program headers' error on binutils 2.28 onwards.
+LDFLAGS_u-boot += $(call ld-option, --no-dynamic-linker)
+
 ifneq ($(CONFIG_SYS_TEXT_BASE),)
 LDFLAGS_u-boot += -Ttext $(CONFIG_SYS_TEXT_BASE)
 endif
@@ -819,6 +833,10 @@ quiet_cmd_mkimage = MKIMAGE $@
 cmd_mkimage = $(objtree)/tools/mkimage $(MKIMAGEFLAGS_$(@F)) -d $< $@ \
 	$(if $(KBUILD_VERBOSE:1=), >$(MKIMAGEOUTPUT))
 
+quiet_cmd_mkfitimage = MKIMAGE $@
+cmd_mkfitimage = $(objtree)/tools/mkimage $(MKIMAGEFLAGS_$(@F)) -f $(U_BOOT_ITS) -E $@ \
+	$(if $(KBUILD_VERBOSE:1=), >$(MKIMAGEOUTPUT))
+
 quiet_cmd_cat = CAT     $@
 cmd_cat = cat $(filter-out $(PHONY), $^) > $@
 
@@ -828,6 +846,10 @@ quiet_cmd_pad_cat = CAT     $@
 cmd_pad_cat = $(cmd_objcopy) && $(append) || rm -f $@
 
 cfg: u-boot.cfg
+
+quiet_cmd_cfgcheck = CFGCHK  $2
+cmd_cfgcheck = $(srctree)/scripts/check-config.sh $2 \
+		$(srctree)/scripts/config_whitelist.txt $(srctree)
 
 all:		$(ALL-y)
 ifeq ($(CONFIG_DM_I2C_COMPAT)$(CONFIG_SANDBOX),y)
@@ -840,8 +862,7 @@ endif
 	@# Check that this build does not use CONFIG options that we do not
 	@# know about unless they are in Kconfig. All the existing CONFIG
 	@# options are whitelisted, so new ones should not be added.
-	$(srctree)/scripts/check-config.sh u-boot.cfg \
-		$(srctree)/scripts/config_whitelist.txt ${srctree} 1>&2
+	$(call cmd,cfgcheck,u-boot.cfg)
 
 PHONY += dtbs
 dtbs: dts/dt.dtb
@@ -883,7 +904,7 @@ u-boot.hex u-boot.srec: u-boot FORCE
 	$(call if_changed,objcopy)
 
 OBJCOPYFLAGS_u-boot-nodtb.bin := -O binary \
-		$(if $(CONFIG_X86_RESET_VECTOR),-R .start16 -R .resetvec)
+		$(if $(CONFIG_X86_16BIT_INIT),-R .start16 -R .resetvec)
 
 binary_size_check: u-boot-nodtb.bin FORCE
 	@file_size=$(shell wc -c u-boot-nodtb.bin | awk '{print $$1}') ; \
@@ -935,6 +956,19 @@ quiet_cmd_cpp_cfg = CFG     $@
 cmd_cpp_cfg = $(CPP) -Wp,-MD,$(depfile) $(cpp_flags) $(LDPPFLAGS) -ansi \
 	-DDO_DEPS_ONLY -D__ASSEMBLY__ -x assembler-with-cpp -P -dM -E -o $@ $<
 
+# Boards with more complex image requirments can provide an .its source file
+# or a generator script
+ifneq ($(CONFIG_SPL_FIT_SOURCE),"")
+U_BOOT_ITS = $(subst ",,$(CONFIG_SPL_FIT_SOURCE))
+else
+ifneq ($(CONFIG_SPL_FIT_GENERATOR),"")
+U_BOOT_ITS := u-boot.its
+$(U_BOOT_ITS): FORCE
+	$(srctree)/$(CONFIG_SPL_FIT_GENERATOR) \
+	$(patsubst %,arch/$(ARCH)/dts/%.dtb,$(subst ",,$(CONFIG_OF_LIST))) > $@
+endif
+endif
+
 ifdef CONFIG_SPL_LOAD_FIT
 MKIMAGEFLAGS_u-boot.img = -f auto -A $(ARCH) -T firmware -C none -O u-boot \
 	-a $(CONFIG_SYS_TEXT_BASE) -e $(CONFIG_SYS_UBOOT_START) \
@@ -957,7 +991,8 @@ MKIMAGEFLAGS_u-boot.kwb = -n $(srctree)/$(CONFIG_SYS_KWD_CONFIG:"%"=%) \
 	-T kwbimage -a $(CONFIG_SYS_TEXT_BASE) -e $(CONFIG_SYS_TEXT_BASE)
 
 MKIMAGEFLAGS_u-boot-spl.kwb = -n $(srctree)/$(CONFIG_SYS_KWD_CONFIG:"%"=%) \
-	-T kwbimage -a $(CONFIG_SYS_TEXT_BASE) -e $(CONFIG_SYS_TEXT_BASE)
+	-T kwbimage -a $(CONFIG_SYS_TEXT_BASE) -e $(CONFIG_SYS_TEXT_BASE) \
+	$(if $(KEYDIR),-k $(KEYDIR))
 
 MKIMAGEFLAGS_u-boot.pbl = -n $(srctree)/$(CONFIG_SYS_FSL_PBL_RCW:"%"=%) \
 		-R $(srctree)/$(CONFIG_SYS_FSL_PBL_PBI:"%"=%) -T pblimage
@@ -965,6 +1000,9 @@ MKIMAGEFLAGS_u-boot.pbl = -n $(srctree)/$(CONFIG_SYS_FSL_PBL_RCW:"%"=%) \
 u-boot-dtb.img u-boot.img u-boot.kwb u-boot.pbl u-boot-ivt.img: \
 		$(if $(CONFIG_SPL_LOAD_FIT),u-boot-nodtb.bin dts/dt.dtb,u-boot.bin) FORCE
 	$(call if_changed,mkimage)
+
+u-boot.itb: u-boot-nodtb.bin dts/dt.dtb $(U_BOOT_ITS) FORCE
+	$(call if_changed,mkfitimage)
 
 u-boot-spl.kwb: u-boot.img spl/u-boot-spl.bin FORCE
 	$(call if_changed,mkimage)
@@ -1076,8 +1114,9 @@ quiet_cmd_ldr = LD      $@
 cmd_ldr = $(LD) $(LDFLAGS_$(@F)) \
 	       $(filter-out FORCE,$^) -o $@
 
-u-boot.rom: u-boot-x86-16bit.bin u-boot.bin FORCE \
-		$(if $(CONFIG_HAVE_REFCODE),refcode.bin)
+u-boot.rom: u-boot-x86-16bit.bin u-boot.bin \
+		$(if $(CONFIG_SPL_X86_16BIT_INIT),spl/u-boot-spl.bin) \
+		$(if $(CONFIG_HAVE_REFCODE),refcode.bin) FORCE
 	$(call if_changed,binman)
 
 OBJCOPYFLAGS_u-boot-x86-16bit.bin := -O binary -j .start16 -j .resetvec
@@ -1163,17 +1202,17 @@ OBJCOPYFLAGS_u-boot-img-spl-at-end.bin := -I binary -O binary \
 u-boot-img-spl-at-end.bin: u-boot.img spl/u-boot-spl.bin FORCE
 	$(call if_changed,pad_cat)
 
-# Create a new ELF from a raw binary file.  This is useful for arm64
-# where static relocation needs to be performed on the raw binary,
-# but certain simulators only accept an ELF file (but don't do the
-# relocation).
-# FIXME refactor dts/Makefile to share target/arch detection
+# Create a new ELF from a raw binary file.
+ifndef PLATFORM_ELFENTRY
+  PLATFORM_ELFENTRY = "_start"
+endif
+quiet_cmd_u-boot-elf ?= LD      $@
+	cmd_u-boot-elf ?= $(LD) u-boot-elf.o -o $@ \
+	--defsym=$(PLATFORM_ELFENTRY)=$(CONFIG_SYS_TEXT_BASE) \
+	-Ttext=$(CONFIG_SYS_TEXT_BASE)
 u-boot.elf: u-boot.bin
-	@$(OBJCOPY)  -B aarch64 -I binary -O elf64-littleaarch64 \
-		$< u-boot-elf.o
-	@$(LD) u-boot-elf.o -o $@ \
-		--defsym=_start=$(CONFIG_SYS_TEXT_BASE) \
-		-Ttext=$(CONFIG_SYS_TEXT_BASE)
+	$(Q)$(OBJCOPY) -I binary $(PLATFORM_ELFFLAGS) $< u-boot-elf.o
+	$(call if_changed,u-boot-elf)
 
 # Rule to link u-boot
 # May be overridden by arch/$(ARCH)/config.mk
@@ -1332,13 +1371,17 @@ spl/u-boot-spl: tools prepare \
 spl/sunxi-spl.bin: spl/u-boot-spl
 	@:
 
+spl/sunxi-spl-with-ecc.bin: spl/sunxi-spl.bin
+	@:
+
 spl/u-boot-spl.sfp: spl/u-boot-spl
 	@:
 
 spl/boot.bin: spl/u-boot-spl
 	@:
 
-tpl/u-boot-tpl.bin: tools prepare
+tpl/u-boot-tpl.bin: tools prepare \
+		$(if $(CONFIG_OF_SEPARATE)$(CONFIG_SPL_OF_PLATDATA),dts/dt.dtb)
 	$(Q)$(MAKE) obj=tpl -f $(srctree)/scripts/Makefile.spl all
 
 TAG_SUBDIRS := $(patsubst %,$(srctree)/%,$(u-boot-dirs) include)
@@ -1416,7 +1459,7 @@ CLEAN_DIRS  += $(MODVERDIR) \
 	       $(foreach d, spl tpl, $(patsubst %,$d/%, \
 			$(filter-out include, $(shell ls -1 $d 2>/dev/null))))
 
-CLEAN_FILES += include/bmp_logo.h include/bmp_logo_data.h include/license.h \
+CLEAN_FILES += include/bmp_logo.h include/bmp_logo_data.h \
 	       boot* u-boot* MLO* SPL System.map
 
 # Directories & files removed with 'make mrproper'
@@ -1536,11 +1579,6 @@ tests:
 %docs: scripts_basic FORCE
 	$(Q)$(MAKE) $(build)=scripts build_docproc
 	$(Q)$(MAKE) $(build)=doc/DocBook $@
-
-# Dummies...
-PHONY += prepare scripts
-prepare: ;
-scripts: ;
 
 endif #ifeq ($(config-targets),1)
 endif #ifeq ($(mixed-targets),1)

@@ -47,7 +47,6 @@
 
 #define CONFIG_SYS_CLK_FREQ	66666667	/* external freq to pll	*/
 
-#define CONFIG_BOARD_EARLY_INIT_F		/* Call board_early_init_f */
 #define CONFIG_BOARD_EARLY_INIT_R		/* Call board_early_init_r */
 #define CONFIG_MISC_INIT_R			/* Call misc_init_r */
 #define CONFIG_BOARD_TYPES			/* support board types */
@@ -262,18 +261,6 @@
 #define CONFIG_4xx_CONFIG_I2C_EEPROM_OFFSET	0
 #define CONFIG_4xx_CONFIG_BLOCKSIZE		16
 
-/* I2C SYSMON (LM75, AD7414 is almost compatible)			*/
-#define CONFIG_DTT_LM75				/* ON Semi's LM75	*/
-#define CONFIG_DTT_AD7414			/* use AD7414		*/
-#define CONFIG_DTT_SENSORS	{0}		/* Sensor addresses	*/
-#define CONFIG_SYS_DTT_MAX_TEMP	70
-#define CONFIG_SYS_DTT_LOW_TEMP	-30
-#define CONFIG_SYS_DTT_HYSTERESIS	3
-
-#if defined(CONFIG_ARCHES)
-#define CONFIG_SYS_I2C_DTT_ADDR	0x4a		/* AD7414 I2C address	*/
-#endif
-
 #if !defined(CONFIG_ARCHES)
 /* RTC configuration */
 #define CONFIG_RTC_M41T62
@@ -373,21 +360,15 @@
 /*
  * Commands additional to the ones defined in amcc-common.h
  */
-#define CONFIG_CMD_CHIP_CONFIG
 #if defined(CONFIG_ARCHES)
-#define CONFIG_CMD_DTT
 #define CONFIG_CMD_PCI
 #define CONFIG_CMD_SDRAM
 #elif defined(CONFIG_CANYONLANDS)
-#define CONFIG_CMD_DATE
-#define CONFIG_CMD_DTT
 #define CONFIG_CMD_NAND
 #define CONFIG_CMD_PCI
 #define CONFIG_CMD_SATA
 #define CONFIG_CMD_SDRAM
 #elif defined(CONFIG_GLACIER)
-#define CONFIG_CMD_DATE
-#define CONFIG_CMD_DTT
 #define CONFIG_CMD_NAND
 #define CONFIG_CMD_PCI
 #define CONFIG_CMD_SDRAM
@@ -396,9 +377,6 @@
 #endif
 
 /* Partitions */
-#define CONFIG_MAC_PARTITION
-#define CONFIG_DOS_PARTITION
-#define CONFIG_ISO_PARTITION
 
 /*-----------------------------------------------------------------------
  * PCI stuff

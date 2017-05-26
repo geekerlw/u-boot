@@ -46,10 +46,6 @@
 #endif
 
 /* High Level Configuration Options */
-#define CONFIG_BOOKE			/* BOOKE */
-#define CONFIG_E500			/* BOOKE e500 family */
-#define CONFIG_FSL_IFC			/* Enable IFC Support */
-#define CONFIG_FSL_CAAM			/* Enable SEC/CAAM */
 
 #define CONFIG_TSEC_ENET
 #define CONFIG_ENV_OVERWRITE
@@ -72,7 +68,6 @@
 #define CONFIG_SYS_MEMTEST_END		0x01ffffff
 
 /* DDR Setup */
-#define CONFIG_SYS_FSL_DDR3
 #undef CONFIG_SYS_DDR_RAW_TIMING
 #undef CONFIG_DDR_SPD
 #define CONFIG_SYS_SPD_BUS_NUM		0
@@ -87,7 +82,6 @@ extern unsigned long get_sdram_size(void);
 #define CONFIG_SYS_DDR_SDRAM_BASE	0x00000000
 #define CONFIG_SYS_SDRAM_BASE		CONFIG_SYS_DDR_SDRAM_BASE
 
-#define CONFIG_NUM_DDR_CONTROLLERS	1
 #define CONFIG_DIMM_SLOTS_PER_CTLR	1
 #define CONFIG_CHIP_SELECTS_PER_CTRL	1
 
@@ -152,7 +146,6 @@ extern unsigned long get_sdram_size(void);
 /*
  * IFC Definitions
  */
-#define CONFIG_SYS_NO_FLASH
 
 /* NAND Flash on IFC */
 #define CONFIG_SYS_NAND_BASE		0xff800000
@@ -202,8 +195,6 @@ extern unsigned long get_sdram_size(void);
 #define CONFIG_SYS_CS0_FTIM2		CONFIG_SYS_NAND_FTIM2
 #define CONFIG_SYS_CS0_FTIM3		CONFIG_SYS_NAND_FTIM3
 
-#define CONFIG_BOARD_EARLY_INIT_F	/* Call board_pre_init */
-
 #define CONFIG_SYS_INIT_RAM_LOCK
 #define CONFIG_SYS_INIT_RAM_ADDR	0xffd00000	/* stack in RAM */
 #define CONFIG_SYS_INIT_RAM_SIZE	0x00004000/* End of used area in RAM */
@@ -237,7 +228,6 @@ extern unsigned long get_sdram_size(void);
 #define CONFIG_SYS_FSL_I2C_OFFSET	0x3000
 
 /* I2C EEPROM */
-#define CONFIG_CMD_EEPROM
 #define CONFIG_SYS_I2C_EEPROM_ADDR_LEN 1
 #define CONFIG_SYS_EEPROM_PAGE_WRITE_BITS 3
 #define CONFIG_SYS_EEPROM_PAGE_WRITE_DELAY_MS 5
@@ -303,9 +293,6 @@ extern unsigned long get_sdram_size(void);
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_ERRATA
-#define CONFIG_CMD_IRQ
-#define CONFIG_DOS_PARTITION
 #define CONFIG_CMD_REGINFO
 
 /*
@@ -338,15 +325,7 @@ extern unsigned long get_sdram_size(void);
 #define CONFIG_KGDB_BAUDRATE	230400	/* speed to run kgdb serial port */
 #endif
 
-/* Hash command with SHA acceleration supported in hardware */
-#ifdef CONFIG_FSL_CAAM
-#define CONFIG_CMD_HASH
-#define CONFIG_SHA_HW_ACCEL
-#endif
-
-#define CONFIG_USB_EHCI
-
-#ifdef CONFIG_USB_EHCI
+#ifdef CONFIG_USB_EHCI_HCD
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
 #define CONFIG_USB_EHCI_FSL
 #define CONFIG_HAS_FSL_DR_USB
@@ -374,8 +353,6 @@ extern unsigned long get_sdram_size(void);
 #define CONFIG_ROOTPATH		"/opt/nfsroot"
 #define CONFIG_BOOTFILE		"uImage"
 #define CONFIG_UBOOTPATH	"u-boot.bin" /* U-Boot image on TFTP server */
-
-#define CONFIG_BAUDRATE		115200
 
 #define	CONFIG_EXTRA_ENV_SETTINGS				\
 	"netdev=eth0\0"						\

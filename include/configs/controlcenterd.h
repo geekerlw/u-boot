@@ -35,12 +35,9 @@
 #endif
 
 /* High Level Configuration Options */
-#define CONFIG_BOOKE			/* BOOKE */
-#define CONFIG_E500			/* BOOKE e500 family */
 #define CONFIG_CONTROLCENTERD
 #define CONFIG_MP			/* support multiple processors */
 
-#define CONFIG_SYS_NO_FLASH
 #define CONFIG_ENABLE_36BIT_PHYS
 
 #ifdef CONFIG_PHYS_64BIT
@@ -124,8 +121,6 @@
 #define CONFIG_SYS_SDRAM_SIZE 1024
 #define CONFIG_VERY_BIG_RAM
 
-#define CONFIG_SYS_FSL_DDR3
-#define CONFIG_NUM_DDR_CONTROLLERS	1
 #define CONFIG_DIMM_SLOTS_PER_CTLR	1
 #define CONFIG_CHIP_SELECTS_PER_CTRL	(2 * CONFIG_DIMM_SLOTS_PER_CTLR)
 
@@ -141,7 +136,6 @@
 /*
  * Local Bus Definitions
  */
-#define CONFIG_FSL_ELBC			/* Has Enhanced localbus controller */
 
 #define CONFIG_SYS_ELBC_BASE		0xe0000000
 #ifdef CONFIG_PHYS_64BIT
@@ -191,7 +185,6 @@
 
 #define CONFIG_PCA9698			/* NXP PCA9698 */
 
-#define CONFIG_CMD_EEPROM
 #define CONFIG_SYS_I2C_EEPROM_ADDR 0x52
 #define CONFIG_SYS_I2C_EEPROM_ADDR_LEN 2
 
@@ -205,13 +198,9 @@
 #define CONFIG_SF_DEFAULT_MODE		0
 #endif
 
-#define CONFIG_SHA1
-
 /*
  * MMC
  */
-#define CONFIG_GENERIC_MMC
-
 #define CONFIG_FSL_ESDHC
 #define CONFIG_SYS_FSL_ESDHC_ADDR	CONFIG_SYS_MPC85xx_ESDHC_ADDR
 
@@ -222,7 +211,6 @@
  */
 #define CONFIG_FSL_DIU_FB
 #define CONFIG_SYS_DIU_ADDR	(CONFIG_SYS_CCSRBAR + 0x10000)
-#define CONFIG_CMD_BMP
 
 /*
  * General PCI
@@ -300,7 +288,6 @@
 /*
  * USB
  */
-#define CONFIG_USB_EHCI
 
 #define CONFIG_HAS_FSL_DR_USB
 #define CONFIG_USB_EHCI_FSL
@@ -354,21 +341,17 @@
 
 #ifndef CONFIG_TRAILBLAZER
 
-#define CONFIG_CMD_ERRATA
-#define CONFIG_CMD_IRQ
 #define CONFIG_CMD_REGINFO
 
 /*
  * Board initialisation callbacks
  */
-#define CONFIG_BOARD_EARLY_INIT_F
 #define CONFIG_BOARD_EARLY_INIT_R
 #define CONFIG_MISC_INIT_R
 #define CONFIG_LAST_STAGE_INIT
 
 #else /* CONFIG_TRAILBLAZER */
 
-#define CONFIG_BOARD_EARLY_INIT_F
 #define CONFIG_BOARD_EARLY_INIT_R
 #define CONFIG_LAST_STAGE_INIT
 
@@ -380,7 +363,6 @@
 #define CONFIG_HW_WATCHDOG
 #define CONFIG_LOADS_ECHO
 #define CONFIG_SYS_LOADS_BAUD_CHANGE
-#define CONFIG_DOS_PARTITION
 
 /*
  * For booting Linux, the board info and command line data
@@ -395,9 +377,6 @@
  */
 
 #ifdef CONFIG_TRAILBLAZER
-
-#define CONFIG_BAUDRATE	115200
-
 #define	CONFIG_EXTRA_ENV_SETTINGS				\
 	"mp_holdoff=1\0"
 
@@ -409,9 +388,6 @@
 #define CONFIG_UBOOTPATH	u-boot.bin	/* U-Boot image on TFTP */
 
 #define CONFIG_LOADADDR		1000000
-
-
-#define CONFIG_BAUDRATE	115200
 
 #define	CONFIG_EXTRA_ENV_SETTINGS				\
 	"netdev=eth0\0"						\

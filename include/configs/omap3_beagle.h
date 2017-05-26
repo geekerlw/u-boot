@@ -35,16 +35,6 @@
 #define CONFIG_ENV_OVERWRITE
 
 /* Status LED */
-#define CONFIG_STATUS_LED		1
-#define CONFIG_BOARD_SPECIFIC_LED	1
-#define STATUS_LED_BIT			0x01
-#define STATUS_LED_STATE		STATUS_LED_ON
-#define STATUS_LED_PERIOD		(CONFIG_SYS_HZ / 2)
-#define STATUS_LED_BIT1			0x02
-#define STATUS_LED_STATE1		STATUS_LED_ON
-#define STATUS_LED_PERIOD1		(CONFIG_SYS_HZ / 2)
-#define STATUS_LED_BOOT			STATUS_LED_BIT
-#define STATUS_LED_GREEN		STATUS_LED_BIT1
 
 /* Enable Multi Bus support for I2C */
 #define CONFIG_I2C_MULTI_BUS		1
@@ -65,9 +55,7 @@
 #define CONFIG_FASTBOOT_BUF_SIZE	0x07000000
 
 /* USB EHCI */
-#define CONFIG_USB_EHCI
 
-#define CONFIG_USB_EHCI_OMAP
 #define CONFIG_OMAP_EHCI_PHY1_RESET_GPIO	147
 
 #define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS 3
@@ -75,10 +63,6 @@
 #define CONFIG_USB_ETHER_ASIX
 #define CONFIG_USB_ETHER_MCS7830
 #define CONFIG_USB_ETHER_SMSC95XX
-
-/* GPIO banks */
-#define CONFIG_OMAP3_GPIO_5		/* GPIO128..159 is in GPIO bank 5 */
-#define CONFIG_OMAP3_GPIO_6		/* GPIO160..191 is in GPIO bank 6 */
 
 /* commands to include */
 
@@ -88,7 +72,6 @@
 					"4m(kernel),-(fs)"
 
 #define CONFIG_CMD_NAND		/* NAND support			*/
-#define CONFIG_CMD_LED		/* LED support			*/
 
 #define CONFIG_VIDEO_OMAP3	/* DSS Support			*/
 

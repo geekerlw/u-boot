@@ -29,8 +29,6 @@
 #define CONFIG_HOSTNAME		walnut
 #include "amcc-common.h"
 
-#define CONFIG_BOARD_EARLY_INIT_F 1	/* Call board_early_init_f	*/
-
 #define CONFIG_SYS_CLK_FREQ	33333333 /* external frequency to pll	*/
 
 /*
@@ -53,7 +51,6 @@
 /*
  * Commands additional to the ones defined in amcc-common.h
  */
-#define CONFIG_CMD_DATE
 #define CONFIG_CMD_PCI
 #define CONFIG_CMD_SDRAM
 

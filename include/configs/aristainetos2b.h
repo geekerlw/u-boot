@@ -16,8 +16,6 @@
 #define CONFIG_HOSTNAME		aristainetos2
 #define CONFIG_BOARDNAME	"aristainetos2-revB"
 
-#define CONFIG_BOARD_LATE_INIT
-
 #define CONFIG_MXC_UART_BASE	UART2_BASE
 #define CONSOLE_DEV	"ttymxc1"
 
@@ -51,8 +49,6 @@
 #define CONFIG_LG4573
 #define CONFIG_LG4573_BUS 0
 #define CONFIG_LG4573_CS 1
-
-#define CONFIG_CMD_BMP
 
 #define CONFIG_PWM_IMX
 #define CONFIG_IMX6_PWM_PER_CLK	66000000

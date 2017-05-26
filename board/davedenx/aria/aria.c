@@ -18,17 +18,16 @@
 
 DECLARE_GLOBAL_DATA_PTR;
 
-phys_size_t initdram (int board_type)
+int dram_init(void)
 {
-	return fixed_sdram(NULL, NULL, 0);
+	gd->ram_size = fixed_sdram(NULL, NULL, 0);
+
+	return 0;
 }
 
 int misc_init_r(void)
 {
 	u32 tmp;
-
-	/* we use I2C-2 for on-board eeprom */
-	i2c_set_bus_num(2);
 
 	tmp = in_be32((u32*)CONFIG_SYS_ARIA_FPGA_BASE);
 	printf("FPGA:  %u-%u.%u.%u\n",

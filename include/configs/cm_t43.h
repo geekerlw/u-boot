@@ -105,10 +105,6 @@
 
 #define CONFIG_SPL_LDSCRIPT		"arch/arm/mach-omap2/u-boot-spl.lds"
 
-/* Enhance our eMMC support / experience. */
-#define CONFIG_CMD_GPT
-#define CONFIG_EFI_PARTITION
-
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	"loadaddr=0x80200000\0" \
 	"fdtaddr=0x81200000\0" \
@@ -154,14 +150,10 @@
 #define CONFIG_SPL_SPI_LOAD
 
 /* EEPROM */
-#define CONFIG_CMD_EEPROM
 #define CONFIG_ENV_EEPROM_IS_ON_I2C
 #define CONFIG_SYS_I2C_EEPROM_ADDR_LEN		1
 #define CONFIG_SYS_EEPROM_PAGE_WRITE_BITS	4
 #define CONFIG_SYS_EEPROM_PAGE_WRITE_DELAY_MS	5
 #define CONFIG_SYS_EEPROM_SIZE			256
-
-#define CONFIG_CMD_EEPROM_LAYOUT
-#define CONFIG_EEPROM_LAYOUT_HELP_STRING "v2, v3"
 
 #endif	/* __CONFIG_CM_T43_H */

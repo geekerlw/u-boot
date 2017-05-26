@@ -46,15 +46,9 @@
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_DATE
-#define CONFIG_CMD_EEPROM
-#define CONFIG_CMD_IDE
-#define CONFIG_CMD_IRQ
-#define CONFIG_CMD_JFFS2
 #define CONFIG_CMD_PCI
 #define CONFIG_CMD_REGINFO
 #define CONFIG_CMD_SAVES
-#define CONFIG_CMD_BSP
 
 /**************************************************************
  * I2C Stuff:
@@ -92,7 +86,6 @@
 /**************************************************************
  * Environment definitions
  **************************************************************/
-#define CONFIG_BAUDRATE		9600	/* STD Baudrate */
 /* autoboot (do NOT change this set environment variable "bootdelay" to -1 instead) */
 /* #define CONFIG_BOOT_RETRY_TIME	-10	/XXX* feature is available but not enabled */
 
@@ -246,7 +239,6 @@
 /* Size: 0=1MB, 1=2MB, 2=4MB, 3=8MB, 4=16MB, 5=32MB, 6=64MB, 7=128MB */
 #define FLASH_SIZE_PRELIM	 3  /* maximal flash FLASH size bank #0	*/
 
-#define CONFIG_BOARD_EARLY_INIT_F 1
 #define CONFIG_BOARD_EARLY_INIT_R
 
 /* Peripheral Bus Mapping */
@@ -327,9 +319,6 @@
 /************************************************************
  * DISK Partition support
  ************************************************************/
-#define CONFIG_DOS_PARTITION
-#define CONFIG_MAC_PARTITION
-#define CONFIG_ISO_PARTITION /* Experimental */
 
 /************************************************************
  * Video support

@@ -30,7 +30,6 @@
 #define CONFIG_SETUP_MEMORY_TAGS
 #define CONFIG_INITRD_TAG
 #define CONFIG_SKIP_LOWLEVEL_INIT
-#define CONFIG_BOARD_EARLY_INIT_F
 
 /* general purpose I/O */
 #define CONFIG_ATMEL_LEGACY		/* required until (g)pio is fixed */
@@ -48,7 +47,6 @@
 #undef LCD_TEST_PATTERN
 #define CONFIG_LCD_INFO
 #define CONFIG_LCD_INFO_BELOW_LOGO
-#define CONFIG_SYS_WHITE_ON_BLACK
 #define CONFIG_ATMEL_LCD
 #define CONFIG_ATMEL_LCD_RGB565
 /* board specific(not enough SRAM) */
@@ -75,9 +73,6 @@
  * Command line configuration.
  */
 
-/* No NOR flash */
-#define CONFIG_SYS_NO_FLASH
-
 /* SDRAM */
 #define CONFIG_NR_DRAM_BANKS	2
 #define PHYS_SDRAM_1		ATMEL_BASE_CS1	/* on DDRSDRC1 */
@@ -92,12 +87,7 @@
 /* MMC */
 
 #ifdef CONFIG_CMD_MMC
-#define CONFIG_GENERIC_MMC
 #define CONFIG_GENERIC_ATMEL_MCI
-#endif
-
-#if defined(CONFIG_CMD_USB) || defined(CONFIG_CMD_MMC)
-#define CONFIG_DOS_PARTITION
 #endif
 
 /* Ethernet */
@@ -108,8 +98,6 @@
 #define CONFIG_AT91_WANTS_COMMON_PHY
 
 /* USB */
-#define CONFIG_USB_EHCI
-#define CONFIG_USB_EHCI_ATMEL
 #define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS	2
 
 #define CONFIG_SYS_LOAD_ADDR		0x22000000	/* load address */
@@ -137,8 +125,6 @@
 				"fatload mmc 0:1 0x22000000 zImage; " \
 				"bootz 0x22000000 - 0x21000000"
 #endif
-
-#define CONFIG_BAUDRATE			115200
 
 #define CONFIG_SYS_CBSIZE	256
 #define CONFIG_SYS_MAXARGS	16

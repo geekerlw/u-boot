@@ -86,8 +86,6 @@
 #endif
 
 /* High Level Configuration Options */
-#define CONFIG_BOOKE			/* BOOKE */
-#define CONFIG_E500			/* BOOKE e500 family */
 #define CONFIG_MP			/* support multiple processors */
 
 #ifndef CONFIG_SYS_TEXT_BASE
@@ -98,7 +96,6 @@
 #define CONFIG_RESET_VECTOR_ADDRESS	0xeffffffc
 #endif
 
-#define CONFIG_FSL_ELBC			/* Has Enhanced localbus controller */
 #define CONFIG_PCIE1			/* PCIE controller 1 (slot 1) */
 #define CONFIG_PCIE2			/* PCIE controller 2 (slot 2) */
 #define CONFIG_PCIE3			/* PCIE controller 3 (ULI bridge) */
@@ -138,7 +135,6 @@
 /* DDR Setup */
 #define CONFIG_DDR_SPD
 #define CONFIG_VERY_BIG_RAM
-#define CONFIG_SYS_FSL_DDR3
 
 #ifdef CONFIG_DDR_ECC
 #define CONFIG_ECC_INIT_VIA_DDRCONTROLLER
@@ -148,7 +144,6 @@
 #define CONFIG_SYS_DDR_SDRAM_BASE	0x00000000
 #define CONFIG_SYS_SDRAM_BASE		CONFIG_SYS_DDR_SDRAM_BASE
 
-#define CONFIG_NUM_DDR_CONTROLLERS	1
 #define CONFIG_DIMM_SLOTS_PER_CTLR	1
 #define CONFIG_CHIP_SELECTS_PER_CTRL	(2 * CONFIG_DIMM_SLOTS_PER_CTLR)
 
@@ -278,7 +273,6 @@
 
 #endif /* CONFIG_NAND_FSL_ELBC */
 
-#define CONFIG_BOARD_EARLY_INIT_F
 #define CONFIG_BOARD_EARLY_INIT_R
 #define CONFIG_MISC_INIT_R
 #define CONFIG_HWCONFIG
@@ -371,7 +365,6 @@
 
 #ifdef CONFIG_FSL_DIU_FB
 #define CONFIG_SYS_DIU_ADDR	(CONFIG_SYS_CCSRBAR + 0x10000)
-#define CONFIG_CMD_BMP
 #define CONFIG_VIDEO_LOGO
 #define CONFIG_VIDEO_BMP_LOGO
 #define CONFIG_CFI_FLASH_USE_WEAK_ACCESSORS
@@ -505,17 +498,11 @@
 #ifdef CONFIG_FSL_SATA
 #define CONFIG_LBA48
 #define CONFIG_CMD_SATA
-#define CONFIG_DOS_PARTITION
 #endif
 
 #ifdef CONFIG_MMC
 #define CONFIG_FSL_ESDHC
-#define CONFIG_GENERIC_MMC
 #define CONFIG_SYS_FSL_ESDHC_ADDR	CONFIG_SYS_MPC85xx_ESDHC_ADDR
-#endif
-
-#if defined(CONFIG_MMC) || defined(CONFIG_USB_EHCI)
-#define CONFIG_DOS_PARTITION
 #endif
 
 #define CONFIG_TSEC_ENET
@@ -606,8 +593,6 @@
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_ERRATA
-#define CONFIG_CMD_IRQ
 #define CONFIG_CMD_REGINFO
 
 #ifdef CONFIG_PCI
@@ -619,9 +604,7 @@
  */
 #define CONFIG_HAS_FSL_DR_USB
 #ifdef CONFIG_HAS_FSL_DR_USB
-#define CONFIG_USB_EHCI
-
-#ifdef CONFIG_USB_EHCI
+#ifdef CONFIG_USB_EHCI_HCD
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
 #define CONFIG_USB_EHCI_FSL
 #endif
@@ -666,9 +649,6 @@
 #define CONFIG_UBOOTPATH	u-boot.bin	/* U-Boot image on TFTP server */
 
 #define CONFIG_LOADADDR		1000000
-
-
-#define CONFIG_BAUDRATE	115200
 
 #define	CONFIG_EXTRA_ENV_SETTINGS				\
 	"netdev=eth0\0"						\

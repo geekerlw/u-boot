@@ -11,10 +11,6 @@
 #ifndef __CONFIG_H
 #define __CONFIG_H
 
-/* High Level Configuration Options */
-#define CONFIG_BOOKE		1	/* BOOKE */
-#define CONFIG_E500		1	/* BOOKE e500 family */
-
 #ifndef CONFIG_SYS_TEXT_BASE
 #define CONFIG_SYS_TEXT_BASE	0xfff80000
 #endif
@@ -56,7 +52,6 @@ extern unsigned long get_board_sys_clk(unsigned long dummy);
 #define CONFIG_SYS_CCSRBAR_PHYS_LOW	CONFIG_SYS_CCSRBAR
 
 /* DDR Setup */
-#define CONFIG_SYS_FSL_DDR2
 #undef CONFIG_FSL_DDR_INTERACTIVE
 #define CONFIG_SPD_EEPROM		/* Use SPD EEPROM for DDR setup */
 #define CONFIG_DDR_SPD
@@ -68,7 +63,6 @@ extern unsigned long get_board_sys_clk(unsigned long dummy);
 #define CONFIG_SYS_SDRAM_BASE		CONFIG_SYS_DDR_SDRAM_BASE
 #define CONFIG_VERY_BIG_RAM
 
-#define CONFIG_NUM_DDR_CONTROLLERS	1
 #define CONFIG_DIMM_SLOTS_PER_CTLR	1
 #define CONFIG_CHIP_SELECTS_PER_CTRL	2
 
@@ -288,7 +282,6 @@ extern unsigned long get_board_sys_clk(unsigned long dummy);
 #endif
 
 #define CONFIG_PCI_SCAN_SHOW		/* show pci devices on startup */
-#define CONFIG_DOS_PARTITION
 #define CONFIG_SCSI_AHCI
 
 #ifdef CONFIG_SCSI_AHCI
@@ -355,7 +348,6 @@ extern unsigned long get_board_sys_clk(unsigned long dummy);
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_IRQ
 #define CONFIG_CMD_REGINFO
 
 #if defined(CONFIG_PCI)
@@ -366,9 +358,8 @@ extern unsigned long get_board_sys_clk(unsigned long dummy);
 /*
  * USB
  */
-#define CONFIG_USB_EHCI
 
-#ifdef CONFIG_USB_EHCI
+#ifdef CONFIG_USB_EHCI_HCD
 #define CONFIG_USB_EHCI_PCI
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
 #define CONFIG_PCI_EHCI_DEVICE			0
@@ -428,8 +419,6 @@ extern unsigned long get_board_sys_clk(unsigned long dummy);
 #define CONFIG_LOADADDR	1000000	/*default location for tftp and bootm*/
 
 #undef	CONFIG_BOOTARGS		/* the boot command will set bootargs*/
-
-#define CONFIG_BAUDRATE	115200
 
 #define	CONFIG_EXTRA_ENV_SETTINGS				\
 "netdev=eth0\0"						\

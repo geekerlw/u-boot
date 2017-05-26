@@ -16,7 +16,6 @@
  * (easy to change)
  */
 #define CONFIG_SHOW_BOOT_PROGRESS
-#define CONFIG_ZBOOT_32
 #define CONFIG_PHYSMEM
 #define CONFIG_DISPLAY_BOARDINFO_LATE
 #define CONFIG_LAST_STAGE_INIT
@@ -56,30 +55,14 @@
 /*-----------------------------------------------------------------------
  * Serial Configuration
  */
-#define CONFIG_BAUDRATE			115200
 #define CONFIG_SYS_BAUDRATE_TABLE	{300, 600, 1200, 2400, 4800, \
 					 9600, 19200, 38400, 115200}
 #define CONFIG_SYS_NS16550_PORT_MAPPED
 
 #define CONFIG_CMDLINE_EDITING
-#define CONFIG_COMMAND_HISTORY
 #define CONFIG_AUTO_COMPLETE
 
 #define CONFIG_SUPPORT_VFAT
-
-/************************************************************
- * DISK Partition support
- ************************************************************/
-#define CONFIG_EFI_PARTITION
-#define CONFIG_DOS_PARTITION
-#define CONFIG_MAC_PARTITION
-#define CONFIG_ISO_PARTITION		/* Experimental */
-
-#define CONFIG_CMD_PART
-#ifdef CONFIG_SYS_COREBOOT
-#define CONFIG_CMD_CBFS
-#endif
-#define CONFIG_PARTITION_UUIDS
 
 /* x86 GPIOs are accessed through a PCI device */
 #define CONFIG_INTEL_ICH6_GPIO
@@ -87,12 +70,7 @@
 /*-----------------------------------------------------------------------
  * Command line configuration.
  */
-#define CONFIG_CMD_DATE
-#define CONFIG_CMD_FPGA_LOADMK
-#define CONFIG_CMD_IO
-#define CONFIG_CMD_IRQ
 #define CONFIG_CMD_PCI
-#define CONFIG_CMD_GETTIME
 #define CONFIG_SCSI
 
 #define CONFIG_CMD_ZBOOT
@@ -135,7 +113,6 @@
 /*-----------------------------------------------------------------------
  * FLASH configuration
  */
-#define CONFIG_SYS_NO_FLASH
 #define CONFIG_CMD_SF_TEST
 #define CONFIG_SPI
 
@@ -153,7 +130,6 @@
 /*-----------------------------------------------------------------------
  * USB configuration
  */
-#define CONFIG_USB_EHCI
 #define CONFIG_USB_EHCI_PCI
 #define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS     12
 #define CONFIG_USB_MAX_CONTROLLER_COUNT        2

@@ -18,11 +18,7 @@
 #define CONFIG_AM335X_LCD
 #define CONFIG_LCD_ROTATION
 #define CONFIG_LCD_DT_SIMPLEFB
-#define CONFIG_SYS_WHITE_ON_BLACK
 #define LCD_BPP				LCD_COLOR32
-
-#define CONFIG_HW_WATCHDOG
-#define CONFIG_OMAP_WATCHDOG
 
 /* Bootcount using the RTC block */
 #define CONFIG_SYS_BOOTCOUNT_ADDR	0x44E3E000
@@ -48,8 +44,6 @@
 
 /* MMC/SD IP block */
 #if defined(CONFIG_EMMC_BOOT)
- #define CONFIG_GENERIC_MMC
- #define CONFIG_OMAP_HSMMC
  #define CONFIG_SUPPORT_EMMC_BOOT
 #endif /* CONFIG_EMMC_BOOT */
 
@@ -233,7 +227,6 @@ MMCARGS
 
 /* USB configuration */
 #define CONFIG_USB_MUSB_DSPS
-#define CONFIG_ARCH_MISC_INIT
 #define CONFIG_USB_MUSB_PIO_ONLY
 #define CONFIG_USB_MUSB_DISABLE_BULK_COMBINE_SPLIT
 #define CONFIG_AM335X_USB0
@@ -283,7 +276,6 @@ MMCARGS
  * enabled a number of useful commands and support.
  */
 #if defined(CONFIG_MMC) || defined(CONFIG_USB_STORAGE)
-#define CONFIG_DOS_PARTITION
 #define CONFIG_FAT_WRITE
 #define CONFIG_FS_EXT4
 #define CONFIG_EXT4_WRITE

@@ -13,10 +13,6 @@
 #include <linux/sizes.h>
 #include <asm/arch/cpu.h>
 
-/*
- * Define DevKit3250 machine type by hand until it lands in mach-types
- */
-#define MACH_TYPE_DEVKIT3250		3697
 #define CONFIG_MACH_TYPE		MACH_TYPE_DEVKIT3250
 
 #define CONFIG_SYS_ICACHE_OFF
@@ -24,7 +20,6 @@
 #if !defined(CONFIG_SPL_BUILD)
 #define CONFIG_SKIP_LOWLEVEL_INIT
 #endif
-#define CONFIG_BOARD_EARLY_INIT_F
 
 /*
  * Memory configurations
@@ -46,7 +41,6 @@
  * Serial Driver
  */
 #define CONFIG_SYS_LPC32XX_UART		5   /* UART5 */
-#define CONFIG_BAUDRATE			115200
 
 /*
  * DMA
@@ -116,7 +110,6 @@
 #define CONFIG_SYS_NAND_PAGE_SIZE		NAND_LARGE_BLOCK_PAGE_SIZE
 #define CONFIG_SYS_NAND_USE_FLASH_BBT
 
-#define CONFIG_CMD_JFFS2
 #define CONFIG_CMD_NAND
 
 /*
@@ -137,7 +130,6 @@
 
 #define CONFIG_AUTO_COMPLETE
 #define CONFIG_CMDLINE_EDITING
-#define CONFIG_DOS_PARTITION
 
 /*
  * Pass open firmware flat tree
@@ -188,7 +180,6 @@
 
 /* SPL will use SRAM as stack */
 #define CONFIG_SPL_STACK		0x0000FFF8
-#define CONFIG_SPL_BOARD_INIT
 
 /* Use the framework and generic lib */
 #define CONFIG_SPL_FRAMEWORK

@@ -68,10 +68,6 @@
 #endif
 
 /* High Level Configuration Options */
-#define CONFIG_BOOKE			/* BOOKE */
-#define CONFIG_E500			/* BOOKE e500 family */
-#define CONFIG_FSL_IFC			/* Enable IFC Support */
-#define CONFIG_FSL_CAAM			/* Enable SEC/CAAM */
 #define CONFIG_SYS_HAS_SERDES		/* common SERDES init code */
 
 #ifdef CONFIG_PCI
@@ -99,7 +95,6 @@
 #define CONFIG_SYS_PCIE1_IO_PHYS	0xfffc00000ull
 
 #define CONFIG_PCI_SCAN_SHOW		/* show pci devices on startup */
-#define CONFIG_DOS_PARTITION
 #endif
 
 #define CONFIG_TSEC_ENET
@@ -128,7 +123,6 @@
 #define CONFIG_PANIC_HANG
 
 /* DDR Setup */
-#define CONFIG_SYS_FSL_DDR3
 #define CONFIG_DDR_SPD
 #define CONFIG_SYS_SPD_BUS_NUM		0
 #define SPD_EEPROM_ADDRESS		0x50
@@ -154,10 +148,6 @@
 #define CONFIG_SYS_PLATFORM_SRAM_BASE_PHYS \
 			(0xf00000000ull | CONFIG_SYS_PLATFORM_SRAM_BASE)
 #define CONFIG_SYS_PLATFORM_SRAM_SIZE	(512 << 10)
-
-#ifdef CONFIG_SPL_BUILD
-#define CONFIG_SYS_NO_FLASH
-#endif
 
 /*
  * IFC Definitions
@@ -381,7 +371,6 @@
 
 /* I2C EEPROM */
 /* enable read and write access to EEPROM */
-#define CONFIG_CMD_EEPROM
 #define CONFIG_SYS_I2C_EEPROM_ADDR_LEN 2
 #define CONFIG_SYS_EEPROM_PAGE_WRITE_BITS 3
 #define CONFIG_SYS_EEPROM_PAGE_WRITE_DELAY_MS 5
@@ -447,15 +436,7 @@
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_ERRATA
-#define CONFIG_CMD_IRQ
 #define CONFIG_CMD_REGINFO
-
-/* Hash command with SHA acceleration supported in hardware */
-#ifdef CONFIG_FSL_CAAM
-#define CONFIG_CMD_HASH
-#define CONFIG_SHA_HW_ACCEL
-#endif
 
 /*
  * Miscellaneous configurable options
@@ -494,9 +475,6 @@
 
 /* default location for tftp and bootm */
 #define CONFIG_LOADADDR		1000000
-
-
-#define CONFIG_BAUDRATE		115200
 
 #define CONFIG_DEF_HWCONFIG	fsl_ddr:ecc=on
 

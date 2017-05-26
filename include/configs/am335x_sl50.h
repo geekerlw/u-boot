@@ -19,7 +19,6 @@
 #define CONFIG_SYS_BOOTM_LEN		(16 << 20)
 
 /*#define CONFIG_MACH_TYPE		3589	 Until the next sync */
-#define CONFIG_BOARD_LATE_INIT
 
 /* Clock Defines */
 #define V_OSCK				24000000  /* Clock output from T2 */
@@ -27,10 +26,6 @@
 
 /* Always 128 KiB env size */
 #define CONFIG_ENV_SIZE			(128 << 10)
-
-/* Enhance our eMMC support / experience. */
-#define CONFIG_CMD_GPT
-#define CONFIG_EFI_PARTITION
 
 #define CONFIG_ENV_VARS_UBOOT_RUNTIME_CONFIG
 
@@ -68,9 +63,7 @@
 #define CONFIG_SYS_NS16550_COM4		0x481a6000	/* UART3 */
 #define CONFIG_SYS_NS16550_COM5		0x481a8000	/* UART4 */
 #define CONFIG_SYS_NS16550_COM6		0x481aa000	/* UART5 */
-#define CONFIG_BAUDRATE			115200
 
-#define CONFIG_CMD_EEPROM
 #define CONFIG_ENV_EEPROM_IS_ON_I2C
 #define CONFIG_SYS_I2C_EEPROM_ADDR	0x50	/* Main EEPROM */
 #define CONFIG_SYS_I2C_EEPROM_ADDR_LEN	2
@@ -86,7 +79,7 @@
 #define CONFIG_BOOTCOUNT_AM33XX
 #define CONFIG_SYS_BOOTCOUNT_BE
 
-#define CONFIG_SPL_LDSCRIPT		"arch/arm/mach-omap2/am33xx/u-boot-spl.lds"
+#define CONFIG_SPL_LDSCRIPT		"arch/arm/mach-omap2/u-boot-spl.lds"
 
 #ifndef CONFIG_SPL_USBETH_SUPPORT
 #define CONFIG_FASTBOOT_FLASH_MMC_DEV   1
@@ -99,8 +92,6 @@
 /* disable host part of MUSB in SPL */
 #undef CONFIG_MUSB_HOST
 /* disable EFI partitions and partition UUID support */
-#undef CONFIG_PARTITION_UUIDS
-#undef CONFIG_EFI_PARTITION
 #endif
 
 #if defined(CONFIG_EMMC_BOOT)

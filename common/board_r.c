@@ -23,10 +23,9 @@
 #include <dm.h>
 #include <environment.h>
 #include <fdtdec.h>
-#if defined(CONFIG_CMD_IDE)
 #include <ide.h>
-#endif
 #include <initcall.h>
+#include <init_helpers.h>
 #ifdef CONFIG_PS2KBD
 #include <keyboard.h>
 #endif
@@ -49,16 +48,10 @@
 #include <timer.h>
 #include <trace.h>
 #include <watchdog.h>
-#ifdef CONFIG_CMD_AMBAPP
-#include <ambapp.h>
-#endif
 #ifdef CONFIG_ADDR_MAP
 #include <asm/mmu.h>
 #endif
 #include <asm/sections.h>
-#ifdef CONFIG_X86
-#include <asm/init_helpers.h>
-#endif
 #include <dm/root.h>
 #include <linux/compiler.h>
 #include <linux/err.h>
@@ -68,10 +61,6 @@
 #include <efi_loader.h>
 
 DECLARE_GLOBAL_DATA_PTR;
-
-#if defined(CONFIG_SPARC)
-extern int prom_init(void);
-#endif
 
 ulong monitor_flash_len;
 
@@ -262,17 +251,6 @@ static int initr_pci(void)
 }
 #endif
 
-#ifdef CONFIG_WINBOND_83C553
-static int initr_w83c553f(void)
-{
-	/*
-	 * Initialise the ISA bridge
-	 */
-	initialise_w83c553f();
-	return 0;
-}
-#endif
-
 static int initr_barrier(void)
 {
 #ifdef CONFIG_PPC
@@ -366,7 +344,7 @@ static int initr_manual_reloc_cmdtable(void)
 }
 #endif
 
-#if !defined(CONFIG_SYS_NO_FLASH)
+#if defined(CONFIG_MTD_NOR_FLASH)
 static int initr_flash(void)
 {
 	ulong flash_size = 0;
@@ -437,6 +415,7 @@ static int initr_nand(void)
 {
 	puts("NAND:  ");
 	nand_init();
+	printf("%lu MiB\n", nand_size() / 1024);
 	return 0;
 }
 #endif
@@ -451,7 +430,7 @@ static int initr_onenand(void)
 }
 #endif
 
-#ifdef CONFIG_GENERIC_MMC
+#ifdef CONFIG_MMC
 static int initr_mmc(void)
 {
 	puts("MMC:   ");
@@ -504,24 +483,7 @@ static int initr_env(void)
 
 	/* Initialize from environment */
 	load_addr = getenv_ulong("loadaddr", 16, load_addr);
-#if defined(CONFIG_SYS_EXTBDINFO)
-#if defined(CONFIG_405GP) || defined(CONFIG_405EP)
-#if defined(CONFIG_I2CFAST)
-	/*
-	 * set bi_iic_fast for linux taking environment variable
-	 * "i2cfast" into account
-	 */
-	{
-		char *s = getenv("i2cfast");
 
-		if (s && ((*s == 'y') || (*s == 'Y'))) {
-			gd->bd->bi_iic_fast[0] = 1;
-			gd->bd->bi_iic_fast[1] = 1;
-		}
-	}
-#endif /* CONFIG_I2CFAST */
-#endif /* CONFIG_405GP, CONFIG_405EP */
-#endif /* CONFIG_SYS_EXTBDINFO */
 	return 0;
 }
 
@@ -596,26 +558,14 @@ static int initr_kgdb(void)
 }
 #endif
 
-#if defined(CONFIG_STATUS_LED)
+#if defined(CONFIG_LED_STATUS)
 static int initr_status_led(void)
 {
-#if defined(STATUS_LED_BOOT)
-	status_led_set(STATUS_LED_BOOT, STATUS_LED_BLINKING);
+#if defined(CONFIG_LED_STATUS_BOOT)
+	status_led_set(CONFIG_LED_STATUS_BOOT, CONFIG_LED_STATUS_BLINKING);
 #else
 	status_led_init();
 #endif
-	return 0;
-}
-#endif
-
-#if defined(CONFIG_CMD_AMBAPP) && defined(CONFIG_SYS_AMBAPP_PRINT_ON_STARTUP)
-extern int do_ambapp_print(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[]);
-
-static int initr_ambapp_print(void)
-{
-	puts("AMBA:\n");
-	do_ambapp_print(NULL, 0, 0, NULL);
-
 	return 0;
 }
 #endif
@@ -626,15 +576,6 @@ static int initr_scsi(void)
 	puts("SCSI:  ");
 	scsi_init();
 
-	return 0;
-}
-#endif
-
-#if defined(CONFIG_CMD_DOC)
-static int initr_doc(void)
-{
-	puts("DOC:   ");
-	doc_init();
 	return 0;
 }
 #endif
@@ -668,7 +609,7 @@ static int initr_post(void)
 }
 #endif
 
-#if defined(CONFIG_CMD_PCMCIA) && !defined(CONFIG_CMD_IDE)
+#if defined(CONFIG_CMD_PCMCIA) && !defined(CONFIG_IDE)
 static int initr_pcmcia(void)
 {
 	puts("PCMCIA:");
@@ -677,7 +618,7 @@ static int initr_pcmcia(void)
 }
 #endif
 
-#if defined(CONFIG_CMD_IDE)
+#if defined(CONFIG_IDE)
 static int initr_ide(void)
 {
 #ifdef	CONFIG_IDE_8xx_PCCARD
@@ -757,7 +698,7 @@ static int run_main_loop(void)
  *
  * TODO: perhaps reset the watchdog in the initcall function after each call?
  */
-init_fnc_t init_sequence_r[] = {
+static init_fnc_t init_sequence_r[] = {
 	initr_trace,
 	initr_reloc,
 	/* TODO: could x86/PPC have this also perhaps? */
@@ -834,19 +775,15 @@ init_fnc_t init_sequence_r[] = {
 	 */
 	initr_pci,
 #endif
-#ifdef CONFIG_WINBOND_83C553
-	initr_w83c553f,
-#endif
 #ifdef CONFIG_ARCH_EARLY_INIT_R
 	arch_early_init_r,
 #endif
 	power_init_board,
-#ifndef CONFIG_SYS_NO_FLASH
+#ifdef CONFIG_MTD_NOR_FLASH
 	initr_flash,
 #endif
 	INIT_FUNC_WATCHDOG_RESET
-#if defined(CONFIG_PPC) || defined(CONFIG_M68K) || defined(CONFIG_X86) || \
-	defined(CONFIG_SPARC)
+#if defined(CONFIG_PPC) || defined(CONFIG_M68K) || defined(CONFIG_X86)
 	/* initialize higher level parts of CPU like time base and timers */
 	cpu_init_r,
 #endif
@@ -859,7 +796,7 @@ init_fnc_t init_sequence_r[] = {
 #ifdef CONFIG_CMD_ONENAND
 	initr_onenand,
 #endif
-#ifdef CONFIG_GENERIC_MMC
+#ifdef CONFIG_MMC
 	initr_mmc,
 #endif
 #ifdef CONFIG_HAS_DATAFLASH
@@ -907,7 +844,7 @@ init_fnc_t init_sequence_r[] = {
 #if defined(CONFIG_MICROBLAZE) || defined(CONFIG_AVR32) || defined(CONFIG_M68K)
 	timer_init,		/* initialize timer */
 #endif
-#if defined(CONFIG_STATUS_LED)
+#if defined(CONFIG_LED_STATUS)
 	initr_status_led,
 #endif
 	/* PPC has a udelay(20) here dating from 2002. Why? */
@@ -917,19 +854,9 @@ init_fnc_t init_sequence_r[] = {
 #ifdef CONFIG_BOARD_LATE_INIT
 	board_late_init,
 #endif
-#if defined(CONFIG_CMD_AMBAPP)
-	ambapp_init_reloc,
-#if defined(CONFIG_SYS_AMBAPP_PRINT_ON_STARTUP)
-	initr_ambapp_print,
-#endif
-#endif
 #if defined(CONFIG_SCSI) && !defined(CONFIG_DM_SCSI)
 	INIT_FUNC_WATCHDOG_RESET
 	initr_scsi,
-#endif
-#ifdef CONFIG_CMD_DOC
-	INIT_FUNC_WATCHDOG_RESET
-	initr_doc,
 #endif
 #ifdef CONFIG_BITBANGMII
 	initr_bbmii,
@@ -941,10 +868,10 @@ init_fnc_t init_sequence_r[] = {
 #ifdef CONFIG_POST
 	initr_post,
 #endif
-#if defined(CONFIG_CMD_PCMCIA) && !defined(CONFIG_CMD_IDE)
+#if defined(CONFIG_CMD_PCMCIA) && !defined(CONFIG_IDE)
 	initr_pcmcia,
 #endif
-#if defined(CONFIG_CMD_IDE)
+#if defined(CONFIG_IDE)
 	initr_ide,
 #endif
 #ifdef CONFIG_LAST_STAGE_INIT
@@ -966,14 +893,21 @@ init_fnc_t init_sequence_r[] = {
 #ifdef CONFIG_PS2KBD
 	initr_kbd,
 #endif
-#if defined(CONFIG_SPARC)
-	prom_init,
-#endif
 	run_main_loop,
 };
 
 void board_init_r(gd_t *new_gd, ulong dest_addr)
 {
+	/*
+	 * Set up the new global data pointer. So far only x86 does this
+	 * here.
+	 * TODO(sjg@chromium.org): Consider doing this for all archs, or
+	 * dropping the new_gd parameter.
+	 */
+#if CONFIG_IS_ENABLED(X86_64)
+	arch_setup_gd(new_gd);
+#endif
+
 #ifdef CONFIG_NEEDS_MANUAL_RELOC
 	int i;
 #endif

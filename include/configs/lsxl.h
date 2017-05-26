@@ -35,21 +35,9 @@
 
 #define CONFIG_KIRKWOOD_GPIO
 
-#define CONFIG_SYS_NO_FLASH
-
-/*
- * Enable u-boot API for standalone programs.
- */
-#define CONFIG_API
-
 /*
  * Commands configuration
  */
-#define CONFIG_CMD_ENV
-#define CONFIG_CMD_IDE
-
-#define CONFIG_DOS_PARTITION
-#define CONFIG_EFI_PARTITION
 
 /*
  * mv-common.h should be defined after CMD configs since it used them
@@ -157,7 +145,7 @@
 #undef CONFIG_RESET_PHY_R
 #endif /* CONFIG_CMD_NET */
 
-#ifdef CONFIG_CMD_IDE
+#ifdef CONFIG_IDE
 #undef CONFIG_IDE_LED
 #undef CONFIG_SYS_IDE_MAXBUS
 #define CONFIG_SYS_IDE_MAXBUS		1

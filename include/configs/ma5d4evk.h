@@ -8,8 +8,6 @@
 #ifndef __MA5D4EVK_CONFIG_H__
 #define __MA5D4EVK_CONFIG_H__
 
-#define CONFIG_SYS_NO_FLASH
-
 #define CONFIG_TIMESTAMP		/* Print image info with timestamp */
 
 #include "at91-sama5_common.h"
@@ -19,7 +17,6 @@
 /*
  * U-Boot Commands
  */
-#define CONFIG_DOS_PARTITION
 #define CONFIG_FAT_WRITE
 
 /*
@@ -74,7 +71,6 @@
  * LCD
  */
 #ifdef CONFIG_LCD
-#define CONFIG_CMD_BMP
 #define CONFIG_BMP_16BPP
 #define CONFIG_BMP_24BPP
 #define CONFIG_BMP_32BPP
@@ -87,7 +83,6 @@
  * SD/MMC
  */
 #ifdef CONFIG_CMD_MMC
-#define CONFIG_GENERIC_MMC
 #define CONFIG_GENERIC_ATMEL_MCI
 #endif
 
@@ -107,8 +102,6 @@
  * USB
  */
 #ifdef CONFIG_CMD_USB
-#define CONFIG_USB_EHCI
-#define CONFIG_USB_EHCI_ATMEL
 #define CONFIG_SYS_USB_EHCI_MAX_ROOT_PORTS	3
 
 /* USB device */
@@ -213,7 +206,6 @@
 #define CONFIG_SYS_SPL_MALLOC_START	0x20080000
 #define CONFIG_SYS_SPL_MALLOC_SIZE	0x80000
 
-#define CONFIG_SPL_BOARD_INIT
 #define CONFIG_SYS_MONITOR_LEN		(512 << 10)
 
 #define CONFIG_SPL_SPI_LOAD

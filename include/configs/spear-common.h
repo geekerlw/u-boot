@@ -80,7 +80,6 @@
 #define CONFIG_PL011_SERIAL
 #define CONFIG_PL011_CLOCK			(48 * 1000 * 1000)
 #define CONFIG_CONS_INDEX			0
-#define CONFIG_BAUDRATE				115200
 #define CONFIG_SYS_BAUDRATE_TABLE		{ 9600, 19200, 38400, \
 						57600, 115200 }
 
@@ -98,7 +97,6 @@
  * Command support defines
  */
 #define CONFIG_CMD_NAND
-#define CONFIG_CMD_ENV
 #define CONFIG_CMD_SAVES
 
 /*
@@ -172,7 +170,6 @@
 
 /* Miscellaneous configurable options */
 #define CONFIG_ARCH_CPU_INIT
-#define CONFIG_BOARD_EARLY_INIT_F
 #define CONFIG_BOOT_PARAMS_ADDR			0x00000100
 #define CONFIG_CMDLINE_TAG
 #define CONFIG_SETUP_MEMORY_TAGS

@@ -95,7 +95,7 @@ int is_micron(void){
 	return(ismicron);
 }
 
-phys_size_t initdram(int board_type)
+int dram_init(void)
 {
 	u32 msize = 0;
 	/*
@@ -167,32 +167,13 @@ phys_size_t initdram(int board_type)
 				sizeof(elpida_init_sequence)/sizeof(u32));
 	}
 
-	return msize;
+	gd->ram_size = msize;
+
+	return 0;
 }
 
 int misc_init_r(void)
 {
-	u8 tmp_val;
-
-	/* Using this for DIU init before the driver in linux takes over
-	 *  Enable the TFP410 Encoder (I2C address 0x38)
-	 */
-
-	i2c_set_bus_num(2);
-	tmp_val = 0xBF;
-	i2c_write(0x38, 0x08, 1, &tmp_val, sizeof(tmp_val));
-	/* Verify if enabled */
-	tmp_val = 0;
-	i2c_read(0x38, 0x08, 1, &tmp_val, sizeof(tmp_val));
-	debug("DVI Encoder Read: 0x%02x\n", tmp_val);
-
-	tmp_val = 0x10;
-	i2c_write(0x38, 0x0A, 1, &tmp_val, sizeof(tmp_val));
-	/* Verify if enabled */
-	tmp_val = 0;
-	i2c_read(0x38, 0x0A, 1, &tmp_val, sizeof(tmp_val));
-	debug("DVI Encoder Read: 0x%02x\n", tmp_val);
-
 	return 0;
 }
 

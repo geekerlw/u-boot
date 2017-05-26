@@ -32,7 +32,6 @@
 #define CONFIG_SYS_CLK_FREQ    ((in8(CONFIG_SYS_CPLD_BASE + 0) == 0x0c) ? \
 				66666666 : 33333000)
 
-#define CONFIG_BOARD_EARLY_INIT_F 1		/* Call board_early_init_f */
 #define CONFIG_MISC_INIT_F	1		/* Call misc_init_f	*/
 
 #define CONFIG_NO_SERIAL_EEPROM
@@ -125,14 +124,6 @@
 #define CONFIG_SYS_EEPROM_PAGE_WRITE_BITS 3
 #define CONFIG_SYS_EEPROM_PAGE_WRITE_DELAY_MS 10
 
-/* I2C SYSMON (LM75, AD7414 is almost compatible)			*/
-#define CONFIG_DTT_LM75		1		/* ON Semi's LM75	*/
-#define CONFIG_DTT_AD7414	1		/* use AD7414		*/
-#define CONFIG_DTT_SENSORS	{0}		/* Sensor addresses	*/
-#define CONFIG_SYS_DTT_MAX_TEMP	70
-#define CONFIG_SYS_DTT_LOW_TEMP	-30
-#define CONFIG_SYS_DTT_HYSTERESIS	3
-
 /*-----------------------------------------------------------------------
  * Ethernet
  *----------------------------------------------------------------------*/
@@ -155,16 +146,12 @@
 #define CONFIG_USB_OHCI
 
 /* Partitions */
-#define CONFIG_MAC_PARTITION
-#define CONFIG_DOS_PARTITION
-#define CONFIG_ISO_PARTITION
 
 #define CONFIG_SUPPORT_VFAT
 
 /*
  * Commands additional to the ones defined in amcc-common.h
  */
-#define CONFIG_CMD_DTT
 #define CONFIG_CMD_NAND
 
 /*-----------------------------------------------------------------------

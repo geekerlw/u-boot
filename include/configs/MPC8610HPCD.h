@@ -21,7 +21,6 @@
 
 #ifdef CONFIG_FSL_DIU_FB
 #define CONFIG_SYS_DIU_ADDR	(CONFIG_SYS_CCSRBAR + 0x2c000)
-#define CONFIG_CMD_BMP
 #define CONFIG_VIDEO_LOGO
 #define CONFIG_VIDEO_BMP_LOGO
 #endif
@@ -61,7 +60,6 @@
 #define CONFIG_SYS_CLK_FREQ	get_board_sys_clk(0)
 #endif
 
-#define CONFIG_BOARD_EARLY_INIT_F	1	/* Call board_pre_init */
 #define CONFIG_MISC_INIT_R		1
 
 #define CONFIG_SYS_MEMTEST_START	0x00200000	/* memtest region */
@@ -79,7 +77,6 @@
 #define CONFIG_SYS_CCSRBAR_PHYS		CONFIG_SYS_CCSRBAR_PHYS_LOW
 
 /* DDR Setup */
-#define CONFIG_SYS_FSL_DDR2
 #undef CONFIG_FSL_DDR_INTERACTIVE
 #define CONFIG_SPD_EEPROM		/* Use SPD for DDR */
 #define CONFIG_DDR_SPD
@@ -92,7 +89,6 @@
 #define CONFIG_SYS_MAX_DDR_BAT_SIZE	0x80000000	/* BAT mapping size */
 #define CONFIG_VERY_BIG_RAM
 
-#define CONFIG_NUM_DDR_CONTROLLERS	1
 #define CONFIG_DIMM_SLOTS_PER_CTLR	1
 #define CONFIG_CHIP_SELECTS_PER_CTRL	(2 * CONFIG_DIMM_SLOTS_PER_CTLR)
 
@@ -288,7 +284,6 @@
 #define PCI_IDSEL_NUMBER	0x0c	/* slot0->3(IDSEL)=12->15 */
 #endif
 
-#define CONFIG_DOS_PARTITION
 #define CONFIG_SCSI_AHCI
 
 #ifdef CONFIG_SCSI_AHCI
@@ -488,8 +483,6 @@
 #define CONFIG_LOADADDR		0x10000000
 
 #undef	CONFIG_BOOTARGS		/* the boot command will set bootargs */
-
-#define CONFIG_BAUDRATE	115200
 
 #if defined(CONFIG_PCI1)
 #define PCI_ENV \

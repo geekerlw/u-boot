@@ -22,7 +22,6 @@
 /*
  * Enable the call to miscellaneous platform dependent initialization.
  */
-#define CONFIG_SYS_NO_FLASH
 
 /*
  * SPL
@@ -55,10 +54,6 @@
 /*
  * U-Boot Commands
  */
-#define CONFIG_CMD_BSP		/* Board Specific functions	*/
-#define CONFIG_CMD_DATE
-#define CONFIG_CMD_EEPROM
-#define CONFIG_CMD_IMX_FUSE	/* imx iim fuse                 */
 #define CONFIG_CMD_MTDPARTS	/* MTD partition support	*/
 #define CONFIG_CMD_NAND		/* NAND support			*/
 #define CONFIG_CMD_NAND_LOCK_UNLOCK
@@ -201,7 +196,6 @@
  */
 #define CONFIG_MXC_UART
 #define CONFIG_CONS_INDEX		1
-#define CONFIG_BAUDRATE			115200
 #define CONFIG_MXC_UART_BASE		UART1_BASE
 
 /*
@@ -241,7 +235,6 @@
  */
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
-#define CONFIG_DOS_PARTITION
 #define CONFIG_SUPPORT_VFAT
 
 /*
@@ -308,8 +301,6 @@
  * SD/MMC
  */
 #ifdef CONFIG_CMD_MMC
-#define CONFIG_GENERIC_MMC
-#define CONFIG_MXC_MMC
 #define CONFIG_MXC_MCI_REGS_BASE	0x10014000
 #endif
 

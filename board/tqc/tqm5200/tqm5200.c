@@ -128,12 +128,12 @@ static void sdram_start (int hi_addr)
 #endif
 
 /*
- * ATTENTION: Although partially referenced initdram does NOT make real use
+ * ATTENTION: Although partially referenced dram_init does NOT make real use
  *	      use of CONFIG_SYS_SDRAM_BASE. The code does not work if CONFIG_SYS_SDRAM_BASE
  *	      is something else than 0x00000000.
  */
 
-phys_size_t initdram (int board_type)
+int dram_init(void)
 {
 	ulong dramsize = 0;
 	ulong dramsize2 = 0;
@@ -252,10 +252,12 @@ phys_size_t initdram (int board_type)
 	}
 
 #if defined(CONFIG_TQM5200_B)
-	return dramsize + dramsize2;
+	gd->ram_size = dramsize + dramsize2;
 #else
-	return dramsize;
+	gd->ram_size = dramsize;
 #endif /* CONFIG_TQM5200_B */
+
+	return 0;
 }
 
 int checkboard (void)
@@ -310,7 +312,7 @@ void pci_init_board(void)
 }
 #endif
 
-#if defined(CONFIG_CMD_IDE) && defined(CONFIG_IDE_RESET)
+#if defined(CONFIG_IDE) && defined(CONFIG_IDE_RESET)
 
 #if defined (CONFIG_MINIFAP)
 #define SM501_POWER_MODE0_GATE		0x00000040UL
@@ -484,20 +486,14 @@ int board_early_init_f (void)
 
 static int tfp410_read_reg(int reg, uchar *buf)
 {
-	if (i2c_read(CONFIG_SYS_TFP410_ADDR, reg, 1, buf, 1) != 0) {
-		puts ("Error reading the chip.\n");
-		return 1;
-	}
-	return 0;
+	puts("Error reading the chip.\n");
+	return -ENOSYS;
 }
 
 static int tfp410_write_reg(int reg, uchar buf)
 {
-	if (i2c_write(CONFIG_SYS_TFP410_ADDR, reg, 1, &buf, 1) != 0) {
-		puts ("Error writing the chip.\n");
-		return 1;
-	}
-	return 0;
+	puts("Error writing the chip.\n");
+	return -ENOSYS;
 }
 
 typedef struct _tfp410_config {
@@ -523,11 +519,8 @@ static int charon_last_stage_init(void)
 {
 	volatile struct mpc5xxx_lpb *lpb =
 		(struct mpc5xxx_lpb *) MPC5XXX_LPB;
-	int	oldbus = i2c_get_bus_num();
 	uchar	buf;
 	int	i = 0;
-
-	i2c_set_bus_num(CONFIG_SYS_TFP410_BUS);
 
 	/* check version */
 	if (tfp410_read_reg(TFP410_REG_DEV_ID_H, &buf) != 0)
@@ -549,7 +542,6 @@ static int charon_last_stage_init(void)
 		i++;
 	}
 	printf("TFP410 initialized.\n");
-	i2c_set_bus_num(oldbus);
 
 	/* set deadcycle for cs3 to 0 */
 	setbits_be32(&lpb->cs_deadcycle, 0xffffcfff);

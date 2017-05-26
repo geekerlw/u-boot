@@ -26,10 +26,6 @@
 
 #define CONFIG_MACH_TYPE		MACH_TYPE_HARMONY
 
-/* SD/MMC */
-#define CONFIG_GENERIC_MMC
-#define CONFIG_TEGRA_MMC
-
 /* NAND support */
 #define CONFIG_CMD_NAND
 #define CONFIG_TEGRA_NAND
@@ -40,7 +36,6 @@
 #define CONFIG_ENV_OFFSET	(SZ_512M - SZ_128K) /* 128K sector size */
 
 /* USB Host support */
-#define CONFIG_USB_EHCI
 #define CONFIG_USB_EHCI_TEGRA
 
 /* USB networking support */
@@ -48,11 +43,6 @@
 #define CONFIG_USB_ETHER_ASIX
 #define CONFIG_USB_ETHER_MCS7830
 #define CONFIG_USB_ETHER_SMSC95XX
-
-/* General networking support */
-
-/* LCD support */
-#define CONFIG_SYS_WHITE_ON_BLACK
 
 #include "tegra-common-post.h"
 

@@ -124,6 +124,14 @@ config SANDBOX_SPI
 		};
 	  };
 
+config STM32_QSPI
+	bool "STM32F7 QSPI driver"
+	depends on STM32F7
+	help
+	  Enable the STM32F7 Quad-SPI (QSPI) driver. This driver can be
+	  used to access the SPI NOR flash chips on platforms embedding
+	  this ST IP core.
+
 config TEGRA114_SPI
 	bool "nVidia Tegra114 SPI driver"
 	help
@@ -188,6 +196,12 @@ config OMAP3_SPI
 	  embedding this OMAP3 McSPI IP core.
 
 endif # if DM_SPI
+
+config SOFT_SPI
+	bool "Soft SPI driver"
+	help
+	 Enable Soft SPI driver. This driver is to use GPIO simulate
+	 the SPI protocol.
 
 config FSL_ESPI
 	bool "Freescale eSPI driver"

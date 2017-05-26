@@ -10,12 +10,7 @@
 #ifndef __CONFIG_H
 #define __CONFIG_H
 
-/* No NOR flash, this definition should put before common header */
-#define CONFIG_SYS_NO_FLASH
-
 #include "at91-sama5_common.h"
-
-#define CONFIG_BOARD_EARLY_INIT_F
 
 #define CONFIG_MISC_INIT_R
 
@@ -25,10 +20,10 @@
 #define CONFIG_SYS_SDRAM_SIZE		0x20000000
 
 #ifdef CONFIG_SPL_BUILD
-#define CONFIG_SYS_INIT_SP_ADDR		0x210000
+#define CONFIG_SYS_INIT_SP_ADDR		0x218000
 #else
 #define CONFIG_SYS_INIT_SP_ADDR \
-	(CONFIG_SYS_SDRAM_BASE + 4 * 1024 - GENERATED_GBL_DATA_SIZE)
+	(CONFIG_SYS_SDRAM_BASE + 16 * 1024 - GENERATED_GBL_DATA_SIZE)
 #endif
 
 #define CONFIG_SYS_LOAD_ADDR		0x22000000 /* load address */
@@ -43,29 +38,9 @@
 /* NAND flash */
 #undef CONFIG_CMD_NAND
 
-/* MMC */
-#ifdef CONFIG_CMD_MMC
-#define CONFIG_GENERIC_MMC
-#endif
-
-/* USB device */
-#define CONFIG_USB_ETHER
-#define CONFIG_USB_ETH_RNDIS
-#define CONFIG_USBNET_MANUFACTURER      "Atmel SAMA5D2 XPlained"
-
-#if defined(CONFIG_CMD_USB) || defined(CONFIG_CMD_MMC)
-#define CONFIG_DOS_PARTITION
-#endif
-
 /* I2C */
 #define AT24MAC_ADDR		0x5c
 #define AT24MAC_REG		0x9a
-
-/* Ethernet Hardware */
-#define CONFIG_MACB
-#define CONFIG_RMII
-#define CONFIG_NET_RETRY_COUNT		20
-#define CONFIG_MACB_SEARCH_PHY
 
 /* LCD */
 
@@ -75,7 +50,6 @@
 #define CONFIG_LCD_LOGO
 #define CONFIG_LCD_INFO
 #define CONFIG_LCD_INFO_BELOW_LOGO
-#define CONFIG_SYS_WHITE_ON_BLACK
 #define CONFIG_ATMEL_HLCD
 #define CONFIG_ATMEL_LCD_RGB565
 #endif
@@ -99,13 +73,12 @@
 /* SPL */
 #define CONFIG_SPL_FRAMEWORK
 #define CONFIG_SPL_TEXT_BASE		0x200000
-#define CONFIG_SPL_MAX_SIZE		0x10000
+#define CONFIG_SPL_MAX_SIZE		0x18000
 #define CONFIG_SPL_BSS_START_ADDR	0x20000000
 #define CONFIG_SPL_BSS_MAX_SIZE		0x80000
 #define CONFIG_SYS_SPL_MALLOC_START	0x20080000
 #define CONFIG_SYS_SPL_MALLOC_SIZE	0x80000
 
-#define CONFIG_SPL_BOARD_INIT
 #define CONFIG_SYS_MONITOR_LEN		(512 << 10)
 
 #ifdef CONFIG_SYS_USE_MMC
@@ -115,7 +88,7 @@
 
 #elif CONFIG_SYS_USE_SERIALFLASH
 #define CONFIG_SPL_SPI_LOAD
-#define CONFIG_SYS_SPI_U_BOOT_OFFS	0x8000
+#define CONFIG_SYS_SPI_U_BOOT_OFFS	0x10000
 
 #endif
 

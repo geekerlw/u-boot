@@ -30,7 +30,6 @@
  */
 #include "amcc-common.h"
 
-#define CONFIG_BOARD_EARLY_INIT_F	1	/* call board_early_init_f*/
 #define CONFIG_MISC_INIT_R		1	/* call misc_init_r()     */
 
 /*
@@ -148,7 +147,6 @@
  * Commands additional to the ones defined in amcc-common.h
  */
 #define CONFIG_CMD_PCI
-#undef CONFIG_CMD_EEPROM
 
 /*
  * PCI stuff

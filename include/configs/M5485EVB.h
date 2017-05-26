@@ -21,13 +21,11 @@
 
 #define CONFIG_MCFUART
 #define CONFIG_SYS_UART_PORT		(0)
-#define CONFIG_BAUDRATE		115200
 
 #undef CONFIG_HW_WATCHDOG
 #define CONFIG_WATCHDOG_TIMEOUT	5000	/* timeout in milliseconds, max timeout is 6.71sec */
 
 /* Command line configuration */
-#undef CONFIG_CMD_DATE
 #define CONFIG_CMD_PCI
 #define CONFIG_CMD_REGINFO
 
@@ -69,7 +67,6 @@
 #endif
 
 #ifdef CONFIG_CMD_USB
-#	define CONFIG_DOS_PARTITION
 #	define CONFIG_USB_OHCI_NEW
 #	ifndef CONFIG_CMD_PCI
 #		define CONFIG_CMD_PCI

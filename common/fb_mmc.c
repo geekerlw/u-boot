@@ -37,7 +37,7 @@ static int part_get_info_by_name_or_alias(struct blk_desc *dev_desc,
 	int ret;
 
 	ret = part_get_info_by_name(dev_desc, name, info);
-	if (ret) {
+	if (ret < 0) {
 		/* strlen("fastboot_partition_alias_") + 32(part_name) + 1 */
 		char env_alias_name[25 + 32 + 1];
 		char *aliased_part_name;
@@ -112,7 +112,7 @@ void fb_mmc_flash_write(const char *cmd, void *download_buffer,
 		return;
 	}
 
-#ifdef CONFIG_EFI_PARTITION
+#if CONFIG_IS_ENABLED(EFI_PARTITION)
 	if (strcmp(cmd, CONFIG_FASTBOOT_GPT_NAME) == 0) {
 		printf("%s: updating MBR, Primary and Backup GPT(s)\n",
 		       __func__);
@@ -133,7 +133,7 @@ void fb_mmc_flash_write(const char *cmd, void *download_buffer,
 	}
 #endif
 
-#ifdef CONFIG_DOS_PARTITION
+#if CONFIG_IS_ENABLED(DOS_PARTITION)
 	if (strcmp(cmd, CONFIG_FASTBOOT_MBR_NAME) == 0) {
 		printf("%s: updating MBR\n", __func__);
 		if (is_valid_dos_buf(download_buffer)) {
@@ -153,7 +153,7 @@ void fb_mmc_flash_write(const char *cmd, void *download_buffer,
 	}
 #endif
 
-	if (part_get_info_by_name_or_alias(dev_desc, cmd, &info)) {
+	if (part_get_info_by_name_or_alias(dev_desc, cmd, &info) < 0) {
 		error("cannot find partition: '%s'\n", cmd);
 		fastboot_fail("cannot find partition");
 		return;
@@ -205,7 +205,7 @@ void fb_mmc_erase(const char *cmd)
 	}
 
 	ret = part_get_info_by_name_or_alias(dev_desc, cmd, &info);
-	if (ret) {
+	if (ret < 0) {
 		error("cannot find partition: '%s'", cmd);
 		fastboot_fail("cannot find partition");
 		return;

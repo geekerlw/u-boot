@@ -41,7 +41,6 @@
  * Serial console configuration
  */
 #define CONFIG_PSC_CONSOLE	4	/* console is on PSC4  */
-#define CONFIG_BAUDRATE		115200	/* ... at 115200  bps  */
 #define CONFIG_SYS_BAUDRATE_TABLE	\
 	{ 9600, 19200, 38400, 57600, 115200, 230400 }
 
@@ -61,10 +60,6 @@
 #define CONFIG_PCI_IO_PHYS	CONFIG_PCI_IO_BUS
 #define CONFIG_PCI_IO_SIZE	0x01000000
 
-/*
- *  Partitions
- */
-#define CONFIG_DOS_PARTITION
 #define CONFIG_BZIP2
 
 /*
@@ -90,14 +85,6 @@
 /*
  * Command line configuration.
  */
-#ifdef CONFIG_VIDEO
-#define CONFIG_CMD_BMP
-#endif
-#define CONFIG_CMD_DATE
-#define CONFIG_CMD_DIAG
-#define CONFIG_CMD_EEPROM
-#define CONFIG_CMD_IDE
-#define CONFIG_CMD_IRQ
 #define CONFIG_CMD_PCI
 #define CONFIG_CMD_REGINFO
 #define CONFIG_CMD_SAVES
@@ -214,36 +201,6 @@
 	""
 
 #define CONFIG_BOOTCOMMAND	"run mtcb_start"
-
-/*
- * I2C configuration
- */
-#define CONFIG_HARD_I2C		1
-#define CONFIG_SYS_I2C_MODULE	1
-#define CONFIG_SYS_I2C_SPEED	100000
-#define CONFIG_SYS_I2C_SLAVE	0x7F
-
-/*
- * EEPROM configuration
- */
-#define CONFIG_SYS_I2C_EEPROM_ADDR		0x50	/* 1010000x */
-#define CONFIG_SYS_I2C_EEPROM_ADDR_LEN 	1
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_BITS	3
-#define CONFIG_SYS_EEPROM_PAGE_WRITE_DELAY_MS	70
-
-/*
- * RTC configuration
- */
-#if defined(CONFIG_DIGSY_REV5)
-#define CONFIG_SYS_I2C_RTC_ADDR	0x56
-#define CONFIG_RTC_RV3029
-/* Enable 5k Ohm trickle charge resistor */
-#define CONFIG_SYS_RV3029_TCR	0x20
-#else
-#define CONFIG_RTC_DS1337
-#define CONFIG_SYS_I2C_RTC_ADDR	0x68
-#define CONFIG_SYS_DS1339_TCR_VAL	0xAB	/* diode + 4k resistor */
-#endif
 
 /*
  * Flash configuration

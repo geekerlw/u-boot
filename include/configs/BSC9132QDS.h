@@ -20,7 +20,6 @@
 #define CONFIG_SYS_TEXT_BASE		0x11000000
 #define CONFIG_RESET_VECTOR_ADDRESS	0x110bfffc
 #endif
-#define CONFIG_SYS_FSL_ERRATUM_IFC_A002769	1
 #ifdef CONFIG_SPIFLASH
 #define CONFIG_RAMBOOT_SPIFLASH
 #define CONFIG_SYS_RAMBOOT
@@ -69,10 +68,6 @@
 #endif
 
 /* High Level Configuration Options */
-#define CONFIG_BOOKE			/* BOOKE */
-#define CONFIG_E500			/* BOOKE e500 family */
-#define CONFIG_FSL_IFC			/* Enable IFC Support */
-#define CONFIG_FSL_CAAM			/* Enable SEC/CAAM */
 #define CONFIG_SYS_HAS_SERDES		/* common SERDES init code */
 
 #if defined(CONFIG_PCI)
@@ -100,7 +95,6 @@
 #define CONFIG_SYS_PCIE1_IO_PHYS	0xC0010000
 
 #define CONFIG_PCI_SCAN_SHOW		/* show pci devices on startup */
-#define CONFIG_DOS_PARTITION
 #endif
 
 #define CONFIG_ENV_OVERWRITE
@@ -127,7 +121,6 @@
 #define CONFIG_SYS_MEMTEST_END		0x01ffffff
 
 /* DDR Setup */
-#define CONFIG_SYS_FSL_DDR3
 #define CONFIG_SYS_SPD_BUS_NUM		0
 #define SPD_EEPROM_ADDRESS1		0x54 /* I2C access */
 #define SPD_EEPROM_ADDRESS2		0x56 /* I2C access */
@@ -225,9 +218,6 @@ combinations. this should be removed later
  */
 /* NOR Flash on IFC */
 
-#ifdef CONFIG_SPL_BUILD
-#define CONFIG_SYS_NO_FLASH
-#endif
 #define CONFIG_SYS_FLASH_BASE		0x88000000
 #define CONFIG_SYS_MAX_FLASH_SECT	1024	/* Max number of sector: 32M */
 
@@ -377,7 +367,6 @@ combinations. this should be removed later
 #define CONFIG_SYS_CS1_FTIM3		CONFIG_SYS_NAND_FTIM3
 #endif
 
-#define CONFIG_BOARD_EARLY_INIT_F	/* Call board_pre_init */
 #define CONFIG_BOARD_EARLY_INIT_R
 
 #define CONFIG_SYS_INIT_RAM_LOCK
@@ -428,7 +417,6 @@ combinations. this should be removed later
 #define CONFIG_SYS_EEPROM_BUS_NUM	0
 
 /* enable read and write access to EEPROM */
-#define CONFIG_CMD_EEPROM
 #define CONFIG_SYS_I2C_EEPROM_ADDR_LEN 1
 #define CONFIG_SYS_EEPROM_PAGE_WRITE_BITS 3
 #define CONFIG_SYS_EEPROM_PAGE_WRITE_DELAY_MS 5
@@ -483,14 +471,11 @@ combinations. this should be removed later
 #endif	/* CONFIG_TSEC_ENET */
 
 #ifdef CONFIG_MMC
-#define CONFIG_DOS_PARTITION
 #define CONFIG_FSL_ESDHC
-#define CONFIG_GENERIC_MMC
 #define CONFIG_SYS_FSL_ESDHC_ADDR	CONFIG_SYS_MPC85xx_ESDHC_ADDR
 #endif
 
-#define CONFIG_USB_EHCI  /* USB */
-#ifdef CONFIG_USB_EHCI
+#ifdef CONFIG_USB_EHCI_HCD
 #define CONFIG_EHCI_HCD_INIT_AFTER_RESET
 #define CONFIG_USB_EHCI_FSL
 #define CONFIG_HAS_FSL_DR_USB
@@ -535,20 +520,7 @@ combinations. this should be removed later
 /*
  * Command line configuration.
  */
-#define CONFIG_CMD_DATE
-#define CONFIG_CMD_ERRATA
-#define CONFIG_CMD_IRQ
 #define CONFIG_CMD_REGINFO
-
-#if defined(CONFIG_MMC) || defined(CONFIG_USB_EHCI)
-#define CONFIG_DOS_PARTITION
-#endif
-
-/* Hash command with SHA acceleration supported in hardware */
-#ifdef CONFIG_FSL_CAAM
-#define CONFIG_CMD_HASH
-#define CONFIG_SHA_HW_ACCEL
-#endif
 
 /*
  * Miscellaneous configurable options
@@ -583,7 +555,7 @@ combinations. this should be removed later
 /*
  * Dynamic MTD Partition support with mtdparts
  */
-#ifndef CONFIG_SYS_NO_FLASH
+#ifdef CONFIG_MTD_NOR_FLASH
 #define CONFIG_MTD_DEVICE
 #define CONFIG_MTD_PARTITIONS
 #define CONFIG_CMD_MTDPARTS
@@ -606,8 +578,6 @@ combinations. this should be removed later
 #define CONFIG_ROOTPATH		"/opt/nfsroot"
 #define CONFIG_BOOTFILE		"uImage"
 #define CONFIG_UBOOTPATH	"u-boot.bin"
-
-#define CONFIG_BAUDRATE		115200
 
 #ifdef CONFIG_SDCARD
 #define CONFIG_DEF_HWCONFIG	"hwconfig=usb1:dr_mode=host,phy_type=ulpi\0"
