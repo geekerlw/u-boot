@@ -1,7 +1,5 @@
 #!/bin/bash
-echo start flash bootloader
-sudo upgrade_tool db prebuild/rk3288_boot.bin
-sudo upgrade_tool wl 64 u-boot-dtb.bin
-sudo upgrade_tool wl 256 u-boot.img
-sudo upgrade_tool rd
-echo flash u-boot success......
+sudo rkdeveloptool db prebuild/rk3288_ubootloader_v1.01.06.bin
+sudo rkdeveloptool wl 0x40 u-boot-rk3288.img
+sudo rkdeveloptool rd
+echo -e "\033[1m\033[34m \n-------- Flash successful --------\n---- Auther: geekerlw@gmail.com ----\n \033[0m"
