@@ -15,6 +15,6 @@
 #include <configs/rk3288_common.h>
 
 #define CONFIG_ENV_IS_IN_MMC
-#define CONFIG_SYS_MMC_ENV_DEV 1   /*emmc define 1, sdcard define 0*/
+#define CONFIG_SYS_MMC_ENV_DEV 0   /* emmc define 0, sdcard define 1 */
 
 #endif
