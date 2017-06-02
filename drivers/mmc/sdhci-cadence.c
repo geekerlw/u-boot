@@ -6,10 +6,10 @@
  */
 
 #include <common.h>
+#include <dm.h>
 #include <linux/io.h>
 #include <linux/iopoll.h>
 #include <linux/sizes.h>
-#include <dm/device.h>
 #include <libfdt.h>
 #include <mmc.h>
 #include <sdhci.h>
@@ -127,7 +127,7 @@ static int sdhci_cdns_probe(struct udevice *dev)
 	fdt_addr_t base;
 	int ret;
 
-	base = dev_get_addr(dev);
+	base = devfdt_get_addr(dev);
 	if (base == FDT_ADDR_T_NONE)
 		return -EINVAL;
 
@@ -139,7 +139,7 @@ static int sdhci_cdns_probe(struct udevice *dev)
 	host->ioaddr = plat->hrs_addr + SDHCI_CDNS_SRS_BASE;
 	host->quirks |= SDHCI_QUIRK_WAIT_SEND_CMD;
 
-	ret = sdhci_cdns_phy_init(plat, gd->fdt_blob, dev->of_offset);
+	ret = sdhci_cdns_phy_init(plat, gd->fdt_blob, dev_of_offset(dev));
 	if (ret)
 		return ret;
 

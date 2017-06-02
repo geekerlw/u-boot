@@ -113,11 +113,11 @@ static int comphy_probe(struct udevice *dev)
 	static int current_idx;
 
 	/* Save base addresses for later use */
-	chip_cfg->comphy_base_addr = (void *)dev_get_addr_index(dev, 0);
+	chip_cfg->comphy_base_addr = (void *)devfdt_get_addr_index(dev, 0);
 	if (IS_ERR(chip_cfg->comphy_base_addr))
 		return PTR_ERR(chip_cfg->comphy_base_addr);
 
-	chip_cfg->hpipe3_base_addr = (void *)dev_get_addr_index(dev, 1);
+	chip_cfg->hpipe3_base_addr = (void *)devfdt_get_addr_index(dev, 1);
 	if (IS_ERR(chip_cfg->hpipe3_base_addr))
 		return PTR_ERR(chip_cfg->hpipe3_base_addr);
 
@@ -135,10 +135,10 @@ static int comphy_probe(struct udevice *dev)
 		return -EINVAL;
 	}
 
-	if (of_device_is_compatible(dev, "marvell,comphy-armada-3700"))
+	if (device_is_compatible(dev, "marvell,comphy-armada-3700"))
 		chip_cfg->ptr_comphy_chip_init = comphy_a3700_init;
 
-	if (of_device_is_compatible(dev, "marvell,comphy-cp110"))
+	if (device_is_compatible(dev, "marvell,comphy-cp110"))
 		chip_cfg->ptr_comphy_chip_init = comphy_cp110_init;
 
 	/*

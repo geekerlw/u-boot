@@ -5,7 +5,7 @@
  */
 
 #include <common.h>
-#include <dm/device.h>
+#include <dm.h>
 #include <dm/pinctrl.h>
 #include <libfdt.h>
 #include <asm/io.h>
@@ -79,7 +79,8 @@ static int single_set_state(struct udevice *dev,
 	const struct single_fdt_pin_cfg *prop;
 	int len;
 
-	prop = fdt_getprop(fdt, config->of_offset, "pinctrl-single,pins", &len);
+	prop = fdt_getprop(fdt, dev_of_offset(config), "pinctrl-single,pins",
+			   &len);
 	if (prop) {
 		dev_dbg(dev, "configuring pins for %s\n", config->name);
 		if (len % sizeof(struct single_fdt_pin_cfg)) {
@@ -100,23 +101,23 @@ static int single_ofdata_to_platdata(struct udevice *dev)
 	int res;
 	struct single_pdata *pdata = dev->platdata;
 
-	pdata->width = fdtdec_get_int(gd->fdt_blob, dev->of_offset,
+	pdata->width = fdtdec_get_int(gd->fdt_blob, dev_of_offset(dev),
 				      "pinctrl-single,register-width", 0);
 
-	res = fdtdec_get_int_array(gd->fdt_blob, dev->of_offset,
+	res = fdtdec_get_int_array(gd->fdt_blob, dev_of_offset(dev),
 				   "reg", of_reg, 2);
 	if (res)
 		return res;
 	pdata->offset = of_reg[1] - pdata->width / 8;
 
-	addr = dev_get_addr(dev);
+	addr = devfdt_get_addr(dev);
 	if (addr == FDT_ADDR_T_NONE) {
 		dev_dbg(dev, "no valid base register address\n");
 		return -EINVAL;
 	}
 	pdata->base = addr;
 
-	pdata->mask = fdtdec_get_int(gd->fdt_blob, dev->of_offset,
+	pdata->mask = fdtdec_get_int(gd->fdt_blob, dev_of_offset(dev),
 				     "pinctrl-single,function-mask",
 				     0xffffffff);
 	return 0;

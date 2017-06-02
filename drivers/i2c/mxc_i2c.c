@@ -752,7 +752,7 @@ static int mxc_i2c_probe(struct udevice *bus)
 
 	i2c_bus->driver_data = dev_get_driver_data(bus);
 
-	addr = dev_get_addr(bus);
+	addr = devfdt_get_addr(bus);
 	if (addr == FDT_ADDR_T_NONE)
 		return -ENODEV;
 
@@ -773,12 +773,12 @@ static int mxc_i2c_probe(struct udevice *bus)
 	if (ret < 0) {
 		debug("i2c bus %d at 0x%2lx, no gpio pinctrl state.\n", bus->seq, i2c_bus->base);
 	} else {
-		ret = gpio_request_by_name_nodev(fdt, node, "scl-gpios",
-						 0, &i2c_bus->scl_gpio,
-						 GPIOD_IS_OUT);
-		ret2 = gpio_request_by_name_nodev(fdt, node, "sda-gpios",
-						 0, &i2c_bus->sda_gpio,
-						 GPIOD_IS_OUT);
+		ret = gpio_request_by_name_nodev(offset_to_ofnode(node),
+				"scl-gpios", 0, &i2c_bus->scl_gpio,
+				GPIOD_IS_OUT);
+		ret2 = gpio_request_by_name_nodev(offset_to_ofnode(node),
+				"sda-gpios", 0, &i2c_bus->sda_gpio,
+				GPIOD_IS_OUT);
 		if (!dm_gpio_is_valid(&i2c_bus->sda_gpio) |
 		    !dm_gpio_is_valid(&i2c_bus->scl_gpio) |
 		    ret | ret2) {

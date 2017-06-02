@@ -31,15 +31,15 @@ static int dwc_ahci_ofdata_to_platdata(struct udevice *dev)
 	struct scsi_platdata *plat = dev_get_platdata(dev);
 	fdt_addr_t addr;
 
-	plat->max_id = fdtdec_get_uint(gd->fdt_blob, dev->of_offset, "max-id",
-				       CONFIG_SYS_SCSI_MAX_SCSI_ID);
-	plat->max_lun = fdtdec_get_uint(gd->fdt_blob, dev->of_offset,
+	plat->max_id = fdtdec_get_uint(gd->fdt_blob, dev_of_offset(dev),
+				       "max-id", CONFIG_SYS_SCSI_MAX_SCSI_ID);
+	plat->max_lun = fdtdec_get_uint(gd->fdt_blob, dev_of_offset(dev),
 					"max-lun", CONFIG_SYS_SCSI_MAX_LUN);
 
-	priv->base = map_physmem(dev_get_addr(dev), sizeof(void *),
+	priv->base = map_physmem(devfdt_get_addr(dev), sizeof(void *),
 				 MAP_NOCACHE);
 
-	addr = dev_get_addr_index(dev, 1);
+	addr = devfdt_get_addr_index(dev, 1);
 	if (addr != FDT_ADDR_T_NONE) {
 		priv->wrapper_base = map_physmem(addr, sizeof(void *),
 						 MAP_NOCACHE);
