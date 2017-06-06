@@ -110,6 +110,10 @@ typedef struct global_data {
 	ulong video_top;		/* Top of video frame buffer area */
 	ulong video_bottom;		/* Bottom of video frame buffer area */
 #endif
+#ifdef CONFIG_BOOTSTAGE
+	struct bootstage_data *bootstage;	/* Bootstage information */
+	struct bootstage_data *new_bootstage;	/* Relocated bootstage info */
+#endif
 } gd_t;
 #endif
 
