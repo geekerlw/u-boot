@@ -387,7 +387,7 @@ static int reserve_video(void)
 	gd->fb_base = gd->relocaddr;
 #  endif /* CONFIG_FB_ADDR */
 #elif defined(CONFIG_VIDEO) && \
-		(!defined(CONFIG_PPC) || defined(CONFIG_8xx)) && \
+		(!defined(CONFIG_PPC)) && \
 		!defined(CONFIG_ARM) && !defined(CONFIG_X86) && \
 		!defined(CONFIG_M68K)
 	/* reserve memory for video display (always full pages) */
@@ -547,8 +547,7 @@ static int setup_board_part1(void)
 	bd->bi_sramsize = CONFIG_SYS_SRAM_SIZE;		/* size  of SRAM */
 #endif
 
-#if defined(CONFIG_8xx) || defined(CONFIG_MPC8260) || defined(CONFIG_5xx) || \
-		defined(CONFIG_E500) || defined(CONFIG_MPC86xx)
+#if defined(CONFIG_E500) || defined(CONFIG_MPC86xx)
 	bd->bi_immr_base = CONFIG_SYS_IMMR;	/* base  of IMMR register     */
 #endif
 #if defined(CONFIG_MPC5xxx) || defined(CONFIG_M68K)
@@ -645,13 +644,16 @@ static int setup_reloc(void)
 	}
 
 #ifdef CONFIG_SYS_TEXT_BASE
-	gd->reloc_off = gd->relocaddr - CONFIG_SYS_TEXT_BASE;
-#ifdef CONFIG_M68K
+#ifdef ARM
+	gd->reloc_off = gd->relocaddr - (unsigned long)__image_copy_start;
+#elif defined(CONFIG_M68K)
 	/*
 	 * On all ColdFire arch cpu, monitor code starts always
 	 * just after the default vector table location, so at 0x400
 	 */
 	gd->reloc_off = gd->relocaddr - (CONFIG_SYS_TEXT_BASE + 0x400);
+#else
+	gd->reloc_off = gd->relocaddr - CONFIG_SYS_TEXT_BASE;
 #endif
 #endif
 	memcpy(gd->new_gd, (char *)gd, sizeof(gd_t));
@@ -707,11 +709,8 @@ static int jump_to_copy(void)
 /* Record the board_init_f() bootstage (after arch_cpu_init()) */
 static int initf_bootstage(void)
 {
-#if defined(CONFIG_SPL_BOOTSTAGE) && defined(CONFIG_BOOTSTAGE_STASH)
-	bool from_spl = true;
-#else
-	bool from_spl = false;
-#endif
+	bool from_spl = IS_ENABLED(CONFIG_SPL_BOOTSTAGE) &&
+			IS_ENABLED(CONFIG_BOOTSTAGE_STASH);
 	int ret;
 
 	ret = bootstage_init(!from_spl);
